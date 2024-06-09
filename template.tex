@@ -3,8 +3,29 @@
 \textwidth=450pt\oddsidemargin=0pt
 
 \usepackage[italian]{babel}
-\usepackage{titling}
-\usepackage{lipsum}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,
+    urlcolor=blue,
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    showstringspaces=false,
+    tabsize=4,
+}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 \begin{document}
 
@@ -30,7 +51,7 @@
 	\begin{center}
 	{\LARGE{\bf Sviluppo di applicazioni web}}\\
 	\vspace{3mm}
-	{\LARGE{\bf con Nuxt e Typeorm}}\\
+	{\LARGE{\bf con Nuxt e TypeORM}}\\
 	\end{center}
 	\vspace{40mm}
 	\par
@@ -48,12 +69,11 @@
 	\vspace{20mm}
 	\begin{center}
 	{\large{\bf Sessione\\
-	Anno Accademico 2024/2024 }}
+	Anno Accademico 2023/2024 }}
 	\end{center}
 \end{titlepage}
 
 \shipout\null
-
 
 \tableofcontents
 \newpage
