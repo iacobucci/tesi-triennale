@@ -14,7 +14,7 @@ HTTP è il protocollo di comunicazione di livello applicativo (OSI 7) che permet
 
 ##### Linguaggio HTML
 
-Il linguaggio HTML (HyperText Markup Language) è un linguaggio di marcatura utilizzato per la realizzazione di pagine web. HTML definisce la struttura e il contenuto di una pagina web attraverso l'uso di tag e attributi e consente di incorporare elementi multimediali. Il browser web interpreta il codice HTML e visualizza la pagina web all'utente.
+Il linguaggio HTML (HyperText Markup Language) è un linguaggio di marcatura utilizzato per la realizzazione di pagine web. HTML definisce la struttura e il contenuto di una pagina web attraverso l'uso di tag e attributi e consente di incorporare elementi multimediali. Il browser web interpreta il codice HTML e mostra la pagina web all'utente, con una resa grafica determinata da regole contenute in fogli di stile (CSS).
 
 ## Pagine dinamiche
 
@@ -24,18 +24,15 @@ Tuttavia, tramite hyperlinks e successivamente tramite form (cioè dei moduli da
 
 I linguaggi di programmazione utilizzati all'epoca per scrivere programmi CGI erano principalmente:
 
-- Linaguaggi di basso livello come C o C++, di difficile gestione e
-manutenzione;
+##### Linguaggi di basso livello o di scripting
 
-  - Sono performanti ma richiedono una solida conoscenza informatica.
+- Linaguaggi di basso livello come C o C++, erano di difficile gestione e manutenzione: sono performanti ma richiedono una solida conoscenza informatica.
 
-- Linguaggi di scripting come Perl o Shell UNIX, più facili da utilizzare ma meno efficienti;
-
-  - Comodi per la manipolazione di stringhe e file, ma non per la gestione di strutture dati complesse.
+- Linguaggi di scripting come Perl o Shell UNIX, erano più facili da utilizzare ma meno efficienti: comodi per la manipolazione di stringhe e file, ma non per la gestione di strutture dati complesse.
 
 ##### Linguaggi di templating
 
-Successivamente, dal 1995 in poi, emersero alcuni Linguaggi di templating, come PHP o JSP, che consentono di incorporare codice dinamico all'interno di pagine HTML.
+Successivamente, dal 1995 in poi, emersero alcuni Linguaggi di templating che consentono di incorporare codice dinamico all'interno di pagine HTML.
 
 - Java Server Pages (JSP) è un'estensione di Java, quindi era possibile usare tutte le librerie di questo linguaggio molto popolare all'epoca.
 
@@ -63,17 +60,17 @@ if (mysql_num_rows($result) > 0){
 ?>
 ```
 
-> Un esempio di pagina di autenticazione in PHP, che riflette lo stile di programmazione tipico dell'epoca. È da notare come il codice HTML da inviare al browser sia inserito direttamente all'interno del codice da mantenere privato, rendendone difficile la manutenzione per via della _confusione tra logica di presentazione e logica di business_. Vengono poi adoperati 3 linguaggi diversi (PHP, HTML, SQL), soluzione non ottimale per la leggibilità, che si aggiunge ai problemi di sicurezza legati all'**interpolazione** di stringhe all'interno di query SQL.
+> Un esempio di pagina di autenticazione in PHP, che riflette lo stile di programmazione tipico dell'epoca. È da notare come il codice HTML da inviare al browser sia inserito direttamente all'interno del codice da mantenere privato, rendendone difficile la manutenzione per via della _confusione tra logica di presentazione e logica di business_. Vengono poi adoperati 3 linguaggi diversi (PHP, HTML, SQL), soluzione non ottimale per la leggibilità, che si aggiunge ai problemi di sicurezza legati all'*interpolazione* di stringhe all'interno di query SQL.
 
 [^1]: [Indice TIOBE per PHP](https://www.tiobe.com/tiobe-index/php/), si può vedere come il suo utilizzo sia diminuito a partire dal 2010.
 
 ## Pagine attive con Javascript
 
-Il dinamismo delle pagine web supportato da server CGI e linguaggi di scripting era comunque limitato per via del caricamento di nuove pagine ad ogni richiesta. Non era possibile aggiornare parzialmente la pagina, ma solo l'intera pagina. Nel 1995 il browser Netscape Navigator introdusse il supporto ad un nuovo linguaggio di scripting, Javascript, realizzato da Brendan Eich, per ovviare a questo problema.
+Il dinamismo delle pagine web supportato da server CGI e linguaggi di scripting era comunque limitato per via del caricamento di nuove pagine ad ogni richiesta. Non era possibile aggiornare parzialmente la pagina, ma solo scaricarne una nuova. Nel 1995 il browser Netscape Navigator introdusse il supporto ad un nuovo linguaggio di scripting, Javascript, realizzato da Brendan Eich, per ovviare a questo problema.
 
 ##### Gestione di eventi e manipolazione del DOM
 
-Uno script Javascript, distribuito all'interno di una pagina HTML, può essere eseguito dal browser web in risposta a determinati eventi, come il click di un bottone o la pressione di un tasto. Inizialmente il motore di esecuzione era sincrono, cioè bloccava l'esecuzione del codice fino al completamento dell'operazione, e la istruzioni per la risposta agli eventi erano inserite in funzioni dette di _callback_.
+Uno script Javascript, distribuito all'interno di una pagina HTML, può essere eseguito dal browser web in risposta a determinati eventi, come il click del mouse o la pressione di un tasto. Inizialmente il motore di esecuzione era sincrono, cioè bloccava l'esecuzione del codice fino al completamento dell'operazione, e la istruzioni per la risposta agli eventi erano inserite in funzioni dette di _callback_.
 
 Javascript può manipolare il DOM (Document Object Model), cioè la rappresentazione ad albero della struttura della pagina, per aggiungere, rimuovere o modificare elementi HTML.
 
@@ -85,7 +82,7 @@ Riveste una particolare importanza la libreria jQuery, rilasciata nel 2006, che 
 
 ## Node.js e Javascript lato server
 
-La standardizzazione di Javascript seguitò attraverso le varie versioni di ECMAScript che definivano le nuove funzionalità del linguaggio e, di conseguenza, dei browser web. Nel 2008 fu rilasciata la prima versione di Google Chrome, un browser che, oltre ad includere caratteristiche appetibili per gli utenti finali, disponeva del motore di esecuzione Javascript V8. Questo _engine_ apportò dei sostanziali miglioramenti di performance[^2] rispetto alla competizione e venne rilasciato come _Open source software_.
+La standardizzazione di Javascript seguitò attraverso le varie versioni di ECMAScript che definivano le nuove funzionalità del linguaggio e, di conseguenza, dei browser web. Nel 2008 fu rilasciata la prima versione di Google Chrome, un browser che, oltre ad includere caratteristiche appetibili per gli utenti finali, disponeva del motore di esecuzione Javascript V8. Questo _engine_ apportò dei sostanziali miglioramenti di prestazioni[^2] rispetto alla competizione e venne rilasciato come _Open source software_.
 
 Nel 2009, Ryan Dahl iniziò a lavorare, basandosi sul codice di V8, a Node.js, un interprete di Javascript in modalità headless[^3], al quale aggiunse la capacità di accedere al filesystem, di esporre servizi HTTP e di accettare connessioni in maniera _non bloccante_.
 
@@ -121,7 +118,7 @@ server.listen(80, () => { console.log("Server in ascolto sulla porta 8080"); });
 
 > In questo frammento di codice è mostrato l'utilizzo della libreria "http" fornita di default da Node e della libreria "mysql" di Felix Geisendörfer, una delle prime per l'accesso a database da Node. È da notare l'architettura a callback, che permette di gestire in maniera asincrona le richieste HTTP e le query al database.
 
-> In questo esempio le query SQL sono parametrizzate, facendo uso di **Prepared statements**, per evitare attacchi di tipo injection, ma rimangono camblate all'interno di stringhe, rendendo il codice vulnerabile a errori di sintassi e di tipo.
+> In questo esempio le query SQL sono parametrizzate, facendo uso di *Prepared statements*, per evitare attacchi di tipo injection, ma rimangono camblate all'interno di stringhe, rendendo il codice vulnerabile a errori di sintassi e di tipo.
 
 > Nonostante, per brevità, venga inviato l'HTML in maniera diretta, è stato fin da subito possibile utilizzare le capacità di lettura asincona di files di Node per servire pagine statiche.
 
@@ -156,7 +153,7 @@ La libreria di componenti più popolare[^5], sviluppata da un team interno di Fa
 
 ##### Vue.js
 
-Partito come progetto personale di Evan You e rilasciato nel 2014. Vue.js si proponeva come un'alternativa più leggera e flessibile rispetto ad Angular e React, dai quali riprende il binding bidirezionale e il Virtual DOM. È la libreria di componenti usata da Nuxt.
+Partito come progetto personale di Evan You e rilasciato nel 2014, Vue si proponeva come un'alternativa più flessibile e meno verbosa rispetto ad Angular e React, dai quali riprende il binding bidirezionale e il Virtual DOM. È la libreria di componenti usata da Nuxt.
 ```html
 <script setup>
  import { RouterView } from "vue-router";
@@ -174,7 +171,7 @@ Partito come progetto personale di Evan You e rilasciato nel 2014. Vue.js si pro
 >
 ```
 
-> Un esempio moderno di applicazione Vue 3, che mostra l'utilizzo di un componente HelloWorld all'interno di un template principale, e di un RouterView per la navigazione tra le pagine. Questi componenti sono definiti in file separati, per favorire la separazione, ed importati nel file principale come se fossero moduli Javascript. Agli effetti lo sono, ed ogni volta che compaiono in un template assumono un comportamento dettato dalla loro definizione (il loro template) e dal loro _stato_ interno. Si noti come il componente HelloWorld sia parametrizzato con un attributo "msg", che verrà visualizzato all'interno del componente.
+> Un esempio moderno di applicazione Vue 3, che mostra l'utilizzo di un componente "HelloWorld" all'interno di un template principale, e di un RouterView per la navigazione tra le pagine. Questi componenti sono definiti in file distinti, per favorire la separazione, ed importati nel file principale come se fossero moduli Javascript. Agli effetti lo sono, ed ogni volta che compaiono in un template assumono un comportamento dettato dalla loro definizione (il loro template) e dal loro _stato_ interno. Si noti come il componente HelloWorld sia parametrizzato con un attributo "msg", che verrà visualizzato all'interno del componente.
 
 ```html
 <html lang="en">
@@ -188,28 +185,28 @@ Partito come progetto personale di Evan You e rilasciato nel 2014. Vue.js si pro
 </html>
 ```
 
-> Il DOM minimo che viene distribuito da una applicazione Vue 3 servita con lo strumento _Vite_. La pagina viene assemblata lato client, a partire dal così detto _entry point_: l'elemento con id "app" in cui viene montata l'applicazione. Nel caso Javascript non sia abilitato nel client, il contenuto dell'applicazione non verrà visualizzato.
+> Il DOM minimo che viene distribuito da una applicazione Vue 3 servita con lo strumento _Vite_. La pagina viene assemblata lato client, a partire dal così detto _entry point_: l'elemento con id "app" in cui viene montata l'applicazione. Si noti che nel caso che Javascript non sia abilitato nel client, il contenuto dell'applicazione non verrà visualizzato affatto.
 
-[^4]: In questo contesto, uno stile dichiarativo è riferito ad un approccio alla programmazione in cui si descrive cosa deve fare il programma piuttosto che come farlo. Con jQuery si dovevano specificare esplicitamente i passaggi per manipolare il DOM, mentre i componenti permettono di definire il comportamento dell'interfaccia attraverso delle dichiarazioni più astratte e concise.
+[^4]: In questo contesto, uno stile dichiarativo è riferito ad un approccio alla programmazione in cui si descrive cosa il programma deve fare piuttosto che come farlo. Con jQuery si dovevano specificare esplicitamente i passaggi per manipolare il DOM, mentre i componenti permettono di definire il comportamento dell'interfaccia attraverso delle dichiarazioni più astratte e concise.
 [^5]: [Github - React](https://github.com/facebook/react) - la più popolare in base numero di stelle su Github.
 
 ## Typescript e ORM
 
 Le basi di codice Javascript, che fino a quel momento erano rimaste in dimensioni ridotte, iniziarono a diventare sempre più complesse quando anche team di sviluppatori di grandi compagnie iniziarono ad adottare i framework a componenti. A partire dal 2014 anche applicazioni web come Instagram, Netflix e Airbnb incorporarono React nei loro stack tecnologici per realizzare interamente l'interfaccia utente.
 
-Javascript, essendo un linguaggio interpretato e debolmente tipizzato, non era in grado di garantire la correttezza del codice e i test di unità erano fatti in modo _Behavior driven_, cioè basati sul comportamento dell'applicazione e non sulla tipizzazione dei dati. Questo spesse volte portava ad errori difficili da individuare e correggere, soprattutto in applicazioni di grandi dimensioni.
+Javascript, essendo un linguaggio interpretato e debolmente tipizzato, non era in grado di garantire la correttezza del codice e i test di unità erano fatti in modo _Behavior driven_, cioè basati sul comportamento dell'applicazione e non sulla tipizzazione dei dati. Questo spesse volte portava ad errori, difficili da individuare e correggere, soprattutto in applicazioni di grandi dimensioni.
 
-Nel 2012 Anders Hejlsberg ed il suo team interno a Microsoft iniziarono a lavorare al linguaggio Typescript, una estensione di Javascript, realizzando un **compilatore** che ha un sistema di tipi robusto e che è in grado di rilevare errori di questa specie. Typescript permette anche di sfruttare le funzionalità delle nuove versioni di ECMAScript in modo _retrocompatibile_, cioè facendo _transpiling_[^6] verso una specifica di ECMA inferiore, per usarle anche sui browser deprecati.
+Nel 2012 Anders Hejlsberg ed il suo team interno a Microsoft iniziarono a lavorare al linguaggio Typescript, una estensione di Javascript, realizzando un **compilatore** con un sistema di tipi robusto in grado di rilevare errori di questa specie. Typescript permette anche di sfruttare le funzionalità delle nuove versioni di ECMAScript in modo _retrocompatibile_, cioè facendo _transpiling_[^6] verso una specifica di ECMA inferiore, per usarle anche sui browser deprecati.
 
-L'adozione di Typescript è stata pressoché immediata, per il motivo che la conversione di basi di codice a partire da Javascript vanilla[^7] erano a costo zero: ogni sorgente Javascript è valido Typescript. Typescript ha quindi avuto successo non solo lato client, ma anche lato server. Sono comparse infatti alcune librerie di supporto all'accesso al database che basate sul pattern **ORM**, Object-relational mapping, di cui si discuterà più avanti. Librerie notevoli di questo tipo sono:
+L'adozione di Typescript è stata pressoché immediata, per il motivo che la conversione di basi di codice a partire da Javascript vanilla[^7] erano a costo zero: ogni sorgente Javascript è valido Typescript. Typescript ha avuto successo non solo lato client, ma anche lato server. Sono comparse infatti alcune librerie di supporto all'accesso a database che basate sul pattern **ORM**, Object-relational mapping, quindi capaci di mappare il modello dei dati presente nel database a strutture dati proprie di Typescript. Librerie notevoli di questo tipo sono:
 
 ##### Sequelize
-È stata una delle prime librerie ORM per Javascript. Il progetto è iniziato nel 2010, quindi supportava solo Javascript vanilla, ma si è evoluta fino a supportare Typescript ed una moltitudine di DBMS.
+È stata una delle prime, il progetto è iniziato nel 2010 quindi funzionava con Javascript vanilla, ma si è evoluta fino a supportare le migliorie di Typescript ed una moltitudine di DBMS.
 
 ##### TypeORM
 Offre un supporto a Typescript nativo. È illustrata con dettaglio nel [capitolo 2](#descrizione-delle-tecnologie).
 
-[^6]: [Wikipedia - Source-to-source compiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) - è il processo di traduzione automatica di codice sorgente da un linguaggio ad un altro.
+[^6]: [Wikipedia - Source-to-source compiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) - il transpiling è il processo di traduzione automatica di codice sorgente da un linguaggio ad un altro.
 [^7]: Con "vanilla" ci riferisce a Javascript senza estensioni, quindi al codice che può eseguire nativamente sui browser conformi alle specifiche ECMA. Typescript invece è un _superset_, quindi ha un insieme di espressioni sintattiche più grande ma che comprende interamente quello di Javascript.
 
 ## Ritorno al server side rendering
@@ -223,19 +220,19 @@ I dispositivi con capacità di calcolo inferiore possono subire rallentamenti al
 I siti web che fanno uso di CSR sono più difficilmente indicizzabili dai *crawler* dei motori di ricerca, questo può portare a problemi di esposizione e di traffico ridotti.
 
 ##### First contentful paint
-È il tempo che intercorre tra la cattura della risposta HTTP del server e il momento in cui viene visualizzato a schermo dal browser il primo elemento di contenuto significativo per l'utente finale. Nelle applicazioni CSR questa durata spesso eccede quella massima suggerita da Google[^9].
+È il tempo che intercorre tra la cattura della risposta HTTP del server e il momento in cui viene visualizzato a schermo dal browser il primo elemento di contenuto significativo per l'utente. Nelle applicazioni CSR questa durata spesso eccede quella massima suggerita da Google[^8].
 
 ##### Cumulative shift layout
 Per il motivo che gli aggiornamenti dell'interfaccia vengono eseguiti nell'engine del browser in maniera sequenziale, potrebbero esserci dei fastidiosi spostamenti di elementi visivi nell'interfaccia.
 
 ##### Accessibility
-Per gli stessi motivi che portano a CSL, ci potrebbero essere degli impedimenti di accessibilità per chi usa metodi di input alternativi o per gli screen-reader che aiutano nell fruizione delle pagine web le persone non vedenti.
+Per gli stessi motivi che portano a CSL, ci potrebbero essere degli impedimenti di accessibilità per chi usa metodi di input alternativi o per gli screen-reader che aiutano nella fruizione delle pagine web le persone non vedenti.
 
 $\linebreak$
 
-Attraverso i seguenti capitoli saranno illustrate alcune soluzioni ibride tra Client side rendering e Server side rendering attraverso il framework Nuxt, che mira a risolvere questi ed altri problemi, in combinazione con TypeORM per realizzare applicazioni web *fullstack*[^8].
+Attraverso i seguenti capitoli saranno illustrate alcune soluzioni ibride tra Client side rendering e Server side rendering attraverso il framework Nuxt, che mira a risolvere questi ed altri problemi, in combinazione con TypeORM per realizzare applicazioni web *fullstack*[^9].
 
-[^8]: Si occupano sia di frontend che di backend.
-[^9]: [Google developers - Core web vitals](https://developers.google.com/search/docs/appearance/core-web-vitals?hl=it) - Al 10 maggio 2023, la durata 
+[^8]: [Google developers - Core web vitals](https://developers.google.com/search/docs/appearance/core-web-vitals?hl=it) - Al 10 maggio 2023, la durata massima ammissibile per il FCP è di 2.5s.
+[^9]: Si occupano sia di frontend che di backend.
 
 
