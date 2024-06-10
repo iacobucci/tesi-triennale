@@ -185,7 +185,7 @@ Partito come progetto personale di Evan You e rilasciato nel 2014, Vue si propon
 </html>
 ```
 
-> Il DOM minimo che viene distribuito da una applicazione Vue 3 servita con lo strumento _Vite_. La pagina viene assemblata lato client, a partire dal così detto _entry point_: l'elemento con id "app" in cui viene montata l'applicazione. Si noti che nel caso che Javascript non sia abilitato nel client, il contenuto dell'applicazione non verrà visualizzato affatto.
+> Il DOM minimo che viene distribuito da una applicazione Vue 3 servita con lo strumento _Vite_. La pagina viene assemblata lato client, a partire dal così detto _entry point_: l'elemento con id "app" in cui viene montata l'applicazione. Si noti che nel caso che Javascript non sia abilitato nel client il contenuto dell'applicazione non verrà visualizzato affatto.
 
 [^4]: In questo contesto, uno stile dichiarativo è riferito ad un approccio alla programmazione in cui si descrive cosa il programma deve fare piuttosto che come farlo. Con jQuery si dovevano specificare esplicitamente i passaggi per manipolare il DOM, mentre i componenti permettono di definire il comportamento dell'interfaccia attraverso delle dichiarazioni più astratte e concise.
 [^5]: [Github - React](https://github.com/facebook/react) - la più popolare in base numero di stelle su Github.
@@ -204,7 +204,7 @@ L'adozione di Typescript è stata pressoché immediata, per il motivo che la con
 È stata una delle prime, il progetto è iniziato nel 2010 quindi funzionava con Javascript vanilla, ma si è evoluta fino a supportare le migliorie di Typescript ed una moltitudine di DBMS.
 
 ##### TypeORM
-Offre un supporto a Typescript nativo. È illustrata con dettaglio nel [capitolo 2](#descrizione-delle-tecnologie).
+Offre un supporto a Typescript nativamente. È illustrata con dettaglio nel [capitolo 2](#descrizione-delle-tecnologie).
 
 [^6]: [Wikipedia - Source-to-source compiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) - il transpiling è il processo di traduzione automatica di codice sorgente da un linguaggio ad un altro.
 [^7]: Con "vanilla" ci riferisce a Javascript senza estensioni, quindi al codice che può eseguire nativamente sui browser conformi alle specifiche ECMA. Typescript invece è un _superset_, quindi ha un insieme di espressioni sintattiche più grande ma che comprende interamente quello di Javascript.
