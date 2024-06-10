@@ -11,7 +11,7 @@
 
 \hypersetup{
     colorlinks=true,
-    linkcolor=black,
+    linkcolor=red,
     filecolor=magenta,
     urlcolor=blue,
 }
@@ -75,7 +75,11 @@
 
 \shipout\null
 
-\tableofcontents
+\begingroup
+	\hypersetup{linkcolor=black}
+	\tableofcontents
+\endgroup
+
 \newpage
 
 $body$

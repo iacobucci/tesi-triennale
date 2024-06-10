@@ -9,9 +9,11 @@ local make = function()
 	}):start()
 end
 
-return vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	pattern = "*",
 	callback = function(event)
 		make()
 	end,
 })
+
+-- vim.opt.colorcolumn = "80"
