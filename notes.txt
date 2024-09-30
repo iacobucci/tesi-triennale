@@ -1,17 +1,102 @@
-introduzione
+la differenza tra leggere la matematica e fare la matematica
+	si può apprezzare la bellezza estetica di un ragionamento senza saperlo condurre da se, senza averlo scoperto
+	fare la matematica significa in un certo senso predire quello che sarà il prossimo passaggio
+		si ha di fatto una rappresentazione del sistema logico all'interno del sistema di predizione
+		qui non importa davvero la formalità della rappresentazione quanto la capacità di predizione
+	fare la matematica non è solo conoscere gli assiomi e le regole di derivazione, ma si devono derivare correttamente i passaggi fino ad arrivare al teorema voluto
+		si tratta di una ricerca a terminazione non prevedibile
+		l'intuito viene dato per scontato, importa solo traversare correttamente l'albero
 
-linee evolutive
+preparativi
+	sulla prosa
+		
+stile
+	stendere metafore
+	scrivere versi e J-arli in prosa
+	non deve essere una rottura di coglioni
 
-descrizione delle tecnologie
-	nuxt
-	typeorm
+simplicio
+	senso comune
 
-soluzioni di design
-	storia della classe singola da condividere
-	pattern dao
-	possibili sviluppi futuri
-	come e dove parlare del tirocinio
+	fisico sperimentale
+	informatico teorico
 
-bibliografia
+salviati
+	risultati avvenieristici
 
+	fisico teorico
+	informatico sperimentale
 
+sagredo
+	filosofo della conoscienza
+		non mi tacciate di fare una filosofia senza solide basi
+		io ho piacere quando si mescolano con armonia le voci del discorso
+		la vostra disputa sta nell'interpretazione
+			simplicio rappresenta
+				simplicio
+				salviati
+				sagredo
+			salviati rappresenta
+				simplicio
+				salviati
+				sagredo
+
+4 giornate
+	1 storia dell'informatica
+		novità incredibili
+		SAG procediamo con ordine, cosa è l'intelligenza, come si è arrivati fino a qui, cosa è l'informatica?
+			sagredo apre il discorso, non conoscendo bene la storia dell'informatica
+		crisi dei fondamenti matematica di inizio 900
+			godel
+		simplicio
+			punto di vista pratico
+			macchina per decrittare enigma
+				turing come ingegnere
+				salviati risponde
+				quantistica per decrittare crittografia ellittica
+		salviati
+			punto di vista teorico
+			entscheidungsproblem
+				turing come matematico
+				simplicio risponde
+					nozione _intuitiva_ di macchina
+	2 intelligenza artificiale
+		continua la storia dell'ia
+		simplicio
+			creatività
+				stable diffusion
+					toglierà il lavoro anche agli artisti???
+						giornata 4
+			llm
+				problemi
+					comprensione
+					sicurezza
+					osservabilità
+					efficienza
+		salviati
+			problem solving
+			ai simbolica
+	3 mente e macchine
+		cosa prova una macchina
+			confutazione stanza cinese
+		personaggi
+			simplicio
+				connessionismo
+				non capisce la formalità
+					olismo
+						la formalità è una perversione
+			salviati
+				simbolismo
+				non capisce il senso dell'arte
+					riduzionismo
+						le parti semplici formano i pensieri complessi
+			sagredo
+				è un epistemologo
+					gunky
+					junky...
+	4 etica e futuro
+		cosa vuole massimizzare un utilitarista
+		a cosa è contro un moralista
+		piena automazione
+		???
+		
