@@ -1,6 +1,7 @@
 introduzione
 
 linee evolutive
+	8pgs
 
 descrizione delle tecnologie
 	nuxt
