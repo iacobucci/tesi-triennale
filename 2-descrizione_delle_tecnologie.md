@@ -2,5 +2,7 @@
 
 ## Nuxt
 
+\includegraphics{./bitmap.pdf}
+
 ## Typeorm
 

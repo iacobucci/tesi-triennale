@@ -78,7 +78,7 @@ Javascript può manipolare il DOM (Document Object Model), cioè la rappresentaz
 
 Le pagine web, erano diventate _attive_, ma tutti gli script da fornire agli utenti dovevano essere inseriti nella pagina inviata come prima risposta HTTP. Nel 1999, il browser Internet Explorer 5 introdusse una estensione del linguaggio Javascript, che disponeva di un oggetto chiamato _XMLHttpRequest_, in grado effettuare richieste HTTP asincrone al server e di ricevere risposte senza dover ricaricare l'intera pagina. Così si gettavano le basi per realizzare _Single Page Applications_.
 
-Riveste una particolare importanza la libreria jQuery, rilasciata nel 2006, che semplificava la manipolazione del DOM e le richieste HTTP, fornendo un'interfaccia più semplice e omogenea rispetto ai diversi browser, che esponevano API diverse e non ancora standardizzate.
+Riveste una particolare importanza la libreria jQuery, rilasciata nel 2006, che semplifica la manipolazione del DOM e le richieste HTTP, fornendo un'interfaccia più semplice e omogenea rispetto ai diversi browser, che esponevano API diverse e non ancora standardizzate.
 
 ## Node.js e Javascript lato server
 
