@@ -4,29 +4,23 @@
 
 Il primo modello del World Wide Web era inteso a facilitare la condivisione di documenti tra scienziati e ricercatori, permettendo ai lettori di navigare nei siti attraverso collegamenti non lineari tra pagine. Il WWW consisteva in una combinazione di applicazioni, di protocolli e di linguaggi di marcatura progettati e rilasciati presso il CERN, principalmente ad opera di Tim Berners Lee, a ridosso degli anni '90:
 
-##### Browser e Server
+**Browser e Server:** Con un browser web installato nel proprio sistema informatico, un utente può visualizzare pagine web e scegliere di seguire i collegamenti ipertestuali (hyperlinks) per accedere ad altre pagine. Il server web è responsabile di fornire le pagine web richieste dai client, come i browser.
 
-Con un browser web installato nel proprio sistema informatico, un utente può visualizzare pagine web e scegliere di seguire i collegamenti ipertestuali (hyperlinks) per accedere ad altre pagine. Il server web è responsabile di fornire le pagine web richieste dai client, come i browser.
+**Protocollo HTTP:** È il protocollo di comunicazione di livello applicativo (OSI 7) che permette la trasmissione di informazioni tra client e server web. Un browser contatta un server web inviando una richiesta HTTP ad un determinato URL e il server risponde con una risposta HTTP contenente i dati richiesti. HTTP è un protocollo stateless, non mantiene informazioni sullo stato della comunicazione. Sta all'applicazione gestire eventuali sessioni o autenticazioni.
 
-##### Protocollo HTTP
-
-HTTP è il protocollo di comunicazione di livello applicativo (OSI 7) che permette la trasmissione di informazioni tra client e server web. Un browser contatta un server web inviando una richiesta HTTP ad un determinato URL e il server risponde con una risposta HTTP contenente i dati richiesti. HTTP è un protocollo stateless, non mantiene informazioni sullo stato della comunicazione. Sta all'applicazione gestire eventuali sessioni o autenticazioni.
-
-##### Linguaggio HTML
-
-Il linguaggio HTML (HyperText Markup Language) è un linguaggio di marcatura utilizzato per la realizzazione di pagine web. HTML definisce la struttura e il contenuto di una pagina web attraverso l'uso di tag e attributi e consente di incorporare elementi multimediali. Il browser web interpreta il codice HTML e mostra la pagina web all'utente, con una resa grafica determinata da regole contenute in fogli di stile (CSS).
+**Linguaggio HTML:** (HyperText Markup Language) è un linguaggio di marcatura utilizzato per la realizzazione di pagine web. HTML definisce la struttura e il contenuto di una pagina web attraverso l'uso di tag e attributi e consente di incorporare elementi multimediali. Il browser web interpreta il codice HTML e mostra la pagina web all'utente, con una resa grafica determinata da regole contenute in fogli di stile (CSS).
 
 ## Pagine dinamiche
 
-I primi browser web erano in grado di visualizzare solo pagine statiche, il che significa che il contenuto di una determinata pagina non cambiava in base all'interazione dell'utente, ed i primi server web erano in grado di fornire solo pagine statiche, cioè pagine il cui contenuto non cambiava nel tempo.
+I primi browser web erano in grado di visualizzare solo pagine statiche, il che significa che il contenuto di una determinata pagina non cambiava in base all'interazione dell'utente, ed i primi server web erano in grado di fornire solo pagine statiche, cioè pagine il cui contenuto non cambiava in maniera automatizzata (era possibile modificare i documenti con HTTP POST).
 
-Tuttavia, tramite hyperlinks e successivamente tramite form (cioè dei moduli da compilare con opzioni selezionabili dall'utente, introdotte nel 1993) i browser potevano effettuare richieste al server inviando parametri tramite il protocollo HTTP. Il server poteva elaborare tali richieste e restituire una _nuova pagina HTML_ in base ai parametri ricevuti. Questo processo era gestito da programmi detti **CGI** (Common Gateway Interface), da eseguire sul server per generare pagine dinamicamente, cioè al momento della richiesta.
+Tramite hyperlinks e successivamente tramite form (cioè dei moduli compilabili con opzioni, introdotte nel 1993) i browser potevano effettuare richieste al server inviando parametri tramite il protocollo HTTP. Il server poteva elaborare tali richieste e restituire una _nuova pagina HTML_ in base ai parametri ricevuti. Questo processo era gestito da programmi detti **CGI** (Common Gateway Interface), da eseguire sul server per generare pagine dinamicamente, cioè al momento della richiesta.
 
 I linguaggi di programmazione utilizzati all'epoca per scrivere programmi CGI erano principalmente:
 
 ##### Linguaggi di basso livello o di scripting
 
-- Linaguaggi di basso livello come C o C++, erano di difficile gestione e manutenzione: sono performanti ma richiedono una solida conoscenza informatica.
+- Linaguaggi di basso livello come C o C++, erano di difficile gestione e manutenzione: sono performanti ma richiedono molte risorse per la progettazione.
 
 - Linguaggi di scripting come Perl o Shell UNIX, erano più facili da utilizzare ma meno efficienti: comodi per la manipolazione di stringhe e file, ma non per la gestione di strutture dati complesse.
 
@@ -36,7 +30,7 @@ Successivamente, dal 1995 in poi, emersero alcuni Linguaggi di templating che co
 
 - Java Server Pages (JSP) è un'estensione di Java, quindi era possibile usare tutte le librerie di questo linguaggio molto popolare all'epoca.
 
-- PHP è un linguaggio interpretato che ha avuto molto successo per oltre un decennio[^1] grazie alla sua semplicità.
+- PHP è un linguaggio interpretato che ha avuto molto successo per oltre un decennio[^tiobe] grazie alla sua semplicità.
 
 ```php
 <?php
@@ -60,9 +54,10 @@ if (mysql_num_rows($result) > 0){
 ?>
 ```
 
-> Un esempio di pagina di autenticazione in PHP, che riflette lo stile di programmazione tipico dell'epoca. È da notare come il codice HTML da inviare al browser sia inserito direttamente all'interno del codice da mantenere privato, rendendone difficile la manutenzione per via della _confusione tra logica di presentazione e logica di business_. Vengono poi adoperati 3 linguaggi diversi (PHP, HTML, SQL), soluzione non ottimale per la leggibilità, che si aggiunge ai problemi di sicurezza legati all'*interpolazione* di stringhe all'interno di query SQL.
+> Un esempio di pagina di autenticazione in PHP, che riflette lo stile di programmazione tipico dell'epoca[^mysqlphp]. È da notare come il codice HTML da inviare al browser sia inserito direttamente all'interno del codice da mantenere privato, rendendone difficile la manutenzione per via della _confusione tra logica di presentazione e logica di business_. Vengono poi adoperati 3 linguaggi diversi (PHP, HTML, SQL), soluzione non ottimale per la leggibilità, che si aggiunge ai problemi di sicurezza legati all'*interpolazione* di stringhe all'interno di query SQL.
 
-[^1]: [Indice TIOBE per PHP](https://www.tiobe.com/tiobe-index/php/), si può vedere come il suo utilizzo sia diminuito a partire dal 2010.
+[^tiobe]: [Indice TIOBE per PHP](https://www.tiobe.com/tiobe-index/php/), si può vedere come il suo utilizzo sia diminuito a partire dal 2010.
+[^mysqlphp]: La libreria [mysql](https://www.tiobe.com/tiobe-index/php/) risale al 1996.
 
 ## Pagine attive con Javascript
 
@@ -80,11 +75,13 @@ Le pagine web, erano diventate _attive_, ma tutti gli script da fornire agli ute
 
 Riveste una particolare importanza la libreria jQuery, rilasciata nel 2006, che semplifica la manipolazione del DOM e le richieste HTTP, fornendo un'interfaccia più semplice e omogenea rispetto ai diversi browser, che esponevano API diverse e non ancora standardizzate.
 
+<!-- esempio di jquery -->
+
 ## Node.js e Javascript lato server
 
-La standardizzazione di Javascript seguitò attraverso le varie versioni di ECMAScript che definivano le nuove funzionalità del linguaggio e, di conseguenza, dei browser web. Nel 2008 fu rilasciata la prima versione di Google Chrome, un browser che, oltre ad includere caratteristiche appetibili per gli utenti finali, disponeva del motore di esecuzione Javascript V8. Questo _engine_ apportò dei sostanziali miglioramenti di prestazioni[^2] rispetto alla competizione e venne rilasciato come _Open source software_.
+La standardizzazione di Javascript procedette attraverso le varie versioni di ECMAScript che definivano le nuove funzionalità del linguaggio e, di conseguenza, dei browser web. Nel 2008 fu rilasciata la prima versione di Google Chrome, un browser che, oltre ad includere caratteristiche appetibili per gli utenti finali, disponeva del motore di esecuzione Javascript V8. Questo _engine_ apportò dei sostanziali miglioramenti di prestazioni[^prestazioniv8] rispetto alla competizione e venne rilasciato come _Open source software_.
 
-Nel 2009, Ryan Dahl iniziò a lavorare, basandosi sul codice di V8, a Node.js, un interprete di Javascript in modalità headless[^3], al quale aggiunse la capacità di accedere al filesystem, di esporre servizi HTTP e di accettare connessioni in maniera _non bloccante_.
+Nel 2009, Ryan Dahl iniziò a lavorare, basandosi sul codice di V8, a Node.js, un interprete di Javascript in modalità headless[^headless], al quale aggiunse la capacità di accedere al filesystem, di esporre servizi HTTP e di accettare connessioni in maniera _non bloccante_.
 
 In questo modo si poterono realizzare non solo applicazioni **frontend** ma anche **backend** con Javascript, abilitando sempre più novizi alla creazione di siti web completi. Attorno a Node crebbe una comunità di sviluppatori che contribuirono, secondo i principi dell'Open source, alla creazione di un ecosistema di librerie, che potevano essere installate tramite il gestore di pacchetti NPM.
 
@@ -118,24 +115,24 @@ server.listen(80, () => { console.log("Server in ascolto sulla porta 8080"); });
 
 > In questo frammento di codice è mostrato l'utilizzo della libreria "http" fornita di default da Node e della libreria "mysql" di Felix Geisendörfer, una delle prime per l'accesso a database da Node. È da notare l'architettura a callback, che permette di gestire in maniera asincrona le richieste HTTP e le query al database.
 
-> In questo esempio le query SQL sono parametrizzate, facendo uso di *Prepared statements*, per evitare attacchi di tipo injection, ma rimangono camblate all'interno di stringhe, rendendo il codice vulnerabile a errori di sintassi e di tipo.
+> In questo esempio le query SQL sono parametrizzate, facendo uso di *Prepared statements*, per evitare attacchi di tipo injection, ma rimangono cablate all'interno di stringhe, rendendo il codice vulnerabile a errori di sintassi e di tipo.
 
 > Nonostante, per brevità, venga inviato l'HTML in maniera diretta, è stato fin da subito possibile utilizzare le capacità di lettura asincona di files di Node per servire pagine statiche.
 
-[^2]: [Google Chrome announcement](https://youtu.be/LRmrMiOWdfc?si=gaHRFdA8QcYZ0NYq&t=2676) , in questo video si può vedere come l'esecuzione di Javascript su Chrome sia di circa 60 volte più veloce che su Internet Explorer 8.
-[^3]: Cioè senza interfaccia grafica.
+[^prestazioniv8]: [Google Chrome announcement](https://youtu.be/LRmrMiOWdfc?si=gaHRFdA8QcYZ0NYq&t=2676) , in questo video si può vedere come l'esecuzione di Javascript su Chrome sia di circa 60 volte più veloce che su Internet Explorer 8.
+[^headless]: Cioè senza interfaccia grafica.
 
 ## Applicazioni web orientate a componenti
 
 Anche con Node fu possibile realizzare applicazioni web _monolitiche_, parimenti al templating PHP, usando librerie come EJS di TJ Holowaychuk.
 
-Le tendenze di quel periodo (circa 2010) si discostarono dal modo tradizionale di scrivere applicazioni web, basate su pagine generate lato server, per passare a un modello di **client-side rendering**. Secondo questo modello il server invia al browser una pagina HTML con un DOM minimo, corredato di script Javascript che si occupano di popolare il DOM dei contenuti e di gestire le logiche di presentazione.
+Tuttavia le tendenze di quel periodo (circa 2010) si discostarono dal modo tradizionale di scrivere applicazioni web, basate su pagine generate lato server, per passare a un modello di **client-side rendering**. Secondo questo modello il server invia al browser una pagina HTML con un DOM minimo, corredato di script JS che si occupano di popolare il DOM dei contenuti e di gestire le logiche di presentazione.
 
 Le applicazioni renderizzate lato cliente potevano beneficiare di una maggiore reattività e di una migliore esperienza utente, essendo basate su una pagina unica che veniva aggiornata in maniera incrementale, aggirando i caricamenti di nuove pagine da richiedere al server. Le richieste, essendo asincrone, potevano essere gestite in modo meno invasivo rispetto a prima: mentre la comunicazione client-server avveniva in background, l'utente poteva continuare ad interagire con l'applicazione.
 
 Il vantaggio da parte degli sviluppatori di questo paradigma era la possibilità di scrivere la logica di presentazione interamente in Javascript, sfruttando il sistema di oggetti e la modularità del linguaggio in maniera più espressiva rispetto al templating o alle API DOM. Scrivere applicazioni con jQuery, ad esempio, portava ad assumere uno stile troppo imperativo e poco manutenibile per applicazioni complesse o che dovevano essere sviluppate da più persone.
 
-L'idea centrale della tendenza _CSR_ era quella di progettare l'interfaccia utente partendo da parti più piccole, chiamate **componenti**, e riutilizzabili all'interno dell'intera applicazione. Lo stile assunto era _dichiarativo_[^4] Ad ogni componente erano associati:
+L'idea centrale della tendenza _CSR_ era quella di progettare l'interfaccia utente partendo da parti più piccole, chiamate **componenti**, e riutilizzabili all'interno dell'intera applicazione. Lo stile assunto era _dichiarativo_[^dichiarativo] Ad ogni componente erano associati:
 
 - un template HTML, più piccolo e gestibile rispetto ad una pagina intera.
 - un foglio CSS, per la stilizzazione.
@@ -149,7 +146,7 @@ Uno dei primi framework a proporre un modello di componenti, sviluppato in Googl
 
 ##### React.js
 
-La libreria di componenti più popolare[^5], sviluppata da un team interno di Facebook e rilasciata nel 2013. React introduceva il concetto di _Virtual DOM_, una rappresentazione in memoria del DOM reale, che permetteva di calcolare in maniera efficiente le differenze tra due stati del DOM e di applicare solo le modifiche necessarie.
+La libreria di componenti più popolare[^react] sviluppata da un team interno di Facebook e rilasciata nel 2013. React introduceva il concetto di _Virtual DOM_, una rappresentazione in memoria del DOM reale, che permetteva di calcolare in maniera efficiente le differenze tra due stati del DOM e di applicare solo le modifiche necessarie.
 
 ##### Vue.js
 
@@ -187,8 +184,8 @@ Partito come progetto personale di Evan You e rilasciato nel 2014, Vue si propon
 
 > Il DOM minimo che viene distribuito da una applicazione Vue 3 servita con lo strumento _Vite_. La pagina viene assemblata lato client, a partire dal così detto _entry point_: l'elemento con id "app" in cui viene montata l'applicazione. Si noti che nel caso che Javascript non sia abilitato nel client il contenuto dell'applicazione non verrà visualizzato affatto.
 
-[^4]: In questo contesto, uno stile dichiarativo è riferito ad un approccio alla programmazione in cui si descrive cosa il programma deve fare piuttosto che come farlo. Con jQuery si dovevano specificare esplicitamente i passaggi per manipolare il DOM, mentre i componenti permettono di definire il comportamento dell'interfaccia attraverso delle dichiarazioni più astratte e concise.
-[^5]: [Github - React](https://github.com/facebook/react) - la più popolare in base numero di stelle su Github.
+[^dichiarativo]: In questo contesto, uno stile dichiarativo è riferito ad un approccio alla programmazione in cui si descrive cosa il programma deve fare piuttosto che come farlo. Con jQuery si dovevano specificare esplicitamente i passaggi per manipolare il DOM, mentre i componenti permettono di definire il comportamento dell'interfaccia attraverso delle dichiarazioni più astratte e concise.
+[^react]: [Github - React](https://github.com/facebook/react) - la più popolare in base numero di stelle su Github.
 
 ## Typescript e ORM
 
@@ -196,18 +193,20 @@ Le basi di codice Javascript, che fino a quel momento erano rimaste in dimension
 
 Javascript, essendo un linguaggio interpretato e debolmente tipizzato, non era in grado di garantire la correttezza del codice e i test di unità erano fatti in modo _Behavior driven_, cioè basati sul comportamento dell'applicazione e non sulla tipizzazione dei dati. Questo spesse volte portava ad errori, difficili da individuare e correggere, soprattutto in applicazioni di grandi dimensioni.
 
-Nel 2012 Anders Hejlsberg ed il suo team interno a Microsoft iniziarono a lavorare al linguaggio Typescript, una estensione di Javascript, realizzando un **compilatore** con un sistema di tipi robusto in grado di rilevare errori di questa specie. Typescript permette anche di sfruttare le funzionalità delle nuove versioni di ECMAScript in modo _retrocompatibile_, cioè facendo _transpiling_[^6] verso una specifica di ECMA inferiore, per usarle anche sui browser deprecati.
+Nel 2012 Anders Hejlsberg ed il suo team interno a Microsoft iniziarono a lavorare al linguaggio Typescript, una estensione di Javascript, realizzando un **compilatore** con un sistema di tipi robusto in grado di rilevare errori di questa specie. Typescript permette anche di sfruttare le funzionalità delle nuove versioni di ECMAScript in modo _retrocompatibile_, cioè facendo _transpiling_[^transpiling] verso una specifica di ECMA inferiore, per usarle anche sui browser deprecati.
 
-L'adozione di Typescript è stata pressoché immediata, per il motivo che la conversione di basi di codice a partire da Javascript vanilla[^7] erano a costo zero: ogni sorgente Javascript è valido Typescript. Typescript ha avuto successo non solo lato client, ma anche lato server. Sono comparse infatti alcune librerie di supporto all'accesso a database che basate sul pattern **ORM**, Object-relational mapping, quindi capaci di mappare il modello dei dati presente nel database a strutture dati proprie di Typescript. Librerie notevoli di questo tipo sono:
+L'adozione di Typescript è stata pressoché immediata, per il motivo che la conversione di basi di codice a partire da Javascript vanilla[^1] erano a costo zero: ogni sorgente Javascript è valido Typescript. Typescript ha avuto successo non solo lato client, ma anche lato server. Sono comparse infatti alcune librerie di supporto all'accesso a database che basate sul pattern **ORM**, Object-relational mapping, quindi capaci di mappare il modello dei dati presente nel database a strutture dati proprie di Typescript. Librerie notevoli di questo tipo sono:
 
 ##### Sequelize
 È stata una delle prime, il progetto è iniziato nel 2010 quindi funzionava con Javascript vanilla, ma si è evoluta fino a supportare le migliorie di Typescript ed una moltitudine di DBMS.
 
+##### Prisma
+
 ##### TypeORM
 Offre un supporto a Typescript nativamente. È illustrata con dettaglio nel [capitolo 2](#descrizione-delle-tecnologie).
 
-[^6]: [Wikipedia - Source-to-source compiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) - il transpiling è il processo di traduzione automatica di codice sorgente da un linguaggio ad un altro.
-[^7]: Con "vanilla" ci riferisce a Javascript senza estensioni, quindi al codice che può eseguire nativamente sui browser conformi alle specifiche ECMA. Typescript invece è un _superset_, quindi ha un insieme di espressioni sintattiche più grande ma che comprende interamente quello di Javascript.
+[^transpiling]: [Wikipedia - Source-to-source compiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) - il transpiling è il processo di traduzione automatica di codice sorgente da un linguaggio ad un altro.
+[^8]: Con "vanilla" ci riferisce a Javascript senza estensioni, quindi al codice che può eseguire nativamente sui browser conformi alle specifiche ECMA. Typescript invece è un _superset_, quindi ha un insieme di espressioni sintattiche più grande ma che comprende interamente quello di Javascript.
 
 ## Ritorno al server side rendering
 
@@ -220,7 +219,7 @@ I dispositivi con capacità di calcolo inferiore possono subire rallentamenti al
 I siti web che fanno uso di CSR sono più difficilmente indicizzabili dai *crawler* dei motori di ricerca, questo può portare a problemi di esposizione e di traffico ridotti.
 
 ##### First contentful paint
-È il tempo che intercorre tra la cattura della risposta HTTP del server e il momento in cui viene visualizzato a schermo dal browser il primo elemento di contenuto significativo per l'utente. Nelle applicazioni CSR questa durata spesso eccede quella massima suggerita da Google[^8].
+È il tempo che intercorre tra la cattura della risposta HTTP del server e il momento in cui viene visualizzato a schermo dal browser il primo elemento di contenuto significativo per l'utente. Nelle applicazioni CSR questa durata spesso eccede quella massima suggerita da Google[^corewebvitals].
 
 ##### Cumulative shift layout
 Per il motivo che gli aggiornamenti dell'interfaccia vengono eseguiti nell'engine del browser in maniera sequenziale, potrebbero esserci dei fastidiosi spostamenti di elementi visivi nell'interfaccia.
@@ -230,9 +229,9 @@ Per gli stessi motivi che portano a CSL, ci potrebbero essere degli impedimenti 
 
 $\linebreak$
 
-Attraverso i seguenti capitoli saranno illustrate alcune soluzioni ibride tra Client side rendering e Server side rendering attraverso il framework Nuxt, che mira a risolvere questi ed altri problemi, in combinazione con TypeORM per realizzare applicazioni web *fullstack*[^9].
+Attraverso i seguenti capitoli saranno illustrate alcune soluzioni ibride tra Client side rendering e Server side rendering attraverso il framework Nuxt, che mira a risolvere questi ed altri problemi, in combinazione con TypeORM per realizzare applicazioni web *fullstack*[^fullstack].
 
-[^8]: [Google developers - Core web vitals](https://developers.google.com/search/docs/appearance/core-web-vitals?hl=it) - Al 10 maggio 2023, la durata massima ammissibile per il FCP è di 2.5s.
-[^9]: Si occupano sia di frontend che di backend.
+[^corewebvitals]: [Google developers - Core web vitals](https://developers.google.com/search/docs/appearance/core-web-vitals?hl=it) - Al 10 maggio 2023, la durata massima ammissibile per il FCP è di 2.5s.
+[^fullstack]: Si occupano sia di frontend che di backend.
 
 

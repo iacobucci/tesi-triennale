@@ -5,9 +5,16 @@ linee evolutive
 
 descrizione delle tecnologie
 	nuxt
+		bundler
+		altre storie
 	typeorm
+		mapping da sql a oggetti
 
 soluzioni di design
+	setup
+		nvm
+	containerizzazione
+
 	storia della classe singola da condividere
 	pattern dao
 	possibili sviluppi futuri
