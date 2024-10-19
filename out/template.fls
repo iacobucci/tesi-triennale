@@ -1,7 +1,7 @@
-PWD /home/valerio/.local/dir/unibo/2023-24-1-tesi
+PWD /home/valerio/.local/dir/unibo/3-tesi
 INPUT /usr/share/texmf-dist/web2c/texmf.cnf
 INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
-INPUT /home/valerio/unibo/2023-24-1-tesi/template.tex
+INPUT /home/valerio/unibo/3-tesi/template.tex
 OUTPUT out/template.log
 INPUT /usr/share/texmf-dist/tex/latex/base/report.cls
 INPUT /usr/share/texmf-dist/tex/latex/base/report.cls

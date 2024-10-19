@@ -195,7 +195,7 @@ Javascript, essendo un linguaggio interpretato e debolmente tipizzato, non era i
 
 Nel 2012 Anders Hejlsberg ed il suo team interno a Microsoft iniziarono a lavorare al linguaggio Typescript, una estensione di Javascript, realizzando un **compilatore** con un sistema di tipi robusto in grado di rilevare errori di questa specie. Typescript permette anche di sfruttare le funzionalità delle nuove versioni di ECMAScript in modo _retrocompatibile_, cioè facendo _transpiling_[^transpiling] verso una specifica di ECMA inferiore, per usarle anche sui browser deprecati.
 
-L'adozione di Typescript è stata pressoché immediata, per il motivo che la conversione di basi di codice a partire da Javascript vanilla[^1] erano a costo zero: ogni sorgente Javascript è valido Typescript. Typescript ha avuto successo non solo lato client, ma anche lato server. Sono comparse infatti alcune librerie di supporto all'accesso a database che basate sul pattern **ORM**, Object-relational mapping, quindi capaci di mappare il modello dei dati presente nel database a strutture dati proprie di Typescript. Librerie notevoli di questo tipo sono:
+L'adozione di Typescript è stata pressoché immediata, per il motivo che la conversione di basi di codice a partire da Javascript vanilla[^vanilla] erano a costo zero: ogni sorgente Javascript è valido Typescript. Typescript ha avuto successo non solo lato client, ma anche lato server. Sono comparse infatti alcune librerie di supporto all'accesso a database che basate sul pattern **ORM**, Object-relational mapping, quindi capaci di mappare il modello dei dati presente nel database a strutture dati proprie di Typescript. Librerie notevoli di questo tipo sono:
 
 ##### Sequelize
 È stata una delle prime, il progetto è iniziato nel 2010 quindi funzionava con Javascript vanilla, ma si è evoluta fino a supportare le migliorie di Typescript ed una moltitudine di DBMS.
@@ -206,7 +206,7 @@ L'adozione di Typescript è stata pressoché immediata, per il motivo che la con
 Offre un supporto a Typescript nativamente. È illustrata con dettaglio nel [capitolo 2](#descrizione-delle-tecnologie).
 
 [^transpiling]: [Wikipedia - Source-to-source compiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) - il transpiling è il processo di traduzione automatica di codice sorgente da un linguaggio ad un altro.
-[^8]: Con "vanilla" ci riferisce a Javascript senza estensioni, quindi al codice che può eseguire nativamente sui browser conformi alle specifiche ECMA. Typescript invece è un _superset_, quindi ha un insieme di espressioni sintattiche più grande ma che comprende interamente quello di Javascript.
+[^vanilla]: Con "vanilla" ci riferisce a Javascript senza estensioni, quindi al codice che può eseguire nativamente sui browser conformi alle specifiche ECMA. Typescript invece è un _superset_, quindi ha un insieme di espressioni sintattiche più grande ma che comprende interamente quello di Javascript.
 
 ## Ritorno al server side rendering
 

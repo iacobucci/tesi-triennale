@@ -5,7 +5,7 @@ PANDOC = pandoc \
 		--listings \
 		--top-level-division=chapter \
 		--template=template.tex \
-		--pdf-engine=lualatex \
+		--pdf-engine=pdflatex \
 		--pdf-engine-opt=-shell-escape \
 		-o tesi-iacobucci_valerio-00009765431.pdf
 

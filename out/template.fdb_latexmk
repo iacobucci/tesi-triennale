@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1729071100.87709 "/home/valerio/unibo/2023-24-1-tesi/template.tex" "out/template.pdf" "template" 1729071101.10232 0
-  "/home/valerio/unibo/2023-24-1-tesi/template.tex" 1729071100.73142 1718 41e3226f969b230333c202d97edab161 ""
+["pdflatex"] 1729331072.90896 "/home/valerio/unibo/3-tesi/template.tex" "out/template.pdf" "template" 1729331073.13467 0
+  "/home/valerio/unibo/3-tesi/template.tex" 1729331072.76579 1769 78f5c419bcf7e9b792411a17e87e682f ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1727349926 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1727349926 1324 c910af8c371558dc20f2d7822f66fe64 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmcsc10.tfm" 1727349926 1300 63a6111ee6274895728663cf4b4e7e81 ""
@@ -73,9 +73,9 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1727349926 41588 b43d3e860a4f94167ee1e725ff526a72 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1727540105.01658 325246 7217e157e5466427c18ad35e6ae60d51 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1727794322 7114510 9e91dca167c0a1ce6d0dabdee04b2ef0 ""
-  "out/template.aux" 1729071101.08142 162 59504cb8f8bee0a3f0488d753cb23a1e "pdflatex"
-  "out/template.out" 1729071101.06475 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "out/template.toc" 1729071101.07809 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "out/template.aux" 1729331073.11246 162 59504cb8f8bee0a3f0488d753cb23a1e "pdflatex"
+  "out/template.out" 1729331073.09913 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "out/template.toc" 1729331073.11246 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
   "out/template.aux"
   "out/template.log"
