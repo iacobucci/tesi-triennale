@@ -1,7 +1,66 @@
 introduzione
 
 linee evolutive
-	8pgs
+	pagine statiche
+		browser e server
+		protocollo http
+		linguaggio html
+	pagine dinamiche
+		cgi
+			linguaggi di basso livello
+				c
+			linguaggi di scripting
+				perl
+				bash
+		templating
+			jsp
+			php
+		snippet
+			php con mysql
+			confusione tra logica di presentazione e di business
+	pagine attive
+		eventi e dom
+		richieste http asincrone
+			1999
+		snippet
+			jquery
+			callback hell
+	nodejs e javascript lato server
+		non blocking io
+		frontend e backend
+		snippet
+			node e mysql di felix geisendorfer
+	applicazioni web orientate a componenti
+		client side rendering
+		reattività
+		componenti dichiarativi
+			 template html
+			 css
+			 js per la logica
+		esempi
+			angular
+			react
+			vue
+				snippet
+					router
+					separazione delle preoccupazioni
+					stato
+					parametri
+	typescript e orm
+		tipizzazione statica e testing
+		transpiling e linting
+		orm
+		esempi
+			sequelize
+			prisma
+			typeorm
+	ritorno al server side rendering
+		google core web vitals
+			performance
+			search engine optimization
+			first contentful paint
+			cumulative shift layout
+			accessibility
 
 descrizione delle tecnologie
 	nuxt
@@ -11,15 +70,15 @@ descrizione delle tecnologie
 		mapping da sql a oggetti
 
 soluzioni di design
+	integrazione di nuxt e typeorm
 	setup
 		nvm
+		pnpm
 	containerizzazione
-
 	storia della classe singola da condividere
 	pattern dao
 	possibili sviluppi futuri
 	come e dove parlare del tirocinio
 
 bibliografia
-
 

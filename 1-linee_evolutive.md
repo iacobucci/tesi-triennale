@@ -42,15 +42,15 @@ $result = mysql_query($query, $conn);
 
 if (mysql_num_rows($result) > 0){
 ?>
- <h1>Benvenuto <?php echo $username; ?></h1>
- ...
+	<h1>Benvenuto <?php echo $username; ?></h1>
+	...
 <?php
-} else {
- ?>
- <h1>Accesso negato</h1>
- <p>Torna alla <a href="login">pagina di login</a></p>
-<?php
-}
+	} else {
+	?>
+		<h1>Accesso negato</h1>
+		<p>Torna alla <a href="login">pagina di login</a></p>
+	<?php
+	}
 ?>
 ```
 
@@ -70,13 +70,21 @@ Il dinamismo delle pagine web supportato da server CGI e linguaggi di scripting 
 La libreria jQuery, rilasciata nel 2006, ha rivestito una particolare importanza perché semplificava la manipolazione del DOM e le richieste HTTP, fornendo un'interfaccia più semplice e omogenea rispetto ai diversi browser, che esponevano API diverse e non ancora standardizzate.
 
 ```javascript
-  $('.button').on('click', function() {
-    $(this).text('Cliccato!');
-  });
+$('#update').click(function() {
+	$.ajax({ // scaricamento asincrono
+		url: 'data.json', type: 'GET', dataType: 'json',
+		success: function(data) {
+			var content = '';
+			for (var i = 0; i < data.length; i++) {
+				content += '<p>' + data[i].name + '</p>';
+			}
+			$('#content').html(content);
+		},
+	});
+});
 ```
 
-
-<!-- esempio di jquery -->
+> Nel frammento di codice jQuery, è messo in evidenza uno stile *imperativo* di definizione del comportamento dell'interfaccia, poco manutenibile per applicazioni complesse.
 
 [^runtime]: Il momento in cui la pagina è resa attiva da Javascript.
 
@@ -95,32 +103,29 @@ const mysql = require("mysql");
 const connection = mysql.createConnection({ /* ... */ })
 
 const server = http.createServer((req, res) => {
-    if (req.method === 'POST' && req.url === '/login') {
-
-  var username, password;
-  // unmarshalling della query string ...
-
-  var login = "SELECT * FROM Users WHERE username = ? AND password = ?";
-  connection.query(login, [username, password], (err, rows) => {
-   if (rows.length > 0) {
-    res.writeHead(200, {"Content-Type": "text/html"});
-    res.end("<h1>Benvenuto " + username + "</h1>");
-   } else {
-    res.writeHead(401, {"Content-Type": "text/html"});
-    res.end("<h1>Accesso negato</h1>");
-   }
-  }
- }
-}
-
-server.listen(80, () => { console.log("Server in ascolto sulla porta 8080"); });
+	if (req.method === 'POST' && req.url === '/login') {
+		var username, password;
+		// unmarshalling della query string ...
+		var login = "SELECT * FROM Users WHERE username = ? AND password = ?";
+		connection.query(login, [username, password], (err, rows) => {
+			if (rows.length > 0) {
+				res.writeHead(200, {"Content-Type": "text/html"});
+				res.end("<h1>Benvenuto " + username + "</h1>");
+			} else {
+				res.writeHead(401, {"Content-Type": "text/html"});
+				res.end("<h1>Accesso negato</h1>");
+			}
+		});
+	}
+});
+server.listen(80, () => { console.log("Server in ascolto alla porta 8080"); });
 ```
 
 > In questo frammento di codice è mostrato l'utilizzo della libreria "http" fornita di default da Node e della libreria "mysql" di Felix Geisendörfer, una delle prime per l'accesso a database da Node. È da notare l'architettura a callback, che permette di gestire in maniera asincrona le richieste HTTP e le query al database.
 
 > In questo esempio le query SQL sono parametrizzate, facendo uso di *Prepared statements*, per evitare attacchi di tipo injection, ma rimangono cablate all'interno di stringhe, rendendo il codice vulnerabile a errori di sintassi e di tipo.
 
-[^prestazioniv8]: [Google Chrome announcement](https://youtu.be/LRmrMiOWdfc?si=gaHRFdA8QcYZ0NYq&t=2676) , in questo video si può vedere come l'esecuzione di Javascript su Chrome sia di circa 60 volte più veloce che su Internet Explorer 8.
+[^prestazioniv8]: [Google Chrome announcement:](https://youtu.be/LRmrMiOWdfc?si=gaHRFdA8QcYZ0NYq&t=2676) in questo video si può vedere come l'esecuzione di Javascript su Chrome sia di circa 60 volte più veloce che su Internet Explorer 8.
 [^headless]: Cioè senza interfaccia grafica.
 
 ## Applicazioni web orientate a componenti
@@ -129,9 +134,9 @@ Anche con Node fu possibile realizzare applicazioni web _monolitiche_, parimenti
 
 Tuttavia le tendenze di quel periodo (circa 2010) si discostarono dal modo tradizionale di scrivere applicazioni web, basate su pagine generate lato server, per passare a un modello di **client-side rendering**. Secondo questo modello il server invia al browser una pagina HTML con un DOM minimo, corredato di script JS che si occupano di popolare il DOM dei contenuti e di gestire le logiche di presentazione.
 
-Le applicazioni renderizzate lato cliente potevano beneficiare di una maggiore reattività e di una migliore esperienza utente, essendo basate su una pagina unica che veniva aggiornata in maniera incrementale, aggirando i caricamenti di nuove pagine da richiedere al server. Le richieste, essendo asincrone, potevano essere gestite in modo meno invasivo rispetto a prima: mentre la comunicazione client-server avveniva in background, l'utente poteva continuare ad interagire con l'applicazione.
+Le applicazioni renderizzate lato cliente potevano beneficiare di una maggiore *reattività* e di una migliore esperienza utente, essendo basate su una pagina unica che veniva aggiornata in maniera incrementale, aggirando i caricamenti di nuove pagine da richiedere al server. Le richieste, essendo asincrone, potevano essere gestite in modo meno invasivo rispetto a prima: mentre la comunicazione client-server avveniva in background, l'utente poteva continuare ad interagire con l'applicazione.
 
-Il vantaggio da parte degli sviluppatori di questo paradigma era la possibilità di scrivere la logica di presentazione interamente in Javascript, sfruttando il sistema di oggetti e la modularità del linguaggio in maniera più espressiva rispetto al templating o alle API DOM. Scrivere applicazioni con jQuery, ad esempio, portava ad assumere uno stile troppo imperativo e poco manutenibile per applicazioni complesse o che dovevano essere sviluppate da più persone.
+Il vantaggio da parte degli sviluppatori di questo paradigma era la possibilità di scrivere la logica di presentazione interamente in Javascript, sfruttando il sistema di oggetti e la modularità del linguaggio in maniera più espressiva rispetto al templating o alle API DOM. 
 
 L'idea centrale delle nuove tendenze _CSR_ era quella di progettare l'interfaccia utente partendo da parti più piccole, chiamate **componenti**, e riutilizzabili all'interno dell'intera applicazione. Lo stile assunto era _dichiarativo_[^dichiarativo] Ad ogni componente erano associati:
 
@@ -154,32 +159,32 @@ La libreria di componenti più popolare[^react] sviluppata da un team interno di
 Partito come progetto personale di Evan You e rilasciato nel 2014, Vue si proponeva come un'alternativa più flessibile e meno verbosa rispetto ad Angular e React, dai quali riprende il binding bidirezionale e il Virtual DOM. È la libreria di componenti usata da Nuxt.
 ```html
 <script setup>
- import { RouterView } from "vue-router";
- import HelloWorld from "./components/HelloWorld.vue";
+	import { RouterView } from "vue-router";
+	import HelloWorld from "./components/HelloWorld.vue";
 </script>
 
 <template>
- <HelloWorld msg="Ciao mondo" />
+	<HelloWorld msg="Ciao mondo" />
 
- <RouterView />
+	<RouterView />
 </template>
 
 <style scoped>
- background-color: #f0f0f0;</style
+	background-color: #f0f0f0;</style
 >
 ```
 
-> Un esempio moderno di applicazione Vue 3, che mostra l'utilizzo di un componente "HelloWorld" all'interno di un template principale, e di un RouterView per la navigazione tra le pagine. Questi componenti sono definiti in file distinti, per favorire la separazione, ed importati nel file principale come se fossero moduli Javascript. Agli effetti lo sono, ed ogni volta che compaiono in un template assumono un comportamento dettato dalla loro definizione (il loro template) e dal loro _stato_ interno. Si noti come il componente HelloWorld sia parametrizzato con un attributo "msg", che verrà visualizzato all'interno del componente.
+> Un esempio moderno di applicazione Vue 3, che mostra l'utilizzo di un componente "HelloWorld" all'interno di un template principale, e di un RouterView per la navigazione tra le pagine. Questi componenti sono definiti in file distinti, per favorire la separazione delle preoccupazioni, ed importati nel file principale come se fossero moduli Javascript. Agli effetti lo sono, ed ogni volta che compaiono in un template assumono un comportamento dettato dalla loro definizione (il loro template) e dal loro _stato_ interno. Si noti come il componente HelloWorld sia parametrizzato con un attributo "msg", che verrà visualizzato all'interno del componente.
 
 ```html
 <html lang="en">
- <head>
-  <title>Vite App</title>
- </head>
- <body>
-  <div id="app"></div>
-  <script type="module" src="/src/main.js"></script>
- </body>
+	<head>
+		<title>Vite App</title>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script type="module" src="/src/main.js"></script>
+	</body>
 </html>
 ```
 
