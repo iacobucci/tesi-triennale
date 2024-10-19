@@ -57,25 +57,28 @@ if (mysql_num_rows($result) > 0){
 > Un esempio di pagina di autenticazione in PHP, che riflette lo stile di programmazione tipico dell'epoca[^mysqlphp]. È da notare come il codice HTML da inviare al browser sia inserito direttamente all'interno del codice da mantenere privato, rendendone difficile la manutenzione per via della _confusione tra logica di presentazione e logica di business_. Vengono poi adoperati 3 linguaggi diversi (PHP, HTML, SQL), soluzione non ottimale per la leggibilità, che si aggiunge ai problemi di sicurezza legati all'*interpolazione* di stringhe all'interno di query SQL.
 
 [^tiobe]: [Indice TIOBE per PHP](https://www.tiobe.com/tiobe-index/php/), si può vedere come il suo utilizzo sia diminuito a partire dal 2010.
-[^mysqlphp]: La libreria [mysql](https://www.tiobe.com/tiobe-index/php/) risale al 1996.
+[^mysqlphp]: La libreria mysql di Micheal Widenius per PHP 2 risale al 1996.
 
 ## Pagine attive con Javascript
 
 Il dinamismo delle pagine web supportato da server CGI e linguaggi di scripting era comunque limitato per via del caricamento di nuove pagine ad ogni richiesta. Non era possibile aggiornare parzialmente la pagina, ma solo scaricarne una nuova. Nel 1995 il browser Netscape Navigator introdusse il supporto ad un nuovo linguaggio di scripting, Javascript, realizzato da Brendan Eich, per ovviare a questo problema.
 
-##### Gestione di eventi e manipolazione del DOM
+**Gestione di eventi e manipolazione del DOM:** Uno script Javascript, distribuito all'interno di una pagina HTML, può essere eseguito dal browser web in risposta a determinati eventi dell'utente. Inizialmente il motore di esecuzione era sincrono, cioè bloccava l'esecuzione del codice fino al completamento dell'operazione, e le possibilità di javascript si limitavano alla manipolazione a *runtime*[^runtime] del DOM (Document Object Model), quindi ad aggiungere, rimuovere o modificare elementi HTML.
 
-Uno script Javascript, distribuito all'interno di una pagina HTML, può essere eseguito dal browser web in risposta a determinati eventi, come il click del mouse o la pressione di un tasto. Inizialmente il motore di esecuzione era sincrono, cioè bloccava l'esecuzione del codice fino al completamento dell'operazione, e la istruzioni per la risposta agli eventi erano inserite in funzioni dette di _callback_.
+**Richieste HTTP asincrone:** Le pagine web, erano diventate _attive_, ma tutte le risorse da fornire agli utenti dovevano essere inserite nella pagina inviata come prima risposta HTTP. Nel 1999 però, il browser Internet Explorer 5 introdusse una estensione del linguaggio Javascript, che disponeva di un oggetto chiamato _XMLHttpRequest_, in grado effettuare richieste HTTP asincrone al server e dunque ricevere risposte senza dover ricaricare l'intera pagina. Così si gettavano le basi per la realizzazione di _Single Page Applications_.
 
-Javascript può manipolare il DOM (Document Object Model), cioè la rappresentazione ad albero della struttura della pagina, per aggiungere, rimuovere o modificare elementi HTML.
+La libreria jQuery, rilasciata nel 2006, ha rivestito una particolare importanza perché semplificava la manipolazione del DOM e le richieste HTTP, fornendo un'interfaccia più semplice e omogenea rispetto ai diversi browser, che esponevano API diverse e non ancora standardizzate.
 
-##### Richieste HTTP asincrone
+```javascript
+  $('.button').on('click', function() {
+    $(this).text('Cliccato!');
+  });
+```
 
-Le pagine web, erano diventate _attive_, ma tutti gli script da fornire agli utenti dovevano essere inseriti nella pagina inviata come prima risposta HTTP. Nel 1999, il browser Internet Explorer 5 introdusse una estensione del linguaggio Javascript, che disponeva di un oggetto chiamato _XMLHttpRequest_, in grado effettuare richieste HTTP asincrone al server e di ricevere risposte senza dover ricaricare l'intera pagina. Così si gettavano le basi per realizzare _Single Page Applications_.
-
-Riveste una particolare importanza la libreria jQuery, rilasciata nel 2006, che semplifica la manipolazione del DOM e le richieste HTTP, fornendo un'interfaccia più semplice e omogenea rispetto ai diversi browser, che esponevano API diverse e non ancora standardizzate.
 
 <!-- esempio di jquery -->
+
+[^runtime]: Il momento in cui la pagina è resa attiva da Javascript.
 
 ## Node.js e Javascript lato server
 
@@ -117,8 +120,6 @@ server.listen(80, () => { console.log("Server in ascolto sulla porta 8080"); });
 
 > In questo esempio le query SQL sono parametrizzate, facendo uso di *Prepared statements*, per evitare attacchi di tipo injection, ma rimangono cablate all'interno di stringhe, rendendo il codice vulnerabile a errori di sintassi e di tipo.
 
-> Nonostante, per brevità, venga inviato l'HTML in maniera diretta, è stato fin da subito possibile utilizzare le capacità di lettura asincona di files di Node per servire pagine statiche.
-
 [^prestazioniv8]: [Google Chrome announcement](https://youtu.be/LRmrMiOWdfc?si=gaHRFdA8QcYZ0NYq&t=2676) , in questo video si può vedere come l'esecuzione di Javascript su Chrome sia di circa 60 volte più veloce che su Internet Explorer 8.
 [^headless]: Cioè senza interfaccia grafica.
 
@@ -132,7 +133,7 @@ Le applicazioni renderizzate lato cliente potevano beneficiare di una maggiore r
 
 Il vantaggio da parte degli sviluppatori di questo paradigma era la possibilità di scrivere la logica di presentazione interamente in Javascript, sfruttando il sistema di oggetti e la modularità del linguaggio in maniera più espressiva rispetto al templating o alle API DOM. Scrivere applicazioni con jQuery, ad esempio, portava ad assumere uno stile troppo imperativo e poco manutenibile per applicazioni complesse o che dovevano essere sviluppate da più persone.
 
-L'idea centrale della tendenza _CSR_ era quella di progettare l'interfaccia utente partendo da parti più piccole, chiamate **componenti**, e riutilizzabili all'interno dell'intera applicazione. Lo stile assunto era _dichiarativo_[^dichiarativo] Ad ogni componente erano associati:
+L'idea centrale delle nuove tendenze _CSR_ era quella di progettare l'interfaccia utente partendo da parti più piccole, chiamate **componenti**, e riutilizzabili all'interno dell'intera applicazione. Lo stile assunto era _dichiarativo_[^dichiarativo] Ad ogni componente erano associati:
 
 - un template HTML, più piccolo e gestibile rispetto ad una pagina intera.
 - un foglio CSS, per la stilizzazione.
@@ -182,7 +183,7 @@ Partito come progetto personale di Evan You e rilasciato nel 2014, Vue si propon
 </html>
 ```
 
-> Il DOM minimo che viene distribuito da una applicazione Vue 3 servita con lo strumento _Vite_. La pagina viene assemblata lato client, a partire dal così detto _entry point_: l'elemento con id "app" in cui viene montata l'applicazione. Si noti che nel caso che Javascript non sia abilitato nel client il contenuto dell'applicazione non verrà visualizzato affatto.
+> Il DOM minimo che viene distribuito da una applicazione Vue 3. La pagina viene assemblata lato client, a partire dal così detto _entry point_: l'elemento con id "app" in cui viene montata l'applicazione. Si noti che nel caso che Javascript non sia abilitato nel client il contenuto dell'applicazione non verrà visualizzato affatto.
 
 [^dichiarativo]: In questo contesto, uno stile dichiarativo è riferito ad un approccio alla programmazione in cui si descrive cosa il programma deve fare piuttosto che come farlo. Con jQuery si dovevano specificare esplicitamente i passaggi per manipolare il DOM, mentre i componenti permettono di definire il comportamento dell'interfaccia attraverso delle dichiarazioni più astratte e concise.
 [^react]: [Github - React](https://github.com/facebook/react) - la più popolare in base numero di stelle su Github.
