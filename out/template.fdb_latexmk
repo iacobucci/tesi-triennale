@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1729331072.90896 "/home/valerio/unibo/3-tesi/template.tex" "out/template.pdf" "template" 1729331073.13467 0
-  "/home/valerio/unibo/3-tesi/template.tex" 1729331072.76579 1769 78f5c419bcf7e9b792411a17e87e682f ""
+["pdflatex"] 1729425603.96183 "/home/valerio/unibo/3-tesi/template.tex" "out/template.pdf" "template" 1729425604.20443 0
+  "/home/valerio/unibo/3-tesi/template.tex" 1729425603.55314 1793 457e0f5400f6e6a3376448ceef907f88 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1727349926 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1727349926 1324 c910af8c371558dc20f2d7822f66fe64 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmcsc10.tfm" 1727349926 1300 63a6111ee6274895728663cf4b4e7e81 ""
@@ -23,6 +23,11 @@
   "/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1727349926 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1727349926 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/share/texmf-dist/tex/generic/atbegshi/atbegshi.sty" 1727349926 24708 5584a51a7101caf7e6bbf1fc27d8f7b1 ""
+  "/usr/share/texmf-dist/tex/generic/babel-italian/italian.ldf" 1727349926 11324 231db2406347b14c88e42443ebaa8d26 ""
+  "/usr/share/texmf-dist/tex/generic/babel/babel.sty" 1727349926 146276 10a40dabec03ce18494af0c3a51bcbdc ""
+  "/usr/share/texmf-dist/tex/generic/babel/locale/it/babel-it.ini" 1727349926 4255 d2c36ede3f04f7968d64917327cbb37a ""
+  "/usr/share/texmf-dist/tex/generic/babel/locale/it/babel-italian.tex" 1727349926 336 03ec4eb0d03eb340ff7cfbc6acac5ec5 ""
+  "/usr/share/texmf-dist/tex/generic/babel/txtbabel.def" 1727349926 6948 df63e25be1d2bc35bbad5a0141f41348 ""
   "/usr/share/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty" 1727349926 40635 c40361e206be584d448876bba8a64a3b ""
   "/usr/share/texmf-dist/tex/generic/bitset/bitset.sty" 1727349926 33961 6b5c75130e435b2bfdb9f480a09a39f9 ""
   "/usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty" 1727349926 8371 9d55b8bd010bc717624922fb3477d92e ""
@@ -73,9 +78,9 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1727349926 41588 b43d3e860a4f94167ee1e725ff526a72 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1727540105.01658 325246 7217e157e5466427c18ad35e6ae60d51 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1727794322 7114510 9e91dca167c0a1ce6d0dabdee04b2ef0 ""
-  "out/template.aux" 1729331073.11246 162 59504cb8f8bee0a3f0488d753cb23a1e "pdflatex"
-  "out/template.out" 1729331073.09913 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "out/template.toc" 1729331073.11246 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "out/template.aux" 1729425604.17982 264 8fcc49d2b054ad937b37309d9d47f92a "pdflatex"
+  "out/template.out" 1729425604.16648 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "out/template.toc" 1729425604.17982 60 76552d2813cbb20499cd64ebe40656b6 "pdflatex"
   (generated)
   "out/template.aux"
   "out/template.log"

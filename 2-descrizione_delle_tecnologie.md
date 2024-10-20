@@ -3,9 +3,15 @@
 ## Nuxt
 [Cumulative shift layout](#cumulative-shift-layout)
 
-\begin{center}
-\includegraphics{./bitmap.pdf}
-\end{center}
+### Cane
+### Casa
+
+#### Casa
+
+La casa è un luogo di riposo e di lavoro.
+
+#### Cane
+Il cane è un animale domestico.
 
 ## Typeorm
 

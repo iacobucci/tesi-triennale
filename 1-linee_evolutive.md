@@ -136,9 +136,9 @@ Tuttavia le tendenze di quel periodo (circa 2010) si discostarono dal modo tradi
 
 Le applicazioni renderizzate lato cliente potevano beneficiare di una maggiore *reattività* e di una migliore esperienza utente, essendo basate su una pagina unica che veniva aggiornata in maniera incrementale, aggirando i caricamenti di nuove pagine da richiedere al server. Le richieste, essendo asincrone, potevano essere gestite in modo meno invasivo rispetto a prima: mentre la comunicazione client-server avveniva in background, l'utente poteva continuare ad interagire con l'applicazione.
 
-Il vantaggio da parte degli sviluppatori di questo paradigma era la possibilità di scrivere la logica di presentazione interamente in Javascript, sfruttando il sistema di oggetti e la modularità del linguaggio in maniera più espressiva rispetto al templating o alle API DOM. 
+Il vantaggio di questo paradigma da parte degli sviluppatori era la possibilità di scrivere la logica di presentazione interamente in Javascript, sfruttando il sistema di oggetti e la modularità del linguaggio in maniera più espressiva rispetto al templating o alle API DOM. 
 
-L'idea centrale delle nuove tendenze _CSR_ era quella di progettare l'interfaccia utente partendo da parti più piccole, chiamate **componenti**, e riutilizzabili all'interno dell'intera applicazione. Lo stile assunto era _dichiarativo_[^dichiarativo] Ad ogni componente erano associati:
+L'idea centrale delle nuove tendenze _CSR_ era quella di progettare l'interfaccia utente partendo da parti più piccole, chiamate **componenti**, e riutilizzabili all'interno dell'intera applicazione. Lo stile assunto era _dichiarativo_[^dichiarativo]. Ad ogni componente sono associati:
 
 - un template HTML, più piccolo e gestibile rispetto ad una pagina intera.
 - un foglio CSS, per la stilizzazione.
@@ -170,11 +170,11 @@ Partito come progetto personale di Evan You e rilasciato nel 2014, Vue si propon
 </template>
 
 <style scoped>
-	background-color: #f0f0f0;</style
->
+	background-color: #f0f0f0;
+</style>
 ```
 
-> Un esempio moderno di applicazione Vue 3, che mostra l'utilizzo di un componente "HelloWorld" all'interno di un template principale, e di un RouterView per la navigazione tra le pagine. Questi componenti sono definiti in file distinti, per favorire la separazione delle preoccupazioni, ed importati nel file principale come se fossero moduli Javascript. Agli effetti lo sono, ed ogni volta che compaiono in un template assumono un comportamento dettato dalla loro definizione (il loro template) e dal loro _stato_ interno. Si noti come il componente HelloWorld sia parametrizzato con un attributo "msg", che verrà visualizzato all'interno del componente.
+> Un esempio moderno di applicazione Vue 3, che mostra l'utilizzo di un componente "HelloWorld" all'interno di un template principale, e di un RouterView per la navigazione tra le pagine. Questi componenti sono definiti in file distinti, per favorire la separazione delle preoccupazioni, ed importati nel file principale come se fossero moduli Javascript. Ogni volta che compaiono in un template assumono un comportamento dettato dalla loro definizione (il loro template) e dal loro _stato_ di istanza. Si noti come il componente HelloWorld sia parametrizzato con un attributo "msg", che ne consente un utilizzo più flessibile.
 
 ```html
 <html lang="en">
@@ -195,18 +195,16 @@ Partito come progetto personale di Evan You e rilasciato nel 2014, Vue si propon
 
 ## Typescript e ORM
 
-Le basi di codice Javascript, che fino a quel momento erano rimaste in dimensioni ridotte, iniziarono a diventare sempre più complesse quando anche team di sviluppatori di grandi compagnie iniziarono ad adottare i framework a componenti. A partire dal 2014 anche applicazioni web come Instagram, Netflix e Airbnb incorporarono React nei loro stack tecnologici per realizzare interamente l'interfaccia utente.
+Le basi di codice Javascript iniziarono a diventare sempre più complesse quando anche i team di sviluppatori di grandi compagnie iniziarono ad adottare i framework a componenti. A partire dal 2014 anche applicazioni web come Instagram, Netflix e Airbnb incorporarono React nei loro stack tecnologici per realizzare interamente l'interfaccia utente.
 
-Javascript, essendo un linguaggio interpretato e debolmente tipizzato, non era in grado di garantire la correttezza del codice e i test di unità erano fatti in modo _Behavior driven_, cioè basati sul comportamento dell'applicazione e non sulla tipizzazione dei dati. Questo spesse volte portava ad errori, difficili da individuare e correggere, soprattutto in applicazioni di grandi dimensioni.
+Javascript, essendo un linguaggio interpretato e debolmente tipizzato, non era in grado di garantire la correttezza del codice e i test di unità erano fatti in modo _behavior driven_, cioè basati sul comportamento dell'applicazione e non sulla tipizzazione dei dati. Questo spesse volte portava ad errori, difficili da individuare e correggere, soprattutto in applicazioni di grandi dimensioni.
 
-Nel 2012 Anders Hejlsberg ed il suo team interno a Microsoft iniziarono a lavorare al linguaggio Typescript, una estensione di Javascript, realizzando un **compilatore** con un sistema di tipi robusto in grado di rilevare errori di questa specie. Typescript permette anche di sfruttare le funzionalità delle nuove versioni di ECMAScript in modo _retrocompatibile_, cioè facendo _transpiling_[^transpiling] verso una specifica di ECMA inferiore, per usarle anche sui browser deprecati.
+Nel 2012 Anders Hejlsberg ed il suo team interno a Microsoft iniziarono a lavorare al linguaggio Typescript, una estensione di Javascript, realizzando un **compilatore** in grado di rilevare errori di tipo in con analisi statica. Typescript permette anche di sfruttare le funzionalità delle nuove versioni di ECMAScript in modo _retrocompatibile_, cioè facendo _transpiling_[^transpiling] verso una specifica di ECMA inferiore, per usarle anche sui browser deprecati.
 
-L'adozione di Typescript è stata pressoché immediata, per il motivo che la conversione di basi di codice a partire da Javascript vanilla[^vanilla] erano a costo zero: ogni sorgente Javascript è valido Typescript. Typescript ha avuto successo non solo lato client, ma anche lato server. Sono comparse infatti alcune librerie di supporto all'accesso a database che basate sul pattern **ORM**, Object-relational mapping, quindi capaci di mappare il modello dei dati presente nel database a strutture dati proprie di Typescript. Librerie notevoli di questo tipo sono:
+L'adozione di Typescript è stata pressoché immediata, per il motivo che la conversione di basi di codice a partire da Javascript vanilla[^vanilla] era a costo zero: ogni sorgente Javascript è valido Typescript. Typescript ha avuto successo non solo lato client, ma anche lato server. Sono comparse infatti alcune librerie di supporto all'accesso a database basate sul pattern **ORM**, *Object-relational mapping*, quindi capaci di mappare il modello dei dati presente nel database a strutture dati proprie di Typescript. Librerie notevoli di questo tipo sono:
 
 ##### Sequelize
 È stata una delle prime, il progetto è iniziato nel 2010 quindi funzionava con Javascript vanilla, ma si è evoluta fino a supportare le migliorie di Typescript ed una moltitudine di DBMS.
-
-##### Prisma
 
 ##### TypeORM
 Offre un supporto a Typescript nativamente. È illustrata con dettaglio nel [capitolo 2](#descrizione-delle-tecnologie).
@@ -219,7 +217,7 @@ Offre un supporto a Typescript nativamente. È illustrata con dettaglio nel [cap
 Dal lancio di React sempre più applicazioni web hanno fatto uso della tecnica CSR per via della migliorata esperienza utente e di sviluppo. Questo approccio ha portato però una serie di nuovi problemi e limitazioni legate al meccanismo di rendering.
 
 ##### Performance su dispositivi lenti
-I dispositivi con capacità di calcolo inferiore possono subire rallentamenti all'esecuzione di *bundle* Javascript di dimensione elevata, ed uno dei problemi delle applicazioni CSR è quello della spedizione di script spesso ridondanti all'utente. C'è uno spreco di risorse.
+I *bundle* Javascript che vengono generati per le applicazioni CSR sono spesso onerosi in termini di risorse, e la loro esecuzione su dispositivi con capacità di calcolo limitate può risultare lenta e insoddisfacente per l'utente.
 
 ##### Search engine optimization
 I siti web che fanno uso di CSR sono più difficilmente indicizzabili dai *crawler* dei motori di ricerca, questo può portare a problemi di esposizione e di traffico ridotti.
@@ -228,14 +226,15 @@ I siti web che fanno uso di CSR sono più difficilmente indicizzabili dai *crawl
 È il tempo che intercorre tra la cattura della risposta HTTP del server e il momento in cui viene visualizzato a schermo dal browser il primo elemento di contenuto significativo per l'utente. Nelle applicazioni CSR questa durata spesso eccede quella massima suggerita da Google[^corewebvitals].
 
 ##### Cumulative shift layout
-Per il motivo che gli aggiornamenti dell'interfaccia vengono eseguiti nell'engine del browser in maniera sequenziale, potrebbero esserci dei fastidiosi spostamenti di elementi visivi nell'interfaccia.
+Per il motivo che gli aggiornamenti dell'interfaccia vengono vengono resi graficamente nel browser in maniera sequenziale, potrebbero esserci dei fastidiosi spostamenti di elementi visivi nell'interfaccia.
 
 ##### Accessibility
-Per gli stessi motivi che portano a CSL, ci potrebbero essere degli impedimenti di accessibilità per chi usa metodi di input alternativi o per gli screen-reader che aiutano nella fruizione delle pagine web le persone non vedenti.
+Per gli stessi motivi che portano a CSL, ci potrebbero essere degli impedimenti di accessibilità per chi usa metodi di input alternativi o per gli screen-reader che aiutano le persone non vedenti nella fruizione delle pagine web.
 
 $\linebreak$
 
-Attraverso i seguenti capitoli saranno illustrate alcune soluzioni ibride tra Client side rendering e Server side rendering attraverso il framework Nuxt, che mira a risolvere questi ed altri problemi, in combinazione con TypeORM per realizzare applicazioni web *fullstack*[^fullstack].
+Per questi motivi, a partire dal 2016, sono emerse delle nuove tendenze che hanno portato ad un ritorno al server side rendering, in combinazione con i sistemi basati su componenti, per unire i vantaggi di entrambi i modelli.
+Esempi di framework che supportano il SSR sono: Angular Universal, Next.js per React e Nuxt per Vue, che verrà illustrato nel [capitolo 2](#descrizione-delle-tecnologie), per la realizzazione di applicazioni web *fullstack*[^fullstack].
 
 [^corewebvitals]: [Google developers - Core web vitals](https://developers.google.com/search/docs/appearance/core-web-vitals?hl=it) - Al 10 maggio 2023, la durata massima ammissibile per il FCP è di 2.5s.
 [^fullstack]: Si occupano sia di frontend che di backend.

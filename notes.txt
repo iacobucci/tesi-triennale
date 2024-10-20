@@ -61,11 +61,31 @@ linee evolutive
 			first contentful paint
 			cumulative shift layout
 			accessibility
-
+		combinazione ssr e componenti
 descrizione delle tecnologie
 	nuxt
-		bundler
-		altre storie
+		vantaggi
+			automatic routing
+			server side rendering
+			automatic code splitting
+			static file serving
+			es6/7 transpilation
+			modalità di sviluppo
+				hot reloading
+			esempi
+				snippet
+					pagine
+					componenti
+					store
+					routing
+					layouts
+					middleware
+					plugin
+					modulo
+					plugin
+					axios
+					apollo
+					auth
 	typeorm
 		mapping da sql a oggetti
 
@@ -81,4 +101,21 @@ soluzioni di design
 	come e dove parlare del tirocinio
 
 bibliografia
+	a short history of the web cern
+	ecma 262
+	honeypot
+		node
+		react
+		vue
+	offerzen
+		typescript
+	google developer core vitals
+	docs
+		nuxt
+		typeorm
+	fireship
 
+immagini
+	\begin{center}
+		\includegraphics{img.pdf}
+	\end{center}

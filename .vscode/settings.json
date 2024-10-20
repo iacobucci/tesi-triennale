@@ -2,7 +2,7 @@
 	"emeraldwalk.runonsave": {
 		"commands": [
 			{
-				"match": ".*",
+				"match": ".md",
 				"isAsync": true,
 				"cmd": "make"
 			},
