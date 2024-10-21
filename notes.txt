@@ -62,6 +62,7 @@ linee evolutive
 			cumulative shift layout
 			accessibility
 		combinazione ssr e componenti
+
 descrizione delle tecnologie
 	nuxt
 		vantaggi
@@ -88,6 +89,19 @@ descrizione delle tecnologie
 					auth
 	typeorm
 		mapping da sql a oggetti
+		api
+			datasource
+			entity
+			relations
+			query builder
+		cli
+			migrazioni
+				quando un database è gia configurato
+		estensioni
+			nosql
+				mongo
+			caching
+				redis
 
 soluzioni di design
 	integrazione di nuxt e typeorm
@@ -98,7 +112,10 @@ soluzioni di design
 	storia della classe singola da condividere
 	pattern dao
 	possibili sviluppi futuri
-	come e dove parlare del tirocinio
+	come e dove parlare del tirocinio aws
+		questioni serverless
+		cloud computing
+			ecs
 
 bibliografia
 	a short history of the web cern
