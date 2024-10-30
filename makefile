@@ -1,6 +1,5 @@
 PANDOC = pandoc \
-		-f gfm \
-		--from markdown-smart \
+		--from gfm \
 		--mathjax \
 		--listings \
 		--top-level-division=chapter \
