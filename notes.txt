@@ -64,29 +64,49 @@ linee evolutive
 		combinazione ssr e componenti
 
 descrizione delle tecnologie
-	nuxt
-		vantaggi
-			automatic routing
-			server side rendering
-			automatic code splitting
-			static file serving
-			es6/7 transpilation
-			modalità di sviluppo
-				hot reloading
-			esempi
-				snippet
-					pagine
-					componenti
-					store
-					routing
-					layouts
-					middleware
-					plugin
-					modulo
-					plugin
-					axios
-					apollo
-					auth
+	convention over configuration
+		directory structure
+			assets
+			components
+			composables
+			content
+			layouts
+			middleware
+			server
+			public
+		configurazione
+			nuxt.config.ts
+			tsconfig.ts
+			package.json
+			.env
+			.env.example
+		auto 
+			importazione
+			routing
+			code splitting
+
+	modalita di rendering
+		universal rendering
+		static site generation
+		single page application
+		server side rendering
+		incremental static regeneration
+
+	engine nitro
+		fetch
+		tipizzazione delle fetch
+
+	sviluppo
+		hot module replacement
+		vite
+
+	internazionalizzazione
+		plugin i18n
+
+	composables
+		useFetch
+		useState
+
 	typeorm
 		mapping da sql a oggetti
 		api
