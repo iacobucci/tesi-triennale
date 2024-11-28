@@ -64,48 +64,49 @@ linee evolutive
 		combinazione ssr e componenti
 
 descrizione delle tecnologie
-	convention over configuration
-		directory structure
-			assets
-			components
-			composables
-			content
-			layouts
-			middleware
-			server
-			public
-		configurazione
-			nuxt.config.ts
-			tsconfig.ts
-			package.json
-			.env
-			.env.example
-		auto 
-			importazione
-			routing
-			code splitting
+	nuxt
+		convention over configuration
+			directory structure
+				assets
+				components
+				composables
+				content
+				layouts
+				middleware
+				server
+				public
+			configurazione
+				nuxt.config.ts
+				tsconfig.ts
+				package.json
+				.env
+				.env.example
+			auto 
+				importazione
+				routing
+				code splitting
 
-	modalita di rendering
-		universal rendering
-		static site generation
-		single page application
-		server side rendering
-		incremental static regeneration
+		modalita di rendering
+			universal rendering
+			static site generation
+			single page application
+			server side rendering
+			incremental static regeneration
 
-	engine nitro
-		fetch
-		tipizzazione delle fetch
+		engine nitro
+			fetch
+			tipizzazione delle fetch
 
-	sviluppo
-		hot module replacement
-		vite
+		sviluppo
+			hot module replacement
+			vite
 
-	internazionalizzazione
-		plugin i18n
+		internazionalizzazione
+			plugin i18n
 
-	composables
-		useFetch
-		useState
+		composables
+			useFetch
+			useState
 
 	typeorm
 		mapping da sql a oggetti
@@ -126,8 +127,9 @@ descrizione delle tecnologie
 soluzioni di design
 	integrazione di nuxt e typeorm
 	setup
-		nvm
-		pnpm
+		deno
+		neon
+		edge computing
 	containerizzazione
 	storia della classe singola da condividere
 	pattern dao
