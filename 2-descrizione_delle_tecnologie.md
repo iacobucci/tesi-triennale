@@ -58,4 +58,3 @@ Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di 
 ## Typeorm
 
 
-$\pagebreak$

@@ -247,3 +247,4 @@ Esempi di framework che supportano il SSR sono: Angular Universal, Next.js per R
 
 [^corewebvitals]: [Google developers - Core web vitals](https://developers.google.com/search/docs/appearance/core-web-vitals?hl=it) - Al 10 maggio 2023, la durata massima ammissibile per il FCP è di 2.5s.
 [^fullstack]: Si occupano sia di frontend che di backend.
+
