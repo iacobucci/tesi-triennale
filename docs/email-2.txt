@@ -1,0 +1,19 @@
+Buongiorno prof!
+La vorrei aggionrare sugli avanzamenti del lavoro per la tesi. Nell'ultima call via Teams lei mi aveva dato istruizoni su una tabella dei contenuti, che avevo appuntato:
+
+```
+1) intro
+	linee evolutive
+	~8 pagine
+2) descrizione delle tecnologie
+	typeorm
+		ORM per typescript
+	nuxt
+		framework che usa Vue per componenti
+		server side rendering ed hydration
+3) soluzioni di design
+	includere parte di tirocinio
+		aws e cloudformation
+
+ad ogni capitolo feedback
+```

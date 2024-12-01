@@ -1,2 +1,0 @@
-# Soluzioni di design
-

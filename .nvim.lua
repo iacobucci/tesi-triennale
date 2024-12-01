@@ -10,7 +10,7 @@ local make = function()
 end
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = "*",
+  	pattern = { "*.md", "*.tex" },
 	callback = function(event)
 		make()
 	end,

@@ -4,6 +4,24 @@
 
 Nuxt è un framework per la realizzazione di applicazioni web basato su Vue.js, avviato come progetto Open source da Alexandre Chopin e Pooya Parsa nel 2016, e continua ad essere mantenuto su Github da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/nuxt/nuxt](https://github.com/nuxt/nuxt).
 
+Come risolve i problemi del client side rendering?
+
+### Modalità di rendering
+
+#### Server Side Rendering
+#### Static Site Generation
+#### Uni
+
+### Convenzioni di progetto
+
+Lo slogan di Nuxt è "The Intuitive Vue Framework", e si propone di semplificare la creazione di applicazioni web, fornendo un'infrastruttura preconfigurata e pronta all'uso, che permette di concentrarsi sulla logica dell'applicazione, piuttosto che sulla configurazione del progetto.
+
+### Server Nitro
+
+### Modalità di sviluppo
+
+### Modello di sviluppo
+
 Nel particolare la repository è strutturata secondo il modello di *monorepo*, quindi include pacchetti funzionanti in maniera disaccoppiata, ma che sono usati tutti in maniera coesa all'interno del sistema Nuxt.
 
 - `packages/nuxt` è il core del framework.
@@ -23,13 +41,13 @@ I contributi sono proposti su Github e l'iter consigliato varia in base al tipo 
 
 [^github-issue]: Si tratta di un thread aggiunto alla sezione "Issues", che funziona come un forum specifico per ogni progetto, accessibile a tutti gli utenti registrati di Github.
 
-I contributi poi vengono sottoposti a test automatici prima di essere passati ad una revisione da parte del team di sviluppo, in modo da conformare lo stile del codice, della documentazione ed anche del messaggio di commit.
+I contributi poi vengono sottoposti a test automatici prima di essere passati ad una revisione da parte del team di sviluppo, in modo da conformare lo stile del codice, della documentazione ed anche del messaggio di commit. Le etichette fornite nelle *PR* più comunemente sono: `enhancement`, `nice-to-have`, `bug`, `discussion`, `documentation`, `performance` e `refactor`.
 
-Al Novembre 2024, sono stati aperti circa 15'000 issues, sono stati avanzati circa 7'000 commit, accettati da  più di 700 contributori. I progetti Open source su Github che usano Nuxt sono circa 350'000 e questi numeri sono in costante crescita.
+Al Novembre 2024, sono stati aperti circa 15'000 issues, sono stati avanzati circa 7'000 commi da più di 700 contributori. I progetti Open source su Github che usano Nuxt sono circa 350'000 e questi numeri sono in costante crescita.
 
 Oltre a modificare la monorepo, gli sviluppatori Open source sono invitati a creare **moduli** per estendere le Nuxt con funzionalità non essenziali, ma idonee per l'interoperabilità con altri software. Questi moduli possono essere pubblicati su Npm come pacchetti, con `@nuxt/kit` come dipendenza, ed al Dicembre 2024 se ne contano più di 200[^moduli-nuxt].
 
-
+Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di usare Nuxt in combinazione con Typeorm.
 
 
 [^moduli-nuxt]: [Moduli supportati ufficialmente da Nuxt](https://nuxt.com/modules)

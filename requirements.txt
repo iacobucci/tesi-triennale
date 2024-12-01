@@ -1,2 +1,4 @@
 pygments
 pandoc-minted
+panflute
+pillow

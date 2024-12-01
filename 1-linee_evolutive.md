@@ -1,18 +1,24 @@
 # Linee evolutive
 
+Il Web è la piattaforma software più estensiva al mondo, e la sua evoluzione è stata guidata da una serie di innovazioni tecnologiche che hanno permesso di realizzare applicazioni sempre più complesse e performanti. Questo capitolo ripercorre brevemente le linee evolutive del web, partendo dalle pagine statiche fino ad arrivare alle applicazioni web moderne.
+
 ## Pagine statiche
 
-Il primo modello del World Wide Web era inteso a facilitare la condivisione di documenti tra scienziati e ricercatori, permettendo ai lettori di navigare nei siti attraverso collegamenti non lineari tra pagine. Il WWW consisteva in una combinazione di applicazioni, di protocolli e di linguaggi di marcatura progettati e rilasciati presso il CERN, principalmente ad opera di Tim Berners Lee, a ridosso degli anni '90:
+Il primo modello del World Wide Web era orientato a facilitare la condivisione di documenti, permettendo ai lettori di esplorarli attraverso collegamenti tra le pagine. Il WWW consisteva in una combinazione di applicazioni, di protocolli e di linguaggi di marcatura progettati e rilasciati presso il CERN, principalmente ad opera di Tim Berners Lee e Robert Calliau, a ridosso degli anni '90:
 
-**Browser e Server:** Con un browser web installato nel proprio sistema informatico, un utente può visualizzare pagine web e scegliere di seguire i collegamenti ipertestuali (hyperlinks) per accedere ad altre pagine. Il server web è responsabile di fornire le pagine web richieste dai client, come i browser.
+**Browser e Server:** Con un browser web installato nel proprio sistema informatico, un utente può visualizzare pagine web e scegliere di seguire i collegamenti ipertestuali per accedere ad altre pagine. Il server web è responsabile di fornire le pagine web richieste dai client, come i browser.
 
 **Protocollo HTTP:** È il protocollo di comunicazione di livello applicativo (OSI 7) che permette la trasmissione di informazioni tra client e server web. Un browser contatta un server web inviando una richiesta HTTP ad un determinato URL e il server risponde con una risposta HTTP contenente i dati richiesti. HTTP è un protocollo stateless, non mantiene informazioni sullo stato della comunicazione. Sta all'applicazione gestire eventuali sessioni o autenticazioni.
 
-**Linguaggio HTML:** (HyperText Markup Language) è un linguaggio di marcatura utilizzato per la realizzazione di pagine web. HTML definisce la struttura e il contenuto di una pagina web attraverso l'uso di tag e attributi e consente di incorporare elementi multimediali. Il browser web interpreta il codice HTML e mostra la pagina web all'utente, con una resa grafica determinata da regole contenute in fogli di stile (CSS).
+**Linguaggio HTML:** (HyperText Markup Language) è un linguaggio di marcatura utilizzato per la realizzazione di pagine web. HTML definisce la struttura e il contenuto di una pagina web attraverso l'uso di tag e attributi e consente di incorporare elementi multimediali. Il browser web interpreta il codice HTML e mostra la pagina web all'utente, con una resa grafica determinata da alcune regole.
+
+Nel 1993, il primo browser web grafico, Mosaic, sviluppato da Marc Andreessen e Eric Bina, introdusse il supporto per le immagini e per i collegamenti ipertestuali, e successivamente Netscape Navigator 1.0 introdusse il supporto per CSS, il linguaggio che definisce le regole di presentazione di una pagina. Queste innovazioni contribuirono a rendere il web più accessibile e visivamente attraente.
 
 ## Pagine dinamiche
 
-I primi browser web erano in grado di visualizzare solo pagine statiche, il che significa che il contenuto di una determinata pagina non cambiava in base all'interazione dell'utente, ed i primi server web erano in grado di fornire solo pagine statiche, cioè pagine il cui contenuto non cambiava in maniera automatizzata (era possibile modificare i documenti con HTTP POST).
+I primi browser web erano in grado di visualizzare solo pagine statiche, il che significa che il contenuto di una determinata pagina non cambiava in base all'interazione dell'utente[^css], ed i primi server web erano in grado di fornire solo pagine statiche, cioè pagine il cui contenuto non cambiava in maniera automatizzata.
+
+[^css]: Le uniche interazioni che avevano effetto immediato nella pagina erano quelle di CSS, come il cambio di colore di un link al passaggio del mouse.
 
 Tramite hyperlinks e successivamente tramite form (cioè dei moduli compilabili con opzioni, introdotte nel 1993) i browser potevano effettuare richieste al server inviando parametri tramite il protocollo HTTP. Il server poteva elaborare tali richieste e restituire una _nuova pagina HTML_ in base ai parametri ricevuti. Questo processo era gestito da programmi detti **CGI** (Common Gateway Interface), da eseguire sul server per generare pagine dinamicamente, cioè al momento della richiesta.
 
@@ -26,7 +32,7 @@ I linguaggi di programmazione utilizzati all'epoca per scrivere programmi CGI er
 
 ##### Linguaggi di templating
 
-Successivamente, dal 1995 in poi, emersero alcuni Linguaggi di templating che consentono di incorporare codice dinamico all'interno di pagine HTML.
+Successivamente, dal 1995 in poi, emersero alcuni Linguaggi di templating che consentono di incorporare codice dinamico all'interno di pagine HTML dal lato server.
 
 - Java Server Pages (JSP) è un'estensione di Java, quindi era possibile usare tutte le librerie di questo linguaggio molto popolare all'epoca.
 
@@ -62,7 +68,9 @@ if (mysql_num_rows($result) > 0){
 
 ## Pagine attive con Javascript
 
-Il dinamismo delle pagine web supportato da server CGI e linguaggi di scripting era comunque limitato per via del caricamento di nuove pagine ad ogni richiesta. Non era possibile aggiornare parzialmente la pagina, ma solo scaricarne una nuova. Nel 1995 il browser Netscape Navigator introdusse il supporto ad un nuovo linguaggio di scripting, Javascript, realizzato da Brendan Eich, per ovviare a questo problema.
+Il dinamismo delle pagine web supportato da server CGI e linguaggi di scripting era comunque limitato per via del caricamento di nuove pagine ad ogni richiesta. Non era possibile aggiornare parzialmente la pagina, ma solo scaricarne una nuova. Nel 1995 il Netscape Navigator 2.0 introdusse il supporto ad un nuovo linguaggio di scripting, che successivamente venne chiamato Javascript, realizzato da Brendan Eich, per ovviare a questo problema.
+
+![Screenshot di Netscape Navigator 2.0](./res/netscape_navigator.png){ height=6cm }
 
 **Gestione di eventi e manipolazione del DOM:** Uno script Javascript, distribuito all'interno di una pagina HTML, può essere eseguito dal browser web in risposta a determinati eventi dell'utente. Inizialmente il motore di esecuzione era sincrono, cioè bloccava l'esecuzione del codice fino al completamento dell'operazione, e le possibilità di javascript si limitavano alla manipolazione a *runtime*[^runtime] del DOM (Document Object Model), quindi ad aggiungere, rimuovere o modificare elementi HTML.
 
@@ -153,7 +161,7 @@ Uno dei primi framework a proporre un modello di componenti, sviluppato in Googl
 
 ##### React.js
 
-La libreria di componenti più popolare[^react] sviluppata da un team interno di Facebook e rilasciata nel 2013. React introduceva il concetto di _Virtual DOM_, una rappresentazione in memoria del DOM reale, che permetteva di calcolare in maniera efficiente le differenze tra due stati del DOM e di applicare solo le modifiche necessarie.
+La libreria di componenti più diffusa[^react] sviluppata da un team interno di Facebook e rilasciata nel 2013. React introduceva il concetto di _Virtual DOM_, una rappresentazione in memoria del DOM reale, che permetteva di calcolare in maniera efficiente le differenze tra due stati del DOM e di applicare solo le modifiche necessarie.
 
 ##### Vue.js
 
@@ -189,7 +197,7 @@ Partito come progetto personale di Evan You e rilasciato nel 2014, Vue si propon
 </html>
 ```
 
-> Il DOM minimo che viene distribuito da una applicazione Vue 3. La pagina viene assemblata lato client, a partire dal così detto _entry point_: l'elemento con id "app" in cui viene montata l'applicazione. Si noti che nel caso che Javascript non sia abilitato nel client il contenuto dell'applicazione non verrà visualizzato affatto.
+> Il DOM minimo che viene distribuito da una applicazione Vue 3. La pagina viene assemblata lato client, a partire dal così detto _entry point_: l'elemento con id "app", in cui viene montata l'applicazione. Si noti che nel caso che Javascript non sia abilitato nel client il contenuto dell'applicazione non verrà visualizzato affatto.
 
 [^dichiarativo]: In questo contesto, uno stile dichiarativo è riferito ad un approccio alla programmazione in cui si descrive cosa il programma deve fare piuttosto che come farlo. Con jQuery si dovevano specificare esplicitamente i passaggi per manipolare il DOM, mentre i componenti permettono di definire il comportamento dell'interfaccia attraverso delle dichiarazioni più astratte e concise.
 [^react]: [Github - React](https://github.com/facebook/react) - la più popolare in base numero di stelle su Github.
@@ -232,7 +240,7 @@ Per il motivo che gli aggiornamenti dell'interfaccia vengono vengono resi grafic
 ##### Accessibility
 Per gli stessi motivi che portano a CSL, ci potrebbero essere degli impedimenti di accessibilità per chi usa metodi di input alternativi o per gli screen-reader che aiutano le persone non vedenti nella fruizione delle pagine web.
 
-$\linebreak$
+------
 
 Per questi motivi, a partire dal 2016, sono emerse delle nuove tendenze che hanno portato ad un ritorno al server side rendering, in combinazione con i sistemi basati su componenti, per unire i vantaggi di entrambi i modelli.
 Esempi di framework che supportano il SSR sono: Angular Universal, Next.js per React e Nuxt per Vue, che verrà illustrato nel [capitolo 2](#descrizione-delle-tecnologie), per la realizzazione di applicazioni web *fullstack*[^fullstack].
