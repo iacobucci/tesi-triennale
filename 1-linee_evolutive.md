@@ -37,7 +37,8 @@ Successivamente, dal 1995 in poi, emersero alcuni Linguaggi di templating che co
 $username = $_POST["username"];
 $password = $_POST["password"];
 
-$query = sprintf( "SELECT * FROM Users WHERE username='%s' AND password='%s'", $username, $password);
+$query = sprintf( "SELECT * FROM Users WHERE username='%s' AND password='%s'",
+	$username, $password);
 $result = mysql_query($query, $conn);
 
 if (mysql_num_rows($result) > 0){
@@ -54,7 +55,7 @@ if (mysql_num_rows($result) > 0){
 ?>
 ```
 
-> Un esempio di pagina di autenticazione in PHP, che riflette lo stile di programmazione tipico dell'epoca[^mysqlphp]. È da notare come il codice HTML da inviare al browser sia inserito direttamente all'interno del codice da mantenere privato, rendendone difficile la manutenzione per via della _confusione tra logica di presentazione e logica di business_. Vengono poi adoperati 3 linguaggi diversi (PHP, HTML, SQL), soluzione non ottimale per la leggibilità, che si aggiunge ai problemi di sicurezza legati all'*interpolazione* di stringhe all'interno di query SQL.
+> Un esempio di pagina di autenticazione in PHP, che riflette lo stile di programmazione tipico dell'epoca[^mysqlphp]. È da notare come il codice HTML da inviare al browser sia inserito direttamente all'interno del codice da mantenere privato nel lato server, rendendone difficile la manutenzione per via della _confusione tra logica di presentazione e logica di business_. Vengono poi adoperati 3 linguaggi diversi (PHP, HTML, SQL), soluzione non ottimale per la leggibilità, che si aggiunge ai problemi di sicurezza legati all'*interpolazione* di stringhe all'interno di query SQL.
 
 [^tiobe]: [Indice TIOBE per PHP](https://www.tiobe.com/tiobe-index/php/), si può vedere come il suo utilizzo sia diminuito a partire dal 2010.
 [^mysqlphp]: La libreria mysql di Micheal Widenius per PHP 2 risale al 1996.
@@ -86,7 +87,7 @@ $('#update').click(function() {
 
 > Nel frammento di codice jQuery, è messo in evidenza uno stile *imperativo* di definizione del comportamento dell'interfaccia, poco manutenibile per applicazioni complesse.
 
-[^runtime]: Il momento in cui la pagina è resa attiva da Javascript.
+[^runtime]: Il momento in cui la pagina è resa attiva con Javascript.
 
 ## Node.js e Javascript lato server
 
@@ -238,5 +239,3 @@ Esempi di framework che supportano il SSR sono: Angular Universal, Next.js per R
 
 [^corewebvitals]: [Google developers - Core web vitals](https://developers.google.com/search/docs/appearance/core-web-vitals?hl=it) - Al 10 maggio 2023, la durata massima ammissibile per il FCP è di 2.5s.
 [^fullstack]: Si occupano sia di frontend che di backend.
-
-

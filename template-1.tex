@@ -1,0 +1,95 @@
+% \documentclass{article}
+\documentclass[11pt,a4paper]{report}
+\textwidth=450pt
+\oddsidemargin=0pt
+
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[outputdir=out]{minted}
+
+\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
+
+\setminted{
+    fontsize=\small,
+    % frame=lines,
+    % framesep=2mm,
+    bgcolor=gray!4,
+    linenos,
+    numbersep=5pt,
+    breaklines=true,
+    tabsize=4,
+    autogobble,
+    showspaces=false,
+}
+
+\def\code#1{\texttt{#1}}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=darkgreen,
+    filecolor=magenta,
+    urlcolor=blue,
+}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\setcounter{tocdepth}{3}
+
+\begin{document}
+
+% Title page
+\begin{titlepage}
+	\begin{center}
+	{{\Large{\textsc{Alma Mater Studiorum - Universit\`a di
+	Bologna}}}} \rule[0.1cm]{15.8cm}{0.1mm}
+	\rule[0.5cm]{15.8cm}{0.6mm}
+	{\small{\bf SCUOLA DI INGEGNERIA E ARCHITETTURA}\\
+	DIPARTIMENTO DI INFORMATICA - SCIENZA E INGEGNERIA\\
+	Corso di Laurea in Ingegneria Informatica}
+	\end{center}
+	\vspace{15mm}
+	\begin{center}
+	{\large{\bf TESI DI LAUREA}}\\
+	\vspace{2mm}
+	{\large{in}}\\
+	\vspace{2mm}
+	{\large{TECNOLOGIE WEB T}}\\
+	\end{center}
+	\vspace{15mm}
+	\begin{center}
+	{\LARGE{\bf Sviluppo di applicazioni web}}\\
+	\vspace{3mm}
+	{\LARGE{\bf con Nuxt e TypeORM}}\\
+	\end{center}
+	\vspace{40mm}
+	\par
+	\noindent
+	\begin{minipage}[t]{0.47\textwidth}
+	{\large{\bf Candidato:\\
+	Valerio Iacobucci}}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.47\textwidth}\raggedleft
+	{\large{\bf Relatore:\\
+	Chiar.mo Prof. Ing.\\
+	Paolo Bellavista}}
+	\end{minipage}
+	\vspace{20mm}
+	\begin{center}
+	{\large{\bf Sessione\\
+	Anno Accademico 2023/2024 }}
+	\end{center}
+\end{titlepage}
+
+\shipout\null
+
+\begingroup
+	\hypersetup{linkcolor=black}
+	\tableofcontents
+\endgroup
+
+\newpage

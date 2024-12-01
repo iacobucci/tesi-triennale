@@ -126,10 +126,14 @@ descrizione delle tecnologie
 
 soluzioni di design
 	integrazione di nuxt e typeorm
+		devdependencies per lo sviluppo di un modulo di interop
 	setup
 		deno
 		neon
-		edge computing
+	edge computing
+		aws
+		neon
+		nuxt
 	containerizzazione
 	storia della classe singola da condividere
 	pattern dao

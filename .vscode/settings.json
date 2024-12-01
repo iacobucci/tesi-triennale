@@ -1,11 +1,9 @@
 {
-	"emeraldwalk.runonsave": {
-		"commands": [
-			{
-				"match": ".md",
-				"isAsync": true,
-				"cmd": "make"
-			},
+	"triggerTaskOnSave.tasks": {
+		"make": [
+			"*.md",
+			"*.tex"
 		]
-	}
+	},
+	"latex-workshop.latex.autoBuild.run": "never"
 }
