@@ -1,5 +1,14 @@
+vars: {
+  d2-config: {
+    theme-id: 1
+    layout-engine: elk
+  }
+}
+
 shape: sequence_diagram
 
-alice -> bob: What does it mean\nto be well-adjusted?
+browser -> server: richiesta GET
 
-bob -> alice: The ability to play bridge or\ngolf as if they were games.
+server -> browser: risposta HTML (dom minimo)
+server -> browser: risposta JS
+server -> browser: risposta assets
