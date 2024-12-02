@@ -166,7 +166,7 @@ La libreria di componenti più diffusa[^react] sviluppata da un team interno di 
 ##### Vue.js
 
 Partito come progetto personale di Evan You e rilasciato nel 2014, Vue si proponeva come un'alternativa più flessibile e meno verbosa rispetto ad Angular e React, dai quali riprende il binding bidirezionale e il Virtual DOM. È la libreria di componenti usata da Nuxt.
-```html
+```vue
 <script setup>
 	import { RouterView } from "vue-router";
 	import HelloWorld from "./components/HelloWorld.vue";

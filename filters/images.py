@@ -15,9 +15,6 @@ def adjust_image(elem, doc):
 	if isinstance(elem, pf.Image) and elem.attributes:
 		attributes = elem.attributes
 
-		with open ("log.txt", "a") as f:
-			f.write(str(attributes) + "\n")
-
 		if 'height' in attributes:
 			h = float(attributes["height"].split("cm")[0])
 			i = get_image_size(elem.url)
@@ -26,8 +23,6 @@ def adjust_image(elem, doc):
 			attributes['width'] = str(w) + "cm"
 
 def main(doc=None):
-	with open ("log.txt", "a") as f:
-		f.write("images")
 	return pf.run_filter(adjust_image, doc=doc)
 
 if __name__ == "__main__":

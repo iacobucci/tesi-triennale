@@ -2,7 +2,7 @@
 	"triggerTaskOnSave.tasks": {
 		"make": [
 			"*.md",
-			"*.tex"
+			// "*.tex"
 		]
 	},
 	"latex-workshop.latex.autoBuild.run": "never"

@@ -87,11 +87,14 @@ descrizione delle tecnologie
 				code splitting
 
 		modalita di rendering
-			universal rendering
-			static site generation
-			single page application
-			server side rendering
-			incremental static regeneration
+			tipi
+				universal rendering
+				static site generation
+				single page application
+				server side rendering
+				incremental static regeneration
+			far vedere i file inviati e il dom
+			fare dei test
 
 		engine nitro
 			fetch
