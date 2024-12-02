@@ -4,11 +4,21 @@ import panflute as pf
 import subprocess
 import tempfile
 import os
-import PIL.Image
 
 def intercept_codeblock(elem, doc):
 	if isinstance(elem, pf.CodeBlock) and elem.classes[0] == "d2":
-		code_content = elem.text
+		code_content = \
+		"""vars: {
+d2-config: {
+	theme-id: 1
+	layout-engine: elk
+}
+}
+
+""" + elem.text
+
+		with open("log.txt", "w") as f:
+			f.write(code_content)
 
 		with tempfile.NamedTemporaryFile(suffix=".d2", delete=False) as input_file, tempfile.NamedTemporaryFile(suffix=".png", delete=False) as output_file:
 			input_path = input_file.name
@@ -18,7 +28,8 @@ def intercept_codeblock(elem, doc):
 		
 		try:
 			# Eseguire il comando d2
-			subprocess.run(["d2", input_path, output_path], check=True)
+			subprocess.run(["d2", input_path, output_path], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
 			# Restituire un blocco LaTeX che include il file PDF generato
 			return pf.RawBlock("\\begin{center}\\includegraphics[height=" + elem.attributes["height"] +",keepaspectratio]{ " + output_path + "}\\end{center}", format="latex")
 		except subprocess.CalledProcessError as e:

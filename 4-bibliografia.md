@@ -1,5 +1,7 @@
 # Bibliografia
 
+## Testi di riferimento
+
 1. [CERN - A short history of the Web](https://home.cern/science/computing/birth-web/short-history-web) - un articolo che percorre velocemente la storia delle origini di WWW.
 
 1. [ECMA - 262](https://ecma-international.org/publications-and-standards/standards/ecma-262/) - lo standard ufficiale di Javascript.
@@ -22,3 +24,16 @@
 
 1. [Fireship](https://www.youtube.com/@Fireship) - il canale YouTube di Jeff Delaney, omnicomprensivo per lo sviluppo web, sul quale sono pubblicati tutorial, introduzioni a nuove tecnologie e notizie di attualità sul settore informatico.
 
+## Ringraziamenti
+
+Ringrazio i miei genitori, la mia famiglia ed i miei amici per l'incoraggiamento e il supporto che mi hanno dato durante la stesura di questo lavoro.
+
+## Strumenti Open source
+
+- **Markdown**
+- **Latex**
+- **Pandoc** - per la conversione dei file Markdown in PDF.
+- **D2** - per la creazione di diagrammi di sequenza.
+- **Minted** - per la colorazione della sintassi dei codici sorgente.
+- **Panflute** - per la creazione di filtri personalizzati per Pandoc.
+- **Code**

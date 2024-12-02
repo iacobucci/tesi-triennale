@@ -1,8 +1,14 @@
-{}classes: ['d2']
-attributes: {'height': '1cm'}
-classes: ['d2']
-attributes: {'height': '1cm'}
-classes: ['d2']
-attributes: {'height': '1cm'}
-classes: ['d2']
-attributes: {'height': '1cm'}
+vars: {
+d2-config: {
+	theme-id: 1
+	layout-engine: elk
+}
+}
+
+shape: sequence_diagram
+
+browser -> server: richiesta GET
+
+server -> browser: risposta HTML (dom minimo)
+server -> browser: risposta JS
+server -> browser: risposta assets

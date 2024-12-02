@@ -12,12 +12,19 @@ Durante la fase di progettazione, diversi tipi di applicazione suggeriscono dive
 
 In questo contesto con rendering di una pagina web non si intende il processo di disegno dei pixel sullo schermo, di cui generalmente si occuperà il browser web, delegando al sistema operativo la gestione dell'hardware. Qui con rendering si intende il processo di generazione del codice HTML, CSS e Javascript che costituisce la pagina web, e che viene inviato al client per essere visualizzato.
 
+
+#### Client Side Rendering
+
+Nuxt supporta la stessa modalità di rendering discussa nel [capitolo 1](#vue.js), in cui il codice Javascript viene eseguito sul client, cioè nel browser, e la pagina viene generata dinamicamente in base alle richieste dell'utente.
+
 ```d2 {height=8cm}
 shape: sequence_diagram
 
-alice -> bob: What does it mean\nto be well-adjusted?
+browser -> server: richiesta GET
 
-bob -> alice: The ability to play bridge or\ngolf as if they were games.
+server -> browser: risposta HTML (dom minimo)
+server -> browser: risposta JS
+server -> browser: risposta assets
 ```
 
 #### Static Site Generation
