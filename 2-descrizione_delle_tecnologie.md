@@ -17,34 +17,48 @@ In questo contesto con rendering di una pagina web non si intende il processo di
 
 Nuxt supporta la stessa modalità di rendering discussa nel [capitolo 1](#vue.js), in cui il codice Javascript viene eseguito sul client, cioè nel browser, e la pagina viene generata dinamicamente in base alle richieste dell'utente.
 
-```mermaid
+```mermaid {height=6cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
-gitGraph
-    commit id: "git init"
-    commit id: "npm init"
-    branch develop
-    checkout develop
-    commit id: "aggiunta backend"
-    commit
-    commit id: "fix backend"
-    checkout main
-    merge develop id: "backend"
-	checkout develop
-	commit id: "aggiunta frontend"
-	commit
-	commit id: "fix frontend"
-	checkout main
-	merge develop id: "frontend"
+flowchart LR
+    A(Browser) --> B{Richiesta}
+    B --> C[Server]
+    C --> D{SSR/SSG/CSR?}
+    D --> E{Risposta}
+    E --> A
+    subgraph SSR
+        C --> F{Renderiza HTML completo sul server}
+    end
+    subgraph SSG
+        C --> G{Renderiza HTML statico}
+    end
+    subgraph CSR
+        C --> H{Invia JavaScript}
+    end
 ```
 
 ```mermaid {height=4cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
-flowchart TD
-    A[Christmas] -->|Get money| B(Go shopping)
-    B --> C{Let me think}
-    C -->|One| D[Laptop]
-    C -->|Two| E[iPhone]
-    C -->|Three| F[fa:fa-car Car]
+flowchart LR
+    A(Browser) --> B{Richiesta}
+    B --> C[Cache]
+    C -->|Cache Hit?|D{Risposta dalla cache}
+    D --> A
+    C -->|Cache Miss?|E[Server]
+    E --> F{Renderiza HTML}
+    F --> C
+    C --> E
+```  
+
+```mermaid {height=4cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+sequenceDiagram
+    participant Browser
+    participant Server
+    Browser->>Server: Richiesta pagina
+    Server->>Browser: Risposta con HTML
+    Browser->>Browser: Analizza HTML
+    Browser->>Browser: Esegue JavaScript
+    Browser->>Browser: Idrata l'HTML
 ```  
 
 #### Static Site Generation
