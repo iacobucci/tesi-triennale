@@ -19,12 +19,15 @@ Nuxt supporta la stessa modalità di rendering discussa nel [capitolo 1](#vue.js
 
 ```d2 {height=8cm}
 shape: sequence_diagram
+style.fill: white
 
 browser -> server: richiesta GET
 
 server -> browser: risposta HTML (dom minimo)
 server -> browser: risposta JS
 server -> browser: risposta assets
+
+browser: esegue JS
 ```
 
 #### Static Site Generation
