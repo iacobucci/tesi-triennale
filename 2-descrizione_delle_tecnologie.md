@@ -17,7 +17,7 @@ In questo contesto con rendering di una pagina web non si intende il processo di
 
 Nuxt supporta la stessa modalità di rendering discussa nel [capitolo 1](#vue.js), in cui il codice Javascript viene eseguito sul client, cioè nel browser, e la pagina viene generata dinamicamente in base alle richieste dell'utente.
 
-```mermaid {height=10cm}
+```mermaid
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 gitGraph
     commit id: "git init"
@@ -37,7 +37,7 @@ gitGraph
 	merge develop id: "frontend"
 ```
 
-```mermaid
+```mermaid {height=4cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 flowchart TD
     A[Christmas] -->|Get money| B(Go shopping)

@@ -1,4 +1,4 @@
-NAME = tesi-iacobucci_valerio-00009765431
+NAME = tesi
 
 PANDOC = pandoc \
 		--from markdown \
@@ -13,7 +13,7 @@ all:
 	mkdir -p out
 	make tex
 	make pdf
-	# mv out/texput.pdf tesi-iacobucci_valerio-0000976541.pdf
+	mv out/texput.pdf tesi-iacobucci_valerio-0000976541.pdf
 
 tex:
 	ls | grep .md | sort --numeric-sort | xargs cat | $(PANDOC)
