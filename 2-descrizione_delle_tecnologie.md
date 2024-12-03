@@ -17,18 +17,35 @@ In questo contesto con rendering di una pagina web non si intende il processo di
 
 Nuxt supporta la stessa modalità di rendering discussa nel [capitolo 1](#vue.js), in cui il codice Javascript viene eseguito sul client, cioè nel browser, e la pagina viene generata dinamicamente in base alle richieste dell'utente.
 
-```d2 {height=8cm}
-shape: sequence_diagram
-style.fill: white
-
-browser -> server: richiesta GET
-
-server -> browser: risposta HTML (dom minimo)
-server -> browser: risposta JS
-server -> browser: risposta assets
-
-browser: esegue JS
+```mermaid {height=10cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+gitGraph
+    commit id: "git init"
+    commit id: "npm init"
+    branch develop
+    checkout develop
+    commit id: "aggiunta backend"
+    commit
+    commit id: "fix backend"
+    checkout main
+    merge develop id: "backend"
+	checkout develop
+	commit id: "aggiunta frontend"
+	commit
+	commit id: "fix frontend"
+	checkout main
+	merge develop id: "frontend"
 ```
+
+```mermaid
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+flowchart TD
+    A[Christmas] -->|Get money| B(Go shopping)
+    B --> C{Let me think}
+    C -->|One| D[Laptop]
+    C -->|Two| E[iPhone]
+    C -->|Three| F[fa:fa-car Car]
+```  
 
 #### Static Site Generation
 md -> html

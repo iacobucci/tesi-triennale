@@ -3,8 +3,8 @@ NAME = tesi-iacobucci_valerio-00009765431
 PANDOC = pandoc \
 		--from markdown \
 		--mathjax \
-		-F ./filters/d2.py \
-		-F pandoc-minted \
+		-F ./filters/mermaid.py \
+		-F ./filters/minted.py \
 		-F ./filters/images.py \
 		--top-level-division=chapter \
 		-o out/$(NAME).tex

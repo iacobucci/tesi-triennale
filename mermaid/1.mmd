@@ -1,0 +1,17 @@
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+gitGraph
+    commit id: "git init"
+    commit id: "npm init"
+    branch develop
+    checkout develop
+    commit id: "aggiunta backend"
+    commit
+    commit id: "fix backend"
+    checkout main
+    merge develop id: "backend"
+    checkout develop
+    commit id: "aggiunta frontend"
+    commit
+    commit id: "fix frontend"
+    checkout main
+    merge develop id: "frontend"
