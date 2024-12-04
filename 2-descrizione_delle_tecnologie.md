@@ -10,7 +10,7 @@ Durante la fase di progettazione, diversi tipi di applicazione suggeriscono dive
 
 ### Modalità di rendering
 
-In questo contesto con rendering di una pagina web non si intende il processo di disegno dei pixel sullo schermo, di cui generalmente si occuperà il browser web, delegando al sistema operativo la gestione dell'hardware. Qui con rendering si intende il processo di generazione del codice HTML, CSS e Javascript che costituisce la pagina web, e che viene inviato al client per essere visualizzato.
+In questo contesto, con rendering di una pagina web non si intende il processo di disegno dei pixel sullo schermo, del quale generalmente si occuperà il browser web delegando al sistema operativo la gestione dell'hardware. Qui con rendering si intende il processo di generazione del codice HTML, CSS e Javascript che costituisce la pagina web, e che viene inviato al client per essere visualizzato.
 
 
 #### Client Side Rendering
