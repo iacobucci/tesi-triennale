@@ -66,6 +66,10 @@ linee evolutive
 descrizione delle tecnologie
 	nuxt
 		convention over configuration
+			modelli architetturali
+				mvc
+				mvvm
+				mvp
 			directory structure
 				assets
 				components

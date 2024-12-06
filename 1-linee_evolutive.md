@@ -26,7 +26,7 @@ I linguaggi di programmazione utilizzati all'epoca per scrivere programmi CGI er
 
 ##### Linguaggi di basso livello o di scripting
 
-- Linaguaggi di basso livello come C o C++, erano di difficile gestione e manutenzione: sono performanti ma richiedono molte risorse per la progettazione.
+- Linguaggi di basso livello come C o C++, erano di difficile gestione e manutenzione: sono performanti ma richiedono molte risorse per la progettazione.
 
 - Linguaggi di scripting come Perl o Shell UNIX, erano più facili da utilizzare ma meno efficienti: comodi per la manipolazione di stringhe e file, ma non per la gestione di strutture dati complesse.
 

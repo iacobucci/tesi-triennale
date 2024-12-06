@@ -2,13 +2,46 @@
 
 ## Nuxt
 
-Nuxt è un framework per la realizzazione di applicazioni web basato su Vue.js, avviato come progetto Open source da Alexandre Chopin e Pooya Parsa nel 2016, e continua ad essere mantenuto su Github da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/nuxt/nuxt](https://github.com/nuxt/nuxt).
+Nuxt è un framework per la realizzazione di applicazioni web basato su Vue, avviato come progetto Open source da Alexandre Chopin e Pooya Parsa nel 2016, e continua ad essere mantenuto attivamente su Github da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/nuxt/nuxt](https://github.com/nuxt/nuxt).
 
-Nuxt si propone di risolvere i problemi di performance, di ottimizzazione e di accessibilità che sono stati mostrati nel [capitolo 1](#ritorno-al-server-side-rendering) ed anche di fornire un ambiente di sviluppo flessibile, per facilitare la scalabilità e la manutenibilità del codice.
+Nuxt si propone di risolvere i problemi di performance, di ottimizzazione e di accessibilità che sono stati mostrati nel [capitolo 1](#ritorno-al-server-side-rendering) con il suo sistema di frontend, ma anche di fornire un ambiente di sviluppo flessibile, per facilitare la scalabilità e la manutenibilità del codice backend. Si possono infatti realizzare applicazioni fullstack secondo il pattern MVC, in cui la view è implementata con Vue ed il controller con *Nitro*, un server fatto su misura per Nuxt. Si può mostrare più estesamente l'architettura di Nuxt nel seguente modo:
+
+```mermaid
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+flowchart TB
+
+subgraph vue[**View**]
+	direction LR
+	vueview[**View**
+		
+	]
+	vueviewmodel[**ViewModel**
+	Aggiornamento reattivo
+	dell'interfaccia
+	]
+	vuemodel[**Model**
+	Stato dell'applicazione
+	]
+	vueview <-- Data binding --> vueviewmodel
+	vueviewmodel --> vuemodel
+	vuemodel -.-> vueviewmodel
+end
+
+model[**Model**]
+controller[**Controller**]
+
+controller --> model
+controller --> vue
+
+model -.-> vue
+vue --> model
+vue -.-> controller
+	
+```
 
 Durante la fase di progettazione, diversi tipi di applicazione suggeriscono diverse esigenze, e Nuxt si dimostra versatile a partire dalle modalità di rendering che offre.
 
-### Modalità di rendering
+### Modalità di rendering del frontend
 
 In questo contesto, con rendering di una pagina web non si intende il processo di disegno dei pixel sullo schermo, del quale generalmente si occuperà il browser web delegando al sistema operativo la gestione dell'hardware. Qui con rendering si intende il processo di generazione del codice HTML, CSS e Javascript che costituisce la pagina web, e che viene inviato al client per essere visualizzato.
 
