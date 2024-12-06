@@ -2,46 +2,57 @@
 
 ## Nuxt
 
-Nuxt è un framework per la realizzazione di applicazioni web basato su Vue, avviato come progetto Open source da Alexandre Chopin e Pooya Parsa nel 2016, e continua ad essere mantenuto attivamente su Github da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/nuxt/nuxt](https://github.com/nuxt/nuxt).
+Nuxt è un framework per la realizzazione di applicazioni web, avviato come progetto Open source da Alexandre Chopin e Pooya Parsa nel 2016, che continua ad essere mantenuto attivamente su Github da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/nuxt/nuxt](https://github.com/nuxt/nuxt).
 
-Nuxt si propone di risolvere i problemi di performance, di ottimizzazione e di accessibilità che sono stati mostrati nel [capitolo 1](#ritorno-al-server-side-rendering) con il suo sistema di frontend, ma anche di fornire un ambiente di sviluppo flessibile, per facilitare la scalabilità e la manutenibilità del codice backend. Si possono infatti realizzare applicazioni fullstack secondo il pattern MVC, in cui la view è implementata con Vue ed il controller con *Nitro*, un server fatto su misura per Nuxt. Si può mostrare più estesamente l'architettura di Nuxt nel seguente modo:
+Nuxt si propone di risolvere i problemi di performance, di ottimizzazione e di accessibilità che sono stati mostrati nel [capitolo 1](#ritorno-al-server-side-rendering) con il suo sistema di frontend, ma anche di fornire un ambiente di sviluppo flessibile, per facilitare la scalabilità e la manutenibilità del codice backend. Si possono infatti realizzare applicazioni **fullstack** secondo il pattern MVC, in cui la view è implementata con Vue ed il controller con *Nitro*, un server http fatto su misura per Nuxt. Si può mostrare più estesamente l'<span id="architettura">architettura</span> di Nuxt nel seguente modo, considerando il pattern MVVM di Vue. 
 
-```mermaid
+```mermaid {height=6cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 flowchart TB
 
 subgraph vue[**View**]
 	direction LR
 	vueview[**View**
-		
+	Template HTML,
+	Elementi del DOM in fase di runtime
 	]
 	vueviewmodel[**ViewModel**
-	Aggiornamento reattivo
+	Hooks per l'aggiornamento reattivo
 	dell'interfaccia
 	]
 	vuemodel[**Model**
-	Stato dell'applicazione
+	Stato dell'applicazione nella memoria del browser
 	]
 	vueview <-- Data binding --> vueviewmodel
 	vueviewmodel --> vuemodel
 	vuemodel -.-> vueviewmodel
 end
 
-model[**Model**]
-controller[**Controller**]
+model[**Model**
+Dati persistenti]
+controller[**Controller**
+Server Nitro]
 
-controller --> model
-controller --> vue
+controller -- Accesso CRUD --> model
+model -.-> controller
 
-model -.-> vue
-vue --> model
-vue -.-> controller
-	
+vue -- Richiesta utente --> controller
+controller -.-> vue
 ```
 
-Durante la fase di progettazione, diversi tipi di applicazione suggeriscono diverse esigenze, e Nuxt si dimostra versatile a partire dalle modalità di rendering che offre.
+### Convenzioni di progetto
+
+Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo obiettivo di semplificare la creazione di applicazioni web fornendo un'infrastruttura preconfigurata e pronta all'uso. In questo modo Nuxt permette di concentrarsi sulla logica dell'applicazione, piuttosto che sulla configurazione del progetto. In questo è ricalcata la filosofia di David Heinemeier Hansson, l'ideatore del framework Ruby on Rails, che ha coniato il termine "convention over configuration"[^convention-over-configuration].
+
+[^convention-over-configuration]: [Wikipedia - Convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration)
+
+
 
 ### Modalità di rendering del frontend
+
+[architettura](#architettura)
+
+Durante la fase di progettazione, diversi tipi di applicazione suggeriscono diverse esigenze, e Nuxt si dimostra versatile a partire dalle modalità di rendering che offre.
 
 In questo contesto, con rendering di una pagina web non si intende il processo di disegno dei pixel sullo schermo, del quale generalmente si occuperà il browser web delegando al sistema operativo la gestione dell'hardware. Qui con rendering si intende il processo di generazione del codice HTML, CSS e Javascript che costituisce la pagina web, e che viene inviato al client per essere visualizzato.
 
@@ -50,48 +61,17 @@ In questo contesto, con rendering di una pagina web non si intende il processo d
 
 Nuxt supporta la stessa modalità di rendering discussa nel [capitolo 1](#vue.js), in cui il codice Javascript viene eseguito sul client, cioè nel browser, e la pagina viene generata dinamicamente in base alle richieste dell'utente.
 
-```mermaid {height=6cm}
-%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
-flowchart LR
-    A(Browser) --> B{Richiesta}
-    B --> C[Server]
-    C --> D{SSR/SSG/CSR?}
-    D --> E{Risposta}
-    E --> A
-    subgraph SSR
-        C --> F{Renderiza HTML completo sul server}
-    end
-    subgraph SSG
-        C --> G{Renderiza HTML statico}
-    end
-    subgraph CSR
-        C --> H{Invia JavaScript}
-    end
-```
-
-```mermaid {height=4cm}
-%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
-flowchart LR
-    A(Browser) --> B{Richiesta}
-    B --> C[Cache]
-    C -->|Cache Hit?|D{Risposta dalla cache}
-    D --> A
-    C -->|Cache Miss?|E[Server]
-    E --> F{Renderiza HTML}
-    F --> C
-    C --> E
-```  
-
 ```mermaid {height=4cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 sequenceDiagram
     participant Browser
     participant Server
     Browser->>Server: Richiesta pagina
-    Server->>Browser: Risposta con HTML
-    Browser->>Browser: Analizza HTML
-    Browser->>Browser: Esegue JavaScript
-    Browser->>Browser: Idrata l'HTML
+    Server-->>Browser: Risposta con DOM minimo
+    Server-->>Browser: Risposta con Javascript
+    Server-->>Browser: Risposta con assets
+    Browser->>Browser: Visualizzazione dom minimo
+    Browser->>Browser: aggiustamento del dom
 ```  
 
 #### Static Site Generation
@@ -103,17 +83,13 @@ md -> html
 
 islands
 
-### Convenzioni di progetto
-
-Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo obiettivo di semplificare la creazione di applicazioni web fornendo un'infrastruttura preconfigurata e pronta all'uso. In questo modo Nuxt permette di concentrarsi sulla logica dell'applicazione, piuttosto che sulla configurazione del progetto. In questo è ricalcata la filosofia di David Heinemeier Hansson, l'ideatore del framework Ruby on Rails, che ha coniato il termine "convention over configuration"[^convention-over-configuration].
-
-[^convention-over-configuration]: [Wikipedia - Convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration)
-
 ### Server Nitro
 
-### Modalità di sviluppo
+#### Modalità di sviluppo
 
-### Modello di sviluppo
+### Build per la produzione
+
+### Repository e contributi
 
 Nel particolare la repository è strutturata secondo il modello di *monorepo*, quindi include pacchetti funzionanti in maniera disaccoppiata, ma che sono usati tutti in maniera coesa all'interno del sistema Nuxt.
 
