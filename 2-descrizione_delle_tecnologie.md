@@ -4,7 +4,7 @@
 
 Nuxt è un framework per la realizzazione di applicazioni web, avviato come progetto Open source da Alexandre Chopin e Pooya Parsa nel 2016, che continua ad essere mantenuto attivamente su Github da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/nuxt/nuxt](https://github.com/nuxt/nuxt).
 
-Nuxt si propone di risolvere i problemi di performance, di ottimizzazione e di accessibilità che sono stati mostrati nel [capitolo 1](#ritorno-al-server-side-rendering) con il suo sistema di frontend, ma anche di fornire un ambiente di sviluppo flessibile, per facilitare la scalabilità e la manutenibilità del codice backend. Si possono infatti realizzare applicazioni **fullstack** secondo il pattern MVC, in cui la view è implementata con Vue ed il controller con *Nitro*, un server http fatto su misura per Nuxt. Si può mostrare più estesamente l'<span id="architettura">architettura</span> di Nuxt nel seguente modo, considerando il pattern MVVM di Vue. 
+Nuxt si propone di risolvere i problemi di performance, di ottimizzazione e di accessibilità che sono stati mostrati nel [capitolo 1](#ritorno-al-server-side-rendering) con il suo sistema di frontend, ma anche di fornire un ambiente di sviluppo flessibile, per facilitare la scalabilità e la manutenibilità del codice backend. Si possono infatti realizzare applicazioni **fullstack** secondo il pattern MVC, in cui la view è implementata con Vue ed il controller con *Nitro*, un server http fatto su misura per Nuxt. Si può mostrare più estesamente l'<span id="architettura-generale">architettura generale</span> di una applicazione Nuxt nel seguente modo:
 
 ```mermaid {height=6cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
@@ -40,13 +40,24 @@ vue -- Richiesta utente --> controller
 controller -.-> vue
 ```
 
+La frontend Vue che esegue nel browser 
+
+
+in maniera opt-in
+
 ### Convenzioni di progetto
 
-Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo obiettivo di semplificare la creazione di applicazioni web fornendo un'infrastruttura preconfigurata e pronta all'uso. In questo modo Nuxt permette di concentrarsi sulla logica dell'applicazione, piuttosto che sulla configurazione del progetto. In questo è ricalcata la filosofia di David Heinemeier Hansson, l'ideatore del framework Ruby on Rails, che ha coniato il termine "convention over configuration"[^convention-over-configuration].
+Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo obiettivo di semplificare la creazione di applicazioni web fornendo un'infrastruttura preconfigurata e pronta all'uso. In questo modo Nuxt permette di concentrarsi sulla logica dell'applicazione, piuttosto che sulla configurazione del progetto. È quindi ricalcata la filosofia di David Heinemeier Hansson, l'ideatore del framework Ruby on Rails, che ha coniato il termine "convention over configuration"[^convention-over-configuration].
 
 [^convention-over-configuration]: [Wikipedia - Convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration)
 
+#### Tooling e Typescript "out of the box"
 
+#### Directories
+
+#### Configurazione
+
+.nuxt.config.ts
 
 ### Modalità di rendering del frontend
 
@@ -77,17 +88,17 @@ sequenceDiagram
 #### Static Site Generation
 md -> html
 
-#### Server Side Rendering
-
-#### Server Side Rendering con Hydration
+#### Universal rendering
 
 islands
 
 ### Server Nitro
 
+#### Routes tipizzate
+
 #### Modalità di sviluppo
 
-### Build per la produzione
+#### Build per la produzione
 
 ### Repository e contributi
 
@@ -114,12 +125,15 @@ I contributi poi vengono sottoposti a test automatici prima di essere passati ad
 
 Al Novembre 2024, sono stati aperti circa 15'000 issues, sono stati avanzati circa 7'000 commi da più di 700 contributori. I progetti Open source su Github che usano Nuxt sono circa 350'000 e questi numeri sono in costante crescita.
 
+#### Moduli
+
 Oltre a modificare la monorepo, gli sviluppatori Open source sono invitati a creare **moduli** per estendere le Nuxt con funzionalità non essenziali, ma idonee per l'interoperabilità con altri software. Questi moduli possono essere pubblicati su Npm come pacchetti, con `@nuxt/kit` come dipendenza, ed al Dicembre 2024 se ne contano più di 200[^moduli-nuxt].
 
 Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di usare Nuxt in combinazione con Typeorm.
 
-
 [^moduli-nuxt]: [Moduli supportati ufficialmente da Nuxt](https://nuxt.com/modules)
+
+
 
 
 
