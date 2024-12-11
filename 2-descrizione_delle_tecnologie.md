@@ -1,12 +1,12 @@
 # Descrizione delle tecnologie
 
-In questo capitolo si illustrano due particolari tecnologie: Nuxt e Typeorm. Sono state scelte tra le molte e disponibili alternative per il loro uso diffuso e consolidato nel settore dello sviluppo web perchè esemplificano una naturale continuazione delle linee evolutive descritte nel [capitolo precedente](#linee-evolutive) fornendo una soluzione alle problematiche affrontate, e per altre ragioni che saranno discusse in seguito.
+In questo capitolo si illustrano due particolari tecnologie: Nuxt e Typeorm. Sono state scelte tra le molte alternative disponibili per il loro uso diffuso e consolidato nel settore dello sviluppo web perché esemplificano una naturale continuazione delle linee evolutive descritte nel [capitolo precedente](#linee-evolutive) fornendo una soluzione alle problematiche affrontate, e per altre ragioni che saranno discusse in seguito.
 
 ## Nuxt
 
 Nuxt è un framework per la realizzazione di applicazioni web, avviato come progetto Open source da Alexandre Chopin e Pooya Parsa nel 2016, che continua ad essere mantenuto attivamente su Github da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/nuxt/nuxt](https://github.com/nuxt/nuxt).
 
-Nuxt si propone di risolvere i problemi di performance, di ottimizzazione e di accessibilità che sono stati mostrati nel [capitolo 1](#ritorno-al-server-side-rendering) con il suo sistema di frontend, ma anche di fornire un ambiente di sviluppo flessibile, per facilitare la scalabilità e la manutenibilità del codice backend. Si possono infatti realizzare applicazioni **fullstack** secondo il pattern MVC, in cui la view è implementata con Vue ed il controller con *Nitro*, un server http fatto su misura per Nuxt. Si può mostrare più estesamente l'<span id="architettura-generale">architettura generale</span> di una applicazione Nuxt nel seguente modo:
+Nuxt si propone di risolvere i problemi di performance, di ottimizzazione e di accessibilità che sono stati mostrati nel [capitolo 1](#ritorno-al-server-side-rendering) con il suo sistema di frontend, ma anche di fornire un ambiente di sviluppo flessibile, per facilitare la scalabilità e la manutenibilità del codice backend. Si possono infatti realizzare applicazioni **fullstack** secondo il pattern MVC, in cui la view è implementata con Vue ed il controller con *Nitro*, un server http fatto su misura per Nuxt.
 
 ```mermaid {height=6cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
@@ -16,7 +16,7 @@ subgraph vue[**View**]
 	direction LR
 	vueview[**View**
 	Template HTML,
-	Elementi del DOM in fase di runtime
+	Elementi del DOM a runtime
 	]
 	vueviewmodel[**ViewModel**
 	Hooks per l'aggiornamento reattivo
@@ -42,34 +42,47 @@ vue -- Richiesta utente --> controller
 controller -.-> vue
 ```
 
-Si noti come la frontend Vue, che esegue nel browser, adotta il pattern *MVVM*: si hanno due modelli con interfacce potenzialmente distine. 
-in maniera opt-in
-
-### Convenzioni di progetto
+> L'<span id="architettura-nuxt">architettura</span> generale di una applicazione Nuxt. Si noti che il frontend Vue adotta il pattern *MVVM*: si hanno due modelli con interfacce potenzialmente distinte. Infatti nel modo tradizionale di usare Vue, backend e frontend potrebbero essere viste come due applicazioni a bassa coesione (basti pensare a come potrebbero essere realizzate in due linguaggi di programmaizone differenti) ed alto accoppiamento (nel senso che un cambiamento da un lato potrebbe richiederebbe un altro cambiamento dall'altro lato del sistema, per mantenere la coerenza). Nuxt si occupa appunto di gestire la comunicazione tra i due models, il model dei dati persistenti ed il model dell'applicazione che esegue nel browser, in modo da ottenere *loose coupling* e *high cohesion*.
 
 Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo obiettivo di semplificare la creazione di applicazioni web fornendo un'infrastruttura preconfigurata e pronta all'uso. In questo modo lo sviluppatore può concentrarsi da subito sulla logica dell'applicazione, piuttosto che sulla configurazione del progetto. È quindi ricalcato il punto di vista di David Heinemeier Hansson su Rails, il framework per applicazioni web per Ruby che ideò nel luglio 2004, per il quale sosteneva il principio "convention over configuration"[^convention-over-configuration].
 
 [^convention-over-configuration]: [Wikipedia - Convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration)
 
-Già dalla creazione di un nuovo progetto Nuxt, si vede come siano proposte alcune *default settings*, pur lasciando la possibilità di personalizzare il progetto in base alle esigenze specifiche.  Infatti è consigliato avviare un nuovo progetto con `npm init`, 
+### Convenzioni di progetto
 
-Nella linea di comando di un ambiente Linux, con Node.js installato, si può creare un nuovo progetto Nuxt con il comando `npm init nuxt-app`
+Già dalla creazione di un nuovo progetto Nuxt, si vede come siano proposte alcune *sensible defaults*[^sensible-defaults], pur lasciando la possibilità di personalizzare il progetto in base alle esigenze specifiche. Infatti è consigliato avviare un nuovo progetto con la *command line interface* di Nuxt, che guida lo sviluppatore nella scelta delle opzioni di configurazione.
 
-#### Command line interface, tooling e Typescript "out of the box"
+[^sensible-defaults]: Cioè delle impostazioni scelte in base all'uso che è stato rilevato come il più comune, in base alle discussioni degli sviluppatori nei forum, si veda [^convention-over-configuration].
 
-nuxi cli
+#### Command line interface
+
+L'ecosistema Nuxt fa uso di un programma invocabile da linea di comando chiamato *nuxi*. È installabile globalmente su un sistema operativo con Node installato con `npm i -g @nuxt/cli`, e dispone di vari sotto-comandi per la gestione del progetto.
+
+##### `nuxi init <nome-progetto>`
+
+È il comando per avviare un nuovo progetto. Eseguendolo si dovrà scegliere il sistema di gestione dei pacchetti, che riguarderà il modo con il quale Nuxt ed anche gli agli altri pacchetti di terze parti saranno installati, e può essere tra:
+
+- **npm**: Il classico package manager di Node, solitamente installato assieme ad esso scegliendo il pacchetto `node` nelle repository delle maggiori distribuzioni Linux, e disponibile di default nelle immagini Docker ufficiali di Node. È intesa come la sensible default.
+- **pnpm**: Un package manager alternativo a npm, progettato per migliorare le performance e ottimizzare l'utilizzo dello spazio su disco rispetto a npm, preferito per lo sviluppo locale
+- **yarn**: Un altro package manager alternativo a npm, sviluppato in Facebook nel 2016, 
+- **bun**: Con questa opzione si sceglie di usare una runtime diversa da Node: Bun, più efficiente in alcune operazioni di I/O, compatibile con le API Node e i suoi pacchetti di terze parti.
+- **deno**: Un'altra runtime JavaScript che offre supporto nativo a Typescript, ma non è del tutto compatibile con alcuni pacchetti npm.
+
+Subito dopo ci sarà la scelta **Initialize git repository**, che eseguirà semplicemente `git init` se selezionata.
+
+##### `nuxi dev`
+
+##### `nuxi build`
 
 
-`nuxi init nome-progetto`
+#### Directories
 
-- **npm**: Il classico package manager di Node, solitamente installato assieme ad esso scegliendo il pacchetto `node` nelle repository delle maggiori distribuzioni Linux, e disponibile di default nelle immagini Docker ufficiali di Node.
-- **pnpm**: Un package manager alternativo a npm, che si propone di risolvere i problemi di performance e di utilizzo di spazio su disco che si possono avere con npm, preferito per lo sviluppo in locale.
-- **yarn**: 
-- **bun**: Con questa opzione si sceglie di usare una runtime diversa da Node: Bun, più efficiente nele operazioni di I/O
-- **deno**
+```text
+
+```
 
 
-**Initialize git repository**
+#### tooling e Typescript "out of the box"
 
 
 tsconfig.json
@@ -78,12 +91,6 @@ vite
 	in alternativa a webpack e a configurazione manuale
 
 tutto questo manualmente!
-
-#### Directories
-
-```text
-
-```
 
 #### Configurazione
 
@@ -125,6 +132,9 @@ islands
 ### Server Nitro
 
 #### Routes tipizzate
+
+COME FANNO AD ESSERCI DELLE ROUTES TIPIZZATE??
+controllare
 
 #### Modalità di sviluppo
 
@@ -169,4 +179,5 @@ Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di 
 
 ## Typeorm
 
-
+DESIGN PATTERNS
+COME FA A FUNZIONARE?

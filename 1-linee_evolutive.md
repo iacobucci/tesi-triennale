@@ -157,11 +157,11 @@ Tra gli esempi più noti di sistemi di componenti:
 
 ##### Angular.js
 
-Uno dei primi framework a proporre un modello di componenti, sviluppato in Google e rilasciato nel 2010. Angular.js introduceva il concetto di _Two-way data binding_, cioè la possibilità di sincronizzare automaticamente i dati tra il modello e la vista.
+Uno dei primi framework a proporre un modello di componenti, sviluppato in Google e rilasciato nel 2010. Angular.js introduceva il concetto di _two-way data binding_, cioè la possibilità di sincronizzare automaticamente i dati tra il modello e la vista.
 
 ##### React.js
 
-La libreria di componenti sviluppata da un team interno di Facebook e rilasciata nel 2013. React introduceva il concetto di _Virtual DOM_, una rappresentazione in memoria del DOM reale, che permetteva di calcolare in maniera efficiente le differenze tra due stati del DOM e di applicare solo le modifiche necessarie. Per questi miglioramenti nella performace venne adottato moltissimo[^react]. Da React in poi, lo sviluppo di pagine web riguardò un livello più astratto rispetto all'esecuzione del classico codice Javascript che manipolava direttamente il DOM. Inteso così, il browser diventava l'interprete di un codice intermedio sul quale non si metteva mano direttamente.
+La libreria di componenti sviluppata da un team interno di Facebook e rilasciata nel 2013. React introduceva il concetto di _Virtual DOM_, una rappresentazione in memoria del DOM reale, che permetteva di calcolare in maniera efficiente le differenze tra due stati del DOM e di applicare solo le modifiche necessarie. Per questi miglioramenti nella performace venne adottato moltissimo[^react]. Da React in poi, lo sviluppo di pagine web ha riguardato un livello più astratto rispetto all'esecuzione del classico codice Javascript che manipola direttamente il DOM. Inteso così, il browser divent l'interprete di un codice intermedio sul quale non si mette mano direttamente.
 
 [^react]: [Github - React](https://github.com/facebook/react) - la più popolare in base numero di stelle su Github.
 
@@ -185,7 +185,7 @@ Partito come progetto personale di Evan You e rilasciato nel 2014, Vue si propon
 </style>
 ```
 
-> Un esempio moderno di applicazione Vue 3, che mostra l'utilizzo di un componente "HelloWorld" all'interno di un template principale, e di un RouterView per la navigazione tra le pagine. Questi componenti sono definiti in file distinti, per favorire la separazione delle preoccupazioni, ed importati nel file principale come se fossero moduli Javascript. Ogni volta che compaiono in un template assumono un comportamento dettato dalla loro definizione (il loro template) e dal loro _stato_ di istanza. Si noti come il componente HelloWorld sia parametrizzato con un attributo "msg", che ne consente un utilizzo più flessibile.
+> Un esempio moderno di applicazione Vue 3, che mostra l'utilizzo di un componente "HelloWorld" all'interno di un template principale, e di un RouterView per la navigazione tra le pagine. Questi componenti sono definiti in file distinti, per favorire la separazione delle preoccupazioni, ed importati nel file principale come se fossero moduli Javascript. Ogni volta che compaiono in un template assumono un comportamento dettato dalla loro definizione (il loro template) e dal loro _stato_ di istanza. Si noti come il componente HelloWorld sia parametrizzato con un attributo `msg`, che ne consente un utilizzo più flessibile.
 
 ```html
 <html lang="en">
@@ -219,7 +219,7 @@ L'adozione di Typescript è stata pressoché immediata, per il motivo che la con
 ##### TypeORM
 Offre un supporto a Typescript nativamente. È illustrata con dettaglio nel [capitolo 2](#typeorm).
 
-L'evoluzione dei sistemi per fare query a basi di dati da Javascript è diramata in direzioni diverse, da quelli che usano protocolli applicativi binari (come gRPC) a quelli che usano linguaggi di query specifici (come GraphQL), ad ORM che introducono nuovi linguaggi di definizione dei modelli (come Prisma).
+L'evoluzione dei sistemi per fare query a basi di dati da Javascript è poi diramata in direzioni diverse, da quelli che usano protocolli applicativi binari (basati ad esempio su gRPC) a quelli che usano linguaggi di query specifici (come GraphQL), ad ORM che introducono nuovi linguaggi di definizione dei modelli (come Prisma).
 
 ## Ritorno al server side rendering
 
