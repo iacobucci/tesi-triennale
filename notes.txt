@@ -65,11 +65,14 @@ linee evolutive
 
 descrizione delle tecnologie
 	nuxt
-		convention over configuration
+		fullstack
 			modelli architetturali
 				mvc
 				mvvm
 				mvp
+			rendering frontend
+			
+		convention over configuration
 			directory structure
 				assets
 				components
@@ -100,7 +103,7 @@ descrizione delle tecnologie
 			far vedere i file inviati e il dom
 			fare dei test
 
-		engine nitro
+		nitro
 			fetch
 			tipizzazione delle fetch
 
@@ -108,12 +111,14 @@ descrizione delle tecnologie
 			hot module replacement
 			vite
 
-		internazionalizzazione
-			plugin i18n
+		misc
+			internazionalizzazione
 
 		composables
 			useFetch
 			useState
+
+	build per la production
 
 	typeorm
 		mapping da sql a oggetti

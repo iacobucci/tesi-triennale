@@ -208,17 +208,18 @@ Le basi di codice Javascript iniziarono a diventare sempre più complesse quando
 Javascript, essendo un linguaggio interpretato e debolmente tipizzato, non era in grado di garantire la correttezza del codice e i test di unità erano fatti in modo _behavior driven_, cioè basati sul comportamento dell'applicazione e non sulla tipizzazione dei dati. Questo spesse volte portava ad errori, difficili da individuare e correggere, soprattutto in applicazioni di grandi dimensioni.
 
 Nel 2012 Anders Hejlsberg ed il suo team interno a Microsoft iniziarono a lavorare al linguaggio Typescript, una estensione di Javascript, realizzando un **compilatore** in grado di rilevare errori di tipo in con analisi statica. Typescript permette anche di sfruttare le funzionalità delle nuove versioni di ECMAScript in modo _retrocompatibile_, cioè facendo _transpiling_[^transpiling] verso una specifica di ECMA inferiore, per usarle anche sui browser deprecati.
+[^transpiling]: [Wikipedia - Source-to-source compiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) - il transpiling è il processo di traduzione automatica di codice sorgente da un linguaggio ad un altro.
 
 L'adozione di Typescript è stata pressoché immediata, per il motivo che la conversione di basi di codice a partire da Javascript vanilla[^vanilla] era a costo zero: ogni sorgente Javascript è valido Typescript. Typescript ha avuto successo non solo lato client, ma anche lato server. Sono comparse infatti alcune librerie di supporto all'accesso a database basate sul pattern **ORM**, *Object-relational mapping*, quindi capaci di mappare il modello dei dati presente nel database a strutture dati proprie di Typescript. Librerie notevoli di questo tipo sono:
+[^vanilla]: Con "vanilla" ci riferisce a Javascript senza estensioni, quindi al codice che può eseguire nativamente sui browser conformi alle specifiche ECMA. Typescript invece è un _superset_, quindi ha un insieme di espressioni sintattiche più grande ma che comprende interamente quello di Javascript.
 
 ##### Sequelize
 È stata una delle prime, il progetto è iniziato nel 2010 quindi funzionava con Javascript vanilla, ma si è evoluta fino a supportare le migliorie di Typescript ed una moltitudine di DBMS.
 
 ##### TypeORM
-Offre un supporto a Typescript nativamente. È illustrata con dettaglio nel [capitolo 2](#descrizione-delle-tecnologie).
+Offre un supporto a Typescript nativamente. È illustrata con dettaglio nel [capitolo 2](#typeorm).
 
-[^transpiling]: [Wikipedia - Source-to-source compiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) - il transpiling è il processo di traduzione automatica di codice sorgente da un linguaggio ad un altro.
-[^vanilla]: Con "vanilla" ci riferisce a Javascript senza estensioni, quindi al codice che può eseguire nativamente sui browser conformi alle specifiche ECMA. Typescript invece è un _superset_, quindi ha un insieme di espressioni sintattiche più grande ma che comprende interamente quello di Javascript.
+L'evoluzione dei sistemi per fare query a basi di dati da Javascript è diramata in direzioni diverse, da quelli che usano protocolli applicativi binari (come gRPC) a quelli che usano linguaggi di query specifici (come GraphQL), ad ORM che introducono nuovi linguaggi di definizione dei modelli (come Prisma).
 
 ## Ritorno al server side rendering
 
@@ -234,15 +235,15 @@ I siti web che fanno uso di CSR sono più difficilmente indicizzabili dai *crawl
 È il tempo che intercorre tra la cattura della risposta HTTP del server e il momento in cui viene visualizzato a schermo dal browser il primo elemento di contenuto significativo per l'utente. Nelle applicazioni CSR questa durata spesso eccede quella massima suggerita da Google[^corewebvitals].
 
 ##### Cumulative shift layout
-Per il motivo che gli aggiornamenti dell'interfaccia vengono vengono resi graficamente nel browser in maniera sequenziale, potrebbero esserci dei fastidiosi spostamenti di elementi visivi nell'interfaccia.
+Per il motivo che gli aggiornamenti dell'interfaccia vengono vengono resi graficamente in maniera sequenziale nel browser, potrebbero esserci dei fastidiosi spostamenti di elementi visivi nell'interfaccia durante la fase di caricamento.
 
 ##### Accessibility
-Per gli stessi motivi che portano a CSL, ci potrebbero essere degli impedimenti di accessibilità per chi usa metodi di input alternativi o per gli screen-reader che aiutano le persone non vedenti nella fruizione delle pagine web.
+Per gli stessi motivi che portano al cumulative shift layout, ci potrebbero essere degli impedimenti di accessibilità per chi usa metodi di input alternativi o per gli screen-reader che aiutano le persone non vedenti nella fruizione delle pagine web.
 
 ------
 
 Per questi motivi, a partire dal 2016, sono emerse delle nuove tendenze che hanno portato ad un ritorno al server side rendering, in combinazione con i sistemi basati su componenti, per unire i vantaggi di entrambi i modelli.
-Esempi di framework che supportano il SSR sono: Angular Universal, Next.js per React e Nuxt per Vue, che verrà illustrato nel [capitolo 2](#descrizione-delle-tecnologie), per la realizzazione di applicazioni web *fullstack*[^fullstack].
+Esempi di framework che supportano il SSR sono: Angular Universal, Next.js per React e Nuxt per Vue, che verrà illustrato nel [capitolo 2](#nuxt), per la realizzazione di applicazioni web *fullstack*[^fullstack].
 
 [^corewebvitals]: [Google developers - Core web vitals](https://developers.google.com/search/docs/appearance/core-web-vitals?hl=it) - Al 10 maggio 2023, la durata massima ammissibile per il FCP è di 2.5s.
 [^fullstack]: Si occupano sia di frontend che di backend.
