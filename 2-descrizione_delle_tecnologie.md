@@ -1,5 +1,7 @@
 # Descrizione delle tecnologie
 
+In questo capitolo si illustrano due particolari tecnologie: Nuxt e Typeorm. Sono state scelte tra le molte e disponibili alternative per il loro uso diffuso e consolidato nel settore dello sviluppo web perchè esemplificano una naturale continuazione delle linee evolutive descritte nel [capitolo precedente](#linee-evolutive) fornendo una soluzione alle problematiche affrontate, e per altre ragioni che saranno discusse in seguito.
+
 ## Nuxt
 
 Nuxt è un framework per la realizzazione di applicazioni web, avviato come progetto Open source da Alexandre Chopin e Pooya Parsa nel 2016, che continua ad essere mantenuto attivamente su Github da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/nuxt/nuxt](https://github.com/nuxt/nuxt).
@@ -40,20 +42,48 @@ vue -- Richiesta utente --> controller
 controller -.-> vue
 ```
 
-La frontend Vue che esegue nel browser 
-
-
+Si noti come la frontend Vue, che esegue nel browser, adotta il pattern *MVVM*: si hanno due modelli con interfacce potenzialmente distine. 
 in maniera opt-in
 
 ### Convenzioni di progetto
 
-Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo obiettivo di semplificare la creazione di applicazioni web fornendo un'infrastruttura preconfigurata e pronta all'uso. In questo modo Nuxt permette di concentrarsi sulla logica dell'applicazione, piuttosto che sulla configurazione del progetto. È quindi ricalcata la filosofia di David Heinemeier Hansson, l'ideatore del framework Ruby on Rails, che ha coniato il termine "convention over configuration"[^convention-over-configuration].
+Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo obiettivo di semplificare la creazione di applicazioni web fornendo un'infrastruttura preconfigurata e pronta all'uso. In questo modo lo sviluppatore può concentrarsi da subito sulla logica dell'applicazione, piuttosto che sulla configurazione del progetto. È quindi ricalcato il punto di vista di David Heinemeier Hansson su Rails, il framework per applicazioni web per Ruby che ideò nel luglio 2004, per il quale sosteneva il principio "convention over configuration"[^convention-over-configuration].
 
 [^convention-over-configuration]: [Wikipedia - Convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration)
 
-#### Tooling e Typescript "out of the box"
+Già dalla creazione di un nuovo progetto Nuxt, si vede come siano proposte alcune *default settings*, pur lasciando la possibilità di personalizzare il progetto in base alle esigenze specifiche.  Infatti è consigliato avviare un nuovo progetto con `npm init`, 
+
+Nella linea di comando di un ambiente Linux, con Node.js installato, si può creare un nuovo progetto Nuxt con il comando `npm init nuxt-app`
+
+#### Command line interface, tooling e Typescript "out of the box"
+
+nuxi cli
+
+
+`nuxi init nome-progetto`
+
+- **npm**: Il classico package manager di Node, solitamente installato assieme ad esso scegliendo il pacchetto `node` nelle repository delle maggiori distribuzioni Linux, e disponibile di default nelle immagini Docker ufficiali di Node.
+- **pnpm**: Un package manager alternativo a npm, che si propone di risolvere i problemi di performance e di utilizzo di spazio su disco che si possono avere con npm, preferito per lo sviluppo in locale.
+- **yarn**: 
+- **bun**: Con questa opzione si sceglie di usare una runtime diversa da Node: Bun, più efficiente nele operazioni di I/O
+- **deno**
+
+
+**Initialize git repository**
+
+
+tsconfig.json
+
+vite
+	in alternativa a webpack e a configurazione manuale
+
+tutto questo manualmente!
 
 #### Directories
+
+```
+
+```
 
 #### Configurazione
 

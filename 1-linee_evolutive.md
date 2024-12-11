@@ -8,19 +8,19 @@ Il primo modello del World Wide Web era orientato a facilitare la condivisione d
 
 **Browser e Server:** Con un browser web installato nel proprio sistema informatico, un utente può visualizzare pagine web e scegliere di seguire i collegamenti ipertestuali per accedere ad altre pagine. Il server web è responsabile di fornire le pagine web richieste dai client, come i browser.
 
-**Protocollo HTTP:** È il protocollo di comunicazione di livello applicativo (OSI 7) che permette la trasmissione di informazioni tra client e server web. Un browser contatta un server web inviando una richiesta HTTP ad un determinato URL e il server risponde con una risposta HTTP contenente i dati richiesti. HTTP è un protocollo stateless, non mantiene informazioni sullo stato della comunicazione. Sta all'applicazione gestire eventuali sessioni o autenticazioni.
+**Protocollo HTTP:** È il protocollo di comunicazione di livello applicativo (OSI 7) che permette la trasmissione di informazioni tra client e server web. Un browser contatta un server web inviando una richiesta HTTP ad un determinato URL e il server risponde con una risposta HTTP contenente i dati richiesti. HTTP è un protocollo stateless, non mantiene informazioni sullo stato della comunicazione, quindi sta all'applicazione gestire eventuali sessioni o autenticazioni.
 
-**Linguaggio HTML:** (HyperText Markup Language) è un linguaggio di marcatura utilizzato per la realizzazione di pagine web. HTML definisce la struttura e il contenuto di una pagina web attraverso l'uso di tag e attributi e consente di incorporare elementi multimediali. Il browser web interpreta il codice HTML e mostra la pagina web all'utente, con una resa grafica determinata da alcune regole.
+**Linguaggio HTML:** (HyperText Markup Language) è un linguaggio di marcatura utilizzato per la realizzazione di pagine web. HTML definisce la struttura e il contenuto di una pagina web attraverso l'uso di tag e attributi e consente di incorporare elementi multimediali. Il browser web interpreta il codice HTML e mostra la pagina web all'utente.
 
-Nel 1993, il primo browser web grafico, Mosaic, sviluppato da Marc Andreessen e Eric Bina, introdusse il supporto per le immagini e per i collegamenti ipertestuali, e successivamente Netscape Navigator 1.0 introdusse il supporto per CSS, il linguaggio che definisce le regole di presentazione di una pagina. Queste innovazioni contribuirono a rendere il web più accessibile e visivamente attraente.
+Nel 1993, il primo browser web grafico, Mosaic, introdusse il supporto per le immagini, per i form (dei moduli compilabili dall'utente con opzioni) e per i collegamenti ipertestuali, e successivamente Netscape Navigator 1.0 introdusse il supporto per CSS, il linguaggio che permise da subito agli sviluppatori di personalizzare la resa grafica della loro pagina. Queste innovazioni contribuirono a rendere il web più accessibile e visivamente attraente per un pubblico maggiore.
 
 ## Pagine dinamiche
 
-I primi browser web erano in grado di visualizzare solo pagine statiche, il che significa che il contenuto di una determinata pagina non cambiava in base all'interazione dell'utente[^css], ed i primi server web erano in grado di fornire solo pagine statiche, cioè pagine il cui contenuto non cambiava in maniera automatizzata.
+I primi browser web erano in grado di visualizzare solo pagine statiche, il che significa che il contenuto di una determinata pagina non cambiava in base all'interazione dell'utente[^css].
 
-[^css]: Le uniche interazioni che avevano effetto immediato nella pagina erano quelle di CSS, come il cambio di colore di un link al passaggio del mouse.
+[^css]: Gli unici effetti che si potevano apprezzare immediatamente dopo un'interazione dell'utente erano quelli di CSS, ad esempio il cambio di colore di un link al passaggio del mouse.
 
-Tramite hyperlinks e successivamente tramite form (cioè dei moduli compilabili con opzioni, introdotte nel 1993) i browser potevano effettuare richieste al server inviando parametri tramite il protocollo HTTP. Il server poteva elaborare tali richieste e restituire una _nuova pagina HTML_ in base ai parametri ricevuti. Questo processo era gestito da programmi detti **CGI** (Common Gateway Interface), da eseguire sul server per generare pagine dinamicamente, cioè al momento della richiesta.
+Le prime realizzazioni di pagine dinamiche furono rese possibili grazie agli hyperlinks ed ai form, con i quali i browser potevano effettuare richieste al server inviando i parametri forniti dall'utente. Il server poteva elaborare tali richieste e restituire una _nuova pagina HTML_ in base ai parametri ricevuti. Questo processo era gestito da programmi detti **CGI** (Common Gateway Interface), da eseguire sul server per generare pagine dinamicamente, cioè al momento della richiesta.
 
 I linguaggi di programmazione utilizzati all'epoca per scrivere programmi CGI erano principalmente:
 
@@ -70,7 +70,7 @@ if (mysql_num_rows($result) > 0){
 
 Il dinamismo delle pagine web supportato da server CGI e linguaggi di scripting era comunque limitato per via del caricamento di nuove pagine ad ogni richiesta. Non era possibile aggiornare parzialmente la pagina, ma solo scaricarne una nuova. Nel 1995 il Netscape Navigator 2.0 introdusse il supporto ad un nuovo linguaggio di scripting, che successivamente venne chiamato Javascript, realizzato da Brendan Eich, per ovviare a questo problema.
 
-**Gestione di eventi e manipolazione del DOM:** Uno script Javascript, distribuito all'interno di una pagina HTML, può essere eseguito dal browser web in risposta a determinati eventi dell'utente. Inizialmente il motore di esecuzione era sincrono, cioè bloccava l'esecuzione del codice fino al completamento dell'operazione, e le possibilità di javascript si limitavano alla manipolazione a *runtime*[^runtime] del DOM (Document Object Model), quindi ad aggiungere, rimuovere o modificare elementi HTML.
+**Gestione di eventi e manipolazione del DOM:** Uno script Javascript, distribuito all'interno di una pagina HTML, può essere eseguito dal browser web in risposta a determinati eventi dell'utente. Inizialmente il motore di esecuzione era sincrono, cioè bloccava l'esecuzione del codice fino al completamento dell'operazione, e le possibilità di Javascript si limitavano alla manipolazione a *runtime*[^runtime] del DOM (Document Object Model), quindi ad aggiungere, rimuovere o modificare elementi HTML.
 
 **Richieste HTTP asincrone:** Le pagine web, erano diventate _attive_, ma tutte le risorse da fornire agli utenti dovevano essere inserite nella pagina inviata come prima risposta HTTP. Nel 1999 però, il browser Internet Explorer 5 introdusse una estensione del linguaggio Javascript, che disponeva di un oggetto chiamato _XMLHttpRequest_, in grado effettuare richieste HTTP asincrone al server e dunque ricevere risposte senza dover ricaricare l'intera pagina. Così si gettavano le basi per la realizzazione di _Single Page Applications_.
 
@@ -139,13 +139,15 @@ server.listen(80, () => { console.log("Server in ascolto alla porta 8080"); });
 
 Anche con Node fu possibile realizzare applicazioni web _monolitiche_, parimenti al templating PHP, usando librerie come EJS di TJ Holowaychuk.
 
-Tuttavia le tendenze di quel periodo (circa 2010) si discostarono dal modo tradizionale di scrivere applicazioni web, basate su pagine generate lato server, per passare a un modello di **client-side rendering**. Secondo questo modello il server invia al browser una pagina HTML con un DOM minimo, corredato di script JS che si occupano di popolare il DOM dei contenuti e di gestire le logiche di presentazione.
+Tuttavia le tendenze di quel periodo (circa 2010) si discostarono dal modo tradizionale di scrivere applicazioni web, basate su pagine generate lato server, per passare a un modello di **client-side rendering**. Secondo questo modello il server invia al browser una pagina HTML con un DOM minimo, corredato di script JS che si occupano di popolare a runtime il DOM con contenuti e di gestire le logiche di presentazione.
 
-Le applicazioni renderizzate lato cliente potevano beneficiare di una maggiore *reattività* e di una migliore esperienza utente, essendo basate su una pagina unica che veniva aggiornata in maniera incrementale, aggirando i caricamenti di nuove pagine da richiedere al server. Le richieste, essendo asincrone, potevano essere gestite in modo meno invasivo rispetto a prima: mentre la comunicazione client-server avveniva in background, l'utente poteva continuare ad interagire con l'applicazione.
+Le applicazioni renderizzate lato cliente potevano beneficiare di una maggiore *reattività* e di una migliore esperienza utente, essendo basate su una pagina unica che veniva aggiornata in maniera incrementale, aggirando i caricamenti di nuove pagine da richiedere al server. Le richieste al server, essendo asincrone, potevano essere gestite in modo meno invasivo rispetto a prima: mentre la comunicazione avveniva in background, l'utente poteva continuare ad interagire con l'applicazione.
 
-Il vantaggio di questo paradigma da parte degli sviluppatori era la possibilità di scrivere la logica di presentazione interamente in Javascript, sfruttando il sistema di oggetti e la modularità del linguaggio in maniera più espressiva rispetto al templating o alle API DOM. 
+Il vantaggio di questo paradigma da parte degli sviluppatori era la possibilità di scrivere la logica di presentazione interamente in Javascript, sfruttando il sistema di oggetti e la modularità del linguaggio in maniera più espressiva rispetto al templating o all'uso imperativo delle API DOM. 
 
 L'idea centrale delle nuove tendenze _CSR_ era quella di progettare l'interfaccia utente partendo da parti più piccole, chiamate **componenti**, e riutilizzabili all'interno dell'intera applicazione. Lo stile assunto era _dichiarativo_[^dichiarativo]. Ad ogni componente sono associati:
+
+[^dichiarativo]: In questo contesto, uno stile dichiarativo è riferito ad un approccio alla programmazione in cui si descrive cosa il programma deve fare piuttosto che come farlo. Con jQuery si dovevano specificare esplicitamente i passaggi per manipolare il DOM, mentre i componenti permettono di definire il comportamento dell'interfaccia attraverso delle dichiarazioni più astratte e concise.
 
 - un template HTML, più piccolo e gestibile rispetto ad una pagina intera.
 - un foglio CSS, per la stilizzazione.
@@ -159,7 +161,9 @@ Uno dei primi framework a proporre un modello di componenti, sviluppato in Googl
 
 ##### React.js
 
-La libreria di componenti più diffusa[^react] sviluppata da un team interno di Facebook e rilasciata nel 2013. React introduceva il concetto di _Virtual DOM_, una rappresentazione in memoria del DOM reale, che permetteva di calcolare in maniera efficiente le differenze tra due stati del DOM e di applicare solo le modifiche necessarie.
+La libreria di componenti sviluppata da un team interno di Facebook e rilasciata nel 2013. React introduceva il concetto di _Virtual DOM_, una rappresentazione in memoria del DOM reale, che permetteva di calcolare in maniera efficiente le differenze tra due stati del DOM e di applicare solo le modifiche necessarie. Per questi miglioramenti nella performace venne adottato moltissimo[^react]. Da React in poi, lo sviluppo di pagine web riguardò un livello più astratto rispetto all'esecuzione del classico codice Javascript che manipolava direttamente il DOM. Inteso così, il browser diventava l'interprete di un codice intermedio sul quale non si metteva mano direttamente.
+
+[^react]: [Github - React](https://github.com/facebook/react) - la più popolare in base numero di stelle su Github.
 
 ##### Vue.js
 
@@ -173,7 +177,6 @@ Partito come progetto personale di Evan You e rilasciato nel 2014, Vue si propon
 
 <template>
 	<HelloWorld msg="Ciao mondo" />
-
 	<RouterView />
 </template>
 
@@ -197,9 +200,6 @@ Partito come progetto personale di Evan You e rilasciato nel 2014, Vue si propon
 ```
 
 > Il DOM minimo che viene distribuito da una applicazione Vue 3. La pagina viene assemblata lato client, a partire dal così detto _entry point_: l'elemento con id "app", in cui viene montata l'applicazione. Si noti che nel caso che Javascript non sia abilitato nel client il contenuto dell'applicazione non verrà visualizzato affatto.
-
-[^dichiarativo]: In questo contesto, uno stile dichiarativo è riferito ad un approccio alla programmazione in cui si descrive cosa il programma deve fare piuttosto che come farlo. Con jQuery si dovevano specificare esplicitamente i passaggi per manipolare il DOM, mentre i componenti permettono di definire il comportamento dell'interfaccia attraverso delle dichiarazioni più astratte e concise.
-[^react]: [Github - React](https://github.com/facebook/react) - la più popolare in base numero di stelle su Github.
 
 ## Typescript e ORM
 

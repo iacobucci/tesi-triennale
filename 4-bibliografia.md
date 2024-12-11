@@ -6,6 +6,8 @@
 
 1. [ECMA - 262](https://ecma-international.org/publications-and-standards/standards/ecma-262/) - lo standard ufficiale di Javascript.
 
+1. [Mozilla developer network web docs](https://developer.mozilla.org/it/docs/Web) - la documentazione e le linee guida ufficiali di Mozilla per lo sviluppo web.
+
 1. [A brief history of CSS until 2016](https://www.w3.org/Style/CSS20/history.html) - un articolo che celebra i 20 anni di CSS, spiegando la sua storia e le sue evoluzioni.
 
 1. [Honeypot - Node.js: The Documentary](https://www.youtube.com/watch?v=LB8KwiiUGy0) - un documentario sulla storia di Node, di NPM, e dei loro ideatori.
