@@ -32,10 +32,10 @@ Ringrazio i miei genitori, la mia famiglia ed i miei amici per l'incoraggiamento
 
 ## Strumenti Open source
 
-- **Markdown**
-- **Latex**
-- **Pandoc** - per la conversione dei file Markdown in PDF.
-- **D2** - per la creazione di diagrammi di sequenza.
+- **Code** - la build open source di Visual Studio Code, utilizzata per la scrittura e la correzione del testo.
+- **Markdown** - il formato di scrittura utilizzato per la stesura del testo.
+- **Latex** - per la formattazione del testo.
+- **Pandoc** - per la conversione dei file Markdown in Latex.
 - **Minted** - per la colorazione della sintassi dei codici sorgente.
 - **Panflute** - per la creazione di filtri personalizzati per Pandoc.
-- **Code**
+- **Mermaid** - per la creazione di diagrammi di sequenza e di flusso.

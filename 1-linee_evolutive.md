@@ -26,7 +26,7 @@ I linguaggi di programmazione utilizzati all'epoca per scrivere programmi CGI er
 
 ##### Linguaggi di basso livello o di scripting
 
-- Linguaggi di basso livello come C o C++, erano di difficile gestione e manutenzione: sono performanti ma richiedono molte risorse per la progettazione.
+- Linguaggi di basso livello come C o C++, sono performanti ma di difficile progettazione e manutenzione.
 
 - Linguaggi di scripting come Perl o Shell UNIX, erano più facili da utilizzare ma meno efficienti: comodi per la manipolazione di stringhe e file, ma non per la gestione di strutture dati complesse.
 
@@ -161,7 +161,7 @@ Uno dei primi framework a proporre un modello di componenti, sviluppato in Googl
 
 ##### React.js
 
-La libreria di componenti sviluppata da un team interno di Facebook e rilasciata nel 2013. React introduceva il concetto di _Virtual DOM_, una rappresentazione in memoria del DOM reale, che permetteva di calcolare in maniera efficiente le differenze tra due stati del DOM e di applicare solo le modifiche necessarie. Per questi miglioramenti nella performace venne adottato moltissimo[^react]. Da React in poi, lo sviluppo di pagine web ha riguardato un livello più astratto rispetto all'esecuzione del classico codice Javascript che manipola direttamente il DOM. Inteso così, il browser divent l'interprete di un codice intermedio sul quale non si mette mano direttamente.
+La libreria di componenti sviluppata da un team interno di Facebook e rilasciata nel 2013. React introduceva il concetto di _Virtual DOM_, una rappresentazione in memoria del DOM reale, che permetteva di calcolare in maniera efficiente le differenze tra due stati del DOM e di applicare solo le modifiche necessarie. Per questi miglioramenti nella performace venne adottato moltissimo[^react]. Da React in poi, lo sviluppo di pagine web ha riguardato un livello più astratto rispetto all'esecuzione del classico codice Javascript che manipola direttamente il DOM. Inteso così, il browser diventa l'interprete di un codice intermedio sul quale non si mette mano direttamente.
 
 [^react]: [Github - React](https://github.com/facebook/react) - la più popolare in base numero di stelle su Github.
 
@@ -208,9 +208,11 @@ Le basi di codice Javascript iniziarono a diventare sempre più complesse quando
 Javascript, essendo un linguaggio interpretato e debolmente tipizzato, non era in grado di garantire la correttezza del codice e i test di unità erano fatti in modo _behavior driven_, cioè basati sul comportamento dell'applicazione e non sulla tipizzazione dei dati. Questo spesse volte portava ad errori, difficili da individuare e correggere, soprattutto in applicazioni di grandi dimensioni.
 
 Nel 2012 Anders Hejlsberg ed il suo team interno a Microsoft iniziarono a lavorare al linguaggio Typescript, una estensione di Javascript, realizzando un **compilatore** in grado di rilevare errori di tipo in con analisi statica. Typescript permette anche di sfruttare le funzionalità delle nuove versioni di ECMAScript in modo _retrocompatibile_, cioè facendo _transpiling_[^transpiling] verso una specifica di ECMA inferiore, per usarle anche sui browser deprecati.
+
 [^transpiling]: [Wikipedia - Source-to-source compiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) - il transpiling è il processo di traduzione automatica di codice sorgente da un linguaggio ad un altro.
 
 L'adozione di Typescript è stata pressoché immediata, per il motivo che la conversione di basi di codice a partire da Javascript vanilla[^vanilla] era a costo zero: ogni sorgente Javascript è valido Typescript. Typescript ha avuto successo non solo lato client, ma anche lato server. Sono comparse infatti alcune librerie di supporto all'accesso a database basate sul pattern **ORM**, *Object-relational mapping*, quindi capaci di mappare il modello dei dati presente nel database a strutture dati proprie di Typescript. Librerie notevoli di questo tipo sono:
+
 [^vanilla]: Con "vanilla" ci riferisce a Javascript senza estensioni, quindi al codice che può eseguire nativamente sui browser conformi alle specifiche ECMA. Typescript invece è un _superset_, quindi ha un insieme di espressioni sintattiche più grande ma che comprende interamente quello di Javascript.
 
 ##### Sequelize

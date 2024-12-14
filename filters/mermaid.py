@@ -15,6 +15,10 @@ def intercept_codeblock(elem, doc):
 		mmd = f"mermaid/{fileid}.mmd"
 		pdf = f"mermaid/{fileid}.pdf"
 
+
+		with open("log.txt", "a") as log:
+			log.write(str(elem.attributes))
+
 		try:
 			os.makedirs("mermaid", exist_ok=True)
 
@@ -25,9 +29,14 @@ def intercept_codeblock(elem, doc):
 
 			subprocess.run(["pdfcrop", pdf, pdf], check=True, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
 
+
+			if elem.attributes.get("align") is not None:
+				return pf.RawBlock("\\begin{wrapfigure}{" + elem.attributes.get("align") + "}{"+ elem.attributes.get("width") +"}\\includegraphics[width=\linewidth]{ " + pdf + "}\\end{wrapfigure}", format="latex")
+
 			if elem.attributes.get("height") is not None:
 				return pf.RawBlock("\\begin{center}\\includegraphics[height="+ elem.attributes.get("height") +",keepaspectratio]{ " + pdf + "}\\end{center}", format="latex")
 			return pf.RawBlock("\\begin{center}\\includegraphics[wdith=\linewidth,keepaspectratio]{ " + pdf + "}\\end{center}", format="latex")
+
 
 		except subprocess.CalledProcessError as e:
 			pf.debug(f"execution error: {e}")
