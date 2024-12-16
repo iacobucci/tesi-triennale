@@ -153,8 +153,6 @@ sequenceDiagram
     Server-->>Browser: Risposta con assets
 ```  
 
-\ 
-
 #### Client Side Rendering
 
 Nuxt supporta la stessa modalità di rendering discussa nel [capitolo 1](#vue.js), in cui il codice dell'applicazione Vue viene eseguito interamente sul browser.
@@ -180,8 +178,6 @@ sequenceDiagram
 	Server -->>Browser: Risposta con assets
 	Browser->>Browser: Idratazione dei componenti Vue
 ```  
-
-\ 
 
 #### Universal rendering
 
