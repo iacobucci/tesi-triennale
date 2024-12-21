@@ -140,20 +140,22 @@ Durante la fase di progettazione, diversi tipi di applicazione suggeriscono dive
 
 In questo contesto, con rendering di una pagina web non si intende il processo di disegno dei pixel sullo schermo, del quale generalmente si occuperà il browser web delegando al sistema operativo la gestione dell'hardware. Qui con rendering si intende il processo di generazione del codice HTML, CSS e Javascript che costituisce la pagina web, e che viene inviato al client per essere visualizzato.
 
-```mermaid {align=l width=5cm}
+#### Client Side Rendering
+
+```mermaid {align=l width=7cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 sequenceDiagram
     participant Browser
-    participant Server
-    Browser->>Server: Richiesta pagina
-    Server-->>Browser: Risposta con DOM minimo
-    Server-->>Browser: Risposta con Javascript
+    participant Server frontend
+    participant Server backend
+    Browser->>Server frontend: Richiesta pagina
+    Server frontend-->>Browser: Risposta con DOM minimo
+    Server frontend-->>Browser: Risposta con Javascript
     Browser->>Browser: Esecuzione dell'app Vue
-    Browser->>Server: Richiesta assets
-    Server-->>Browser: Risposta con assets
+    Browser->>Server backend: Richiesta assets, talvolta con autenticazione
+    Server backend-->>Browser: Risposta con assets
+    Browser->>Browser: Aggiornamento della pagina
 ```  
-
-#### Client Side Rendering
 
 Nuxt supporta la stessa modalità di rendering discussa nel [capitolo 1](#vue.js), in cui il codice dell'applicazione Vue viene eseguito interamente sul browser.
 
@@ -165,7 +167,11 @@ export default defineNuxtConfig({
 })
 ```
 
-Il beneficio che si ottiene nello sviluppare in maniera CSR con Nuxt è la disponibilità del classico oggetto `window` negli script Vue, oltre ad una riduzione del costo infrastrutturale, perché il server non deve eseguire il codice Javascript per generare la pagina. Tuttavia rimangono i problemi di performance, di accessibilità e di SEO che sono stati discussi [precedentemente](#ritorno-al-server-side-rendering).
+Il beneficio che si ottiene nello sviluppare in maniera CSR con Nuxt è la disponibilità del classico oggetto `window` negli script Vue, oltre ad una riduzione del costo infrastrutturale, perché il server backend non deve eseguire il codice Javascript per generare la pagina: basterà infatti caricare il bundle dell'applicazione frontend generata con `nuxi build` su un server frontend statico [^server-frontend]. Tuttavia rimangono i problemi di performance, di accessibilità e di SEO che sono stati discussi [precedentemente](#ritorno-al-server-side-rendering).
+
+[^server-frontend]: Si tratta di un servizio di file statici, che può essere implementato anche con una *CDN* (Content Delivery Network) per distribuire i file in maniera efficiente in tutto il mondo.
+
+#### Universal rendering
 
 ```mermaid {align=l width=5cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
@@ -178,8 +184,6 @@ sequenceDiagram
 	Server -->>Browser: Risposta con assets
 	Browser->>Browser: Idratazione dei componenti Vue
 ```  
-
-#### Universal rendering
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec pur
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec pur
@@ -234,7 +238,7 @@ I contributi sono proposti su Github e l'iter consigliato varia in base al tipo 
 
 I contributi poi vengono sottoposti a test automatici prima di essere passati ad una revisione da parte del team di sviluppo, in modo da conformare lo stile del codice, della documentazione ed anche del messaggio di commit. Le etichette fornite nelle *PR* più comunemente sono: `enhancement`, `nice-to-have`, `bug`, `discussion`, `documentation`, `performance` e `refactor`.
 
-Al Novembre 2024, sono stati aperti circa 15'000 issues, sono stati avanzati circa 7'000 commi da più di 700 contributori. I progetti Open source su Github che usano Nuxt sono circa 350'000 e questi numeri sono in costante crescita.
+Al Novembre 2024, sono stati aperti circa 15'000 issues, sono stati avanzati circa 7'000 commit da più di 700 contributori. I progetti Open source su Github che usano Nuxt sono circa 350'000 e questi numeri sono in costante crescita.
 
 #### Moduli
 

@@ -19,6 +19,6 @@ tex:
 	ls | grep .md | sort --numeric-sort | xargs cat | $(PANDOC)
 
 pdf:
-	cat template-1.tex out/$(NAME).tex template-2.tex | pdflatex -shell-escape -output-directory=out 
+	(cat template.tex out/$(NAME).tex ; echo "\\end{document}") | pdflatex -shell-escape -output-directory=out 
 
 
