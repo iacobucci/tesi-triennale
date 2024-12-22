@@ -20,5 +20,3 @@ tex:
 
 pdf:
 	(cat template.tex out/$(NAME).tex ; echo "\\end{document}") | pdflatex -shell-escape -output-directory=out 
-
-
