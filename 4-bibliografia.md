@@ -1,8 +1,8 @@
-# Bibliografia
+# Bibliografia {.unnumbered}
 
-## Testi di riferimento
+## Testi di riferimento {.unnumbered}
 
-1. [CERN - A short history of the Web](https://home.cern/science/computing/birth-web/short-history-web) - un articolo che percorre velocemente la storia delle origini di WWW.
+1. [CERN - A short history of the Web](https://home.cern/science/computing/birth-web/short-history-web) - un articolo che percorre velocemente le origini del world wide web.
 
 1. [ECMA - 262](https://ecma-international.org/publications-and-standards/standards/ecma-262/) - lo standard ufficiale di Javascript.
 
@@ -24,13 +24,13 @@
 
 1. [TypeORM official documentation](https://typeorm.io/) - la documentazione ufficiale della libreria TypeORM.
 
-1. [Fireship](https://www.youtube.com/@Fireship) - il canale YouTube di Jeff Delaney, omnicomprensivo per lo sviluppo web, sul quale sono pubblicati tutorial, introduzioni a nuove tecnologie e notizie di attualità sul settore informatico.
+1. [Fireship](https://www.youtube.com/@Fireship) - il canale YouTube di Jeff Delaney, una risorsa comprensiva delle molte aree dello sviluppo web, sul quale sono pubblicati tutorial, introduzioni a nuove tecnologie e notizie di attualità sul settore informatico.
 
-## Ringraziamenti
+## Ringraziamenti {.unnumbered}
 
 Ringrazio i miei genitori, la mia famiglia ed i miei amici per l'incoraggiamento e il supporto che mi hanno dato durante la stesura di questo lavoro.
 
-## Strumenti Open source
+## Strumenti Open source {.unnumbered}
 
 - **Code** - la build open source di Visual Studio Code, utilizzata per la scrittura e la correzione del testo.
 - **Markdown** - il formato di scrittura utilizzato per la stesura del testo.
