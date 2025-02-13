@@ -249,3 +249,24 @@ Esempi di framework che supportano il SSR sono: Angular Universal, Next.js per R
 
 [^corewebvitals]: [Google developers - Core web vitals](https://developers.google.com/search/docs/appearance/core-web-vitals?hl=it) - Al 10 maggio 2023, la durata massima ammissibile per il FCP è di 2.5s.
 
+## Servizi cloud e containerizzazione
+
+Le tecniche di rilascio di applicazioni web si sono evolute di pari passo alle tecnologie di sviluppo. 
+
+monolitico
+	server fisico, per un unico servizio web
+
+docker
+	condivide kernel
+		usa meno risorse di vm che emulano un sistema operativo (come KVM) o addirittura un intero sistema hardware (come QEMU)
+	sono riproducibili
+		le immagini sono versionate e possono essere distribuite
+		le immagini sono leggere
+			le immagini sono composte da strati, che possono essere condivisi tra più immagini
+	sono portabili
+
+continuos integration
+	automatizza il processo di build e di test
+	permette di rilasciare più frequentemente
+
+	
