@@ -13,8 +13,7 @@ all:
 	mkdir -p out
 	make tex
 	make pdf
-	# mv out/texput.pdf tesi-iacobucci_valerio-0000976541.pdf
-	mv out/texput.pdf capitolo_1_tesi-iacobucci_valerio-0000976541.pdf
+	mv out/texput.pdf tesi-iacobucci_valerio-0000976541.pdf
 
 tex:
 	ls | grep ".md$$" | sort --numeric-sort | xargs cat | $(PANDOC)

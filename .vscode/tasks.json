@@ -1,22 +1,28 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "make",
-      "type": "shell",
-      "command": "make",
-      "problemMatcher": []
-    }
-  ],
-  "presentation": {
-    "echo": true,
-    "reveal": "never",
-    "focus": false,
-    "panel": "shared"
-  },
-  "scope": "workspace",
-  "runOptions": {
-    "runOn": "folderOpen"
-  },
-  "problemMatcher": []
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "make",
+			"type": "shell",
+			"command": "make",
+			"problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PATH": "${env:PATH}:/home/valerio/.local/share/pnpm"
+                }
+            },
+		}
+	],
+	"presentation": {
+		"echo": true,
+		"reveal": "never",
+		"focus": false,
+		"panel": "shared"
+	},
+	"scope": "workspace",
+	"runOptions": {
+		"runOn": "folderOpen"
+	},
+	"problemMatcher": []
 }
