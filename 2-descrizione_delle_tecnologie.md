@@ -66,27 +66,36 @@ Subito dopo c'è la scelta **Initialize git repository**, che eseguirà `git ini
 
 ##### `nuxi add`
 
-È il comando per aggiungere un nuovo **template** al progetto, cioè un insieme di file e di configurazioni predefinite che possono essere usate per creare una nuova funzionalità. 
+Una volta inizializzato il progetto, questo è il comando per aggiungere funzionalità all'app. Prende come terzo argomento il tipo di template da aggiungere, che può essere tra:
 
-- **page**:
-- **component**:
-- **layout**:
-- **middleware**:
-- **api**:
-- **composable**:
-- **plugin**:
+- **page**: Una pagina web, che sarà accessibile alla rotta `/<nome-pagina>`.
+- **layout**: Un layout Vue, cioè un componente che definisce la struttura di una o più pagine. È un modo di riutilizzare il codice HTML e CSS in più parti dell'applicazione.
+- **component**: Un componente Vue, riutilizzabile in tutte le pagine o layout.
+- **middleware**: Un middleware, cioè una funzione che può essere eseguita prima di caricare una pagina, lato server o lato client.
+- **api**: Un endpoint API, che sarà accessibile alla rotta `/api/<nome-endpoint>`. Utile per la comunicazione tra frontend e backend.
+- **composable**: Una funzione, simile ad un hook React, che può essere usata in uno o più componenti Vue. È un modo per riutilizzare la logica di business in più parti dell'applicazione.
+- **plugin**: Uno script typescript che viene eseguito prima di inizializzare l'applicazione Vue. Utile per l'inizializzazione di componenti software di terze parti.
 
 ##### `nuxi dev`
 
+È il comando per avviare il server di sviluppo, che permette di testare l'applicazione in locale. Di default il server è accessibile alla rotta `http://localhost:3000`, ma si può cambiare la porta con l'opzione `--port <numero-porta>`. Il server di sviluppo è dotato di *hot reloading*, cioè la capacità di ricaricare automaticamente la pagina web quando si salvano i file del progetto, in modo da velocizzare il ciclo di sviluppo.
+
 ##### `nuxi devtools`
 
-Abilita o disabilita l'iniezione degli script Devtools, cioè un set di strumenti il debugging di applicazioni Nuxt, aggiuntivi a quelli già presenti nei browser moderni[^devtools].
+Abilita o disabilita l'iniezione degli script Devtools nell'app Vue, quando è lanciata con `nuxi dev`. Sono un set di strumenti il debugging di applicazioni Nuxt, aggiuntivi a quelli già presenti nei browser moderni[^devtools].
+
 
 [^devtools]: Come quelli di [Firefox](https://firefox-source-docs.mozilla.org/devtools-user/), dei derivati di [Chromium](https://developer.chrome.com/docs/devtools?hl=it), di [Safari](https://developer.apple.com/safari/tools/) ed di [Edge](https://learn.microsoft.com/en-us/microsoft-edge/devtools-guide-chromium/overview).
 
+
+
+
 ##### `nuxi test`
 
-Esegue i test di unità e di integrazione
+Esegue i test definiti in `tests`[^home-directory]. Richiede l'installazione di `@nuxt/test-utils` come dipendenza di sviluppo. 
+
+
+[^home-directory]: Nella trattazione si userà la convenzione, usata anche da Nuxt, di indicare con `~` la directory di radice del progetto, dove sono presenti i file `nuxt.config.ts` e `package.json`.
 
 ##### `nuxi build`
 
