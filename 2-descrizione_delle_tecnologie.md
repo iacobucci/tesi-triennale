@@ -80,30 +80,43 @@ Questi template sono dettagliati nel paragrafo [Directories](#directories).
 
 #### `nuxi dev`
 
-È il comando per avviare il server di sviluppo, che permette di testare l'applicazione in locale. Di default il server è accessibile alla rotta `http://localhost:3000`, ma si può cambiare la porta con l'opzione `--port <numero-porta>`. Il server di sviluppo è dotato di *hot reloading*, cioè la capacità di ricaricare automaticamente la pagina web quando si salvano i file del progetto, in modo da velocizzare il ciclo di sviluppo.
+È il comando per avviare il server di sviluppo, che permette di testare l'applicazione in locale. Di default il server è accessibile alla rotta `http://localhost:3000`, ma si può cambiare la porta con l'opzione `--port <numero-porta>`. Il server di sviluppo è dotato di *hot reloading*, cioè la capacità di ricaricare automaticamente la pagina web quando si salvano i file del progetto, in modo da velocizzare il feedback del sistema al programmatore durante lo sviluppo.
 
 #### `nuxi devtools`
 
 Abilita o disabilita l'iniezione degli script Devtools nell'app Vue, quando è lanciata con `nuxi dev`. Sono un set di strumenti il debugging di applicazioni Nuxt, aggiuntivi a quelli già presenti nei browser moderni[^devtools].
 
+grafo delle pagine
+
+
 > ![Devtools di Nuxt. In questa sezione è mostrato il grafo delle pagine agganciate al Vue-router, i middleware e i layout per ogni pagina. È presente inoltre un indicatore che mostra come il rendering della pagina `testpage` abbia impiegato 10ms.](./res/nuxt-devtools.png){width=70%}
+
+#### `nuxi module`
 
 [^devtools]: Come quelli di [Firefox](https://firefox-source-docs.mozilla.org/devtools-user/), dei derivati di [Chromium](https://developer.chrome.com/docs/devtools?hl=it), di [Safari](https://developer.apple.com/safari/tools/) ed di [Edge](https://learn.microsoft.com/en-us/microsoft-edge/devtools-guide-chromium/overview).
 
+#### `nuxi typecheck`
+
+Consente di eseguire il controllo statico del codice Typescript, per trovare errori di sintassi e di logica prima di eseguire la build dell'applicazione, anche nei file Vue.  Richiede l'installazione di `vue-tsc` come dipendenza di sviluppo. 
+
 #### `nuxi test`
 
-Esegue i test definiti in `~/tests`[^home-directory]. Richiede l'installazione di `@nuxt/test-utils` come dipendenza di sviluppo. 
+Esegue i test definiti in `~/tests`[^home-directory]. Richiede l'installazione di `@nuxt/test-utils` come dipendenza di sviluppo. In questo modo si possono avviare i testi di
 
+- Unità: sono i test che verifica il comportamento di una singola funzione o di un singolo componente secondo la previsione del programmatore. Sono implementati con `vitest`, di default, o `jest`.
+- Componenti: 
+- Integrazione: si tratta di test che verificano il corretto funzionamento di più componenti insieme, con un mock del router. Questo tipo di test garantisce che, ad un'aggiunta di un nuovo componente, non si verifichino errori di rendering o di logica con i componenti già esistenti.
+- End-to-end (E2E): questo tipo di test simula l'interazione di un utente con l'applicazione, attraverso un browser virtuale, implementato con `playwright` o `puppeteer`. Questo tipo di test garantisce che l'applicazione sia accessibile e usabile da un utente reale, mitigando i problemi di accessibilità discussi nel [capitolo 1](#ritorno-al-server-side-rendering).
 
 [^home-directory]: Nella trattazione si userà la convenzione, usata anche da Nuxt, di indicare con `~` la directory di radice del progetto, dove sono presenti i file `nuxt.config.ts` e `package.json`.
 
 #### `nuxi build`
 
-#### `nuxi module`
+Con i comandi esposti si possono controllare le misure
 
 ### Directories
 
-Viene di seguito esposta una panoramica di tutte le directories che si possono trovare in un progetto Nuxt:
+Viene di seguito proposta una panoramica di tutte le directories che si possono trovare in un progetto Nuxt:
 
 ```bash
 assets/					# Risorse statiche come immagini, media e font
@@ -125,9 +138,61 @@ tsconfig.json
 
 #### Pages
 
+
+```html
+<script setup lang="ts">
+definePageMeta(
+	{
+		middleware: [
+			"testmiddleware"
+		],
+		layout: "testlayout"
+	}
+);
+</script>
+
+<template>
+	<!-- Utilizzo di componenti -->
+</template>
+
+<style scoped>
+	/* Stili CSS */
+</style>
+```
+
+dunque vue esegue
+
+lang="ts"
+
+definePageMeta
+	macro del compilatore
+
+scoped
+	limita l'applicazione delle regole css al solo componente nel quale è definito
+
 rotte
 
-routing
+```typescript
+definePageMeta(meta: PageMeta) => void
+
+interface PageMeta {
+  validate?: (route: RouteLocationNormalized) => boolean | Promise<boolean> | Partial<NuxtError> | Promise<Partial<NuxtError>>
+  redirect?: RouteRecordRedirectOption
+  name?: string
+  path?: string
+  props?: RouteRecordRaw['props']
+  alias?: string | string[]
+  pageTransition?: boolean | TransitionProps
+  layoutTransition?: boolean | TransitionProps
+  viewTransition?: boolean | 'always'
+  key?: false | string | ((route: RouteLocationNormalizedLoaded) => string)
+  keepalive?: boolean | KeepAliveProps
+  layout?: false | LayoutKey | Ref<LayoutKey> | ComputedRef<LayoutKey>
+  middleware?: MiddlewareKey | NavigationGuard | Array<MiddlewareKey | NavigationGuard>
+  scrollToTop?: boolean | ((to: RouteLocationNormalizedLoaded, from: RouteLocationNormalizedLoaded) => boolean)
+  [key: string]: unknown
+}
+```
 
 #### Components
 
@@ -144,6 +209,10 @@ Componenti *built-in*:
 - `<NuxtRouteAnnouncer>`
 - `<NuxtWelcome>`
 - `<ServerPlaceholder>`
+
+setup
+	abilita la composition api
+
 
 #### Layouts
 
@@ -168,6 +237,8 @@ tutto questo manualmente!
 Durante la fase di progettazione, diversi tipi di applicazione suggeriscono diverse esigenze, e Nuxt si dimostra versatile a partire dalle modalità di rendering che offre.
 
 In questo contesto, con rendering di una pagina web non si intende il processo di disegno dei pixel sullo schermo, del quale generalmente si occuperà il browser web delegando al sistema operativo la gestione dell'hardware. Qui con rendering si intende il processo di generazione del codice HTML, CSS e Javascript che costituisce la pagina web.
+
+#### Routing unificato
 
 #### Client Side Rendering
 

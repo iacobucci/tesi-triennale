@@ -223,7 +223,7 @@ Offre un supporto a Typescript nativamente. È illustrata con dettaglio nel [cap
 
 L'evoluzione dei sistemi per fare query a basi di dati da Javascript è poi diramata in direzioni diverse, da quelli che usano protocolli applicativi binari (basati ad esempio su gRPC) a quelli che usano linguaggi di query specifici (come GraphQL), ad ORM che introducono nuovi linguaggi di definizione dei modelli (come Prisma).
 
-## Ritorno al server side rendering
+## Ritorno al server-side rendering
 
 Dal lancio di React sempre più applicazioni web hanno fatto uso della tecnica CSR per via della migliorata esperienza utente e di sviluppo. Questo approccio ha portato però una serie di nuovi problemi e limitazioni legate al meccanismo di rendering.
 
@@ -244,7 +244,7 @@ Per gli stessi motivi che portano al cumulative shift layout, ci potrebbero esse
 
 ------
 
-Per questi motivi, a partire dal 2016, sono emerse delle nuove tendenze che hanno portato ad un ritorno al server side rendering, in combinazione con i sistemi basati su componenti, per unire i vantaggi di entrambi i modelli.
+Per questi motivi, a partire dal 2016, sono emerse delle nuove tendenze che hanno portato ad un ritorno al server-side rendering, in combinazione con i sistemi basati su componenti, per unire i vantaggi di entrambi i modelli.
 Esempi di framework che supportano il SSR sono: Angular Universal, Next.js per React e Nuxt per Vue, che verrà illustrato nel [capitolo 2](#nuxt).
 
 [^corewebvitals]: [Google developers - Core web vitals](https://developers.google.com/search/docs/appearance/core-web-vitals?hl=it) - Al 10 maggio 2023, la durata massima ammissibile per il FCP è di 2.5s.
