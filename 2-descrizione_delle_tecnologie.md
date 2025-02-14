@@ -42,7 +42,7 @@ vue -- Richiesta utente --> controller
 controller -.-> vue
 ```
 
-> L'<span id="architettura-nuxt">architettura</span> generale di una applicazione Nuxt. Si noti che il frontend Vue adotta il pattern *MVVM* quindi si hanno due modelli con interfacce potenzialmente distinte. Infatti nel modo tradizionale di usare Vue, backend e frontend potrebbero essere viste come due applicazioni a bassa coesione (basti pensare a come potrebbero essere realizzate in due linguaggi di programmaizone differenti) ed alto accoppiamento (nel senso che un cambiamento da un lato potrebbe richiederebbe un altro cambiamento dall'altro lato del sistema, per mantenere la coerenza). Nuxt si occupa appunto di gestire la **comunicazione tra i due models**: il model dei dati persistenti ed il model dell'applicazione che esegue nel browser, in modo da ottenere *loose coupling* e *high cohesion*.
+> L'architettura generale di una applicazione Nuxt. Si noti che il frontend Vue adotta il pattern *MVVM* quindi si hanno due modelli con interfacce potenzialmente distinte. Infatti nel modo tradizionale di usare Vue, backend e frontend potrebbero essere viste come due applicazioni a bassa coesione (basti pensare a come potrebbero essere realizzate in due linguaggi di programmaizone differenti) ed alto accoppiamento (nel senso che un cambiamento da un lato potrebbe richiederebbe un altro cambiamento dall'altro lato del sistema, per mantenere la coerenza). Nuxt si occupa appunto di gestire la **comunicazione tra i due models**: il model dei dati persistenti ed il model dell'applicazione che esegue nel browser, in modo da ottenere *loose coupling* e *high cohesion*.
 
 Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo obiettivo di semplificare la creazione di applicazioni web fornendo un'infrastruttura preconfigurata e pronta all'uso. In questo modo lo sviluppatore può concentrarsi da subito sulla logica dell'applicazione, piuttosto che sulla configurazione del progetto. È quindi ricalcato il punto di vista di David Heinemeier Hansson su Rails, il framework per applicazioni web per Ruby che ideò nel luglio 2004, per il quale sosteneva il principio "convention over configuration"[^convention-over-configuration].
 
@@ -52,7 +52,7 @@ Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo
 
 L'ecosistema Nuxt fa uso di un programma invocabile da linea di comando chiamato *nuxi*. È installabile globalmente su un sistema provvisto di Node eseguendo `npm i -g @nuxt/cli`, e dispone di vari sotto-comandi per la gestione del progetto. È consigliato usare `npx nuxi <sotto-comando>` per evitare conflitti tra le versioni dei pacchetti installati localmente e globalmente: anteponendo "npx" si userà, se presente, la versione locale `node_modules/@nuxt/cli`.
 
-##### `nuxi init <nome-progetto>`
+#### `nuxi init <nome-progetto>`
 
 È il comando per avviare un nuovo progetto nella directory `./<nome-progetto>`. Eseguendolo si dovrà scegliere il sistema di gestione dei pacchetti, che riguarderà il modo con il quale Nuxt ed anche gli agli altri pacchetti di terze parti saranno installati, e può essere tra:
 
@@ -64,7 +64,7 @@ L'ecosistema Nuxt fa uso di un programma invocabile da linea di comando chiamato
 
 Subito dopo c'è la scelta **Initialize git repository**, che eseguirà `git init` se selezionata. Nella trattazione che segue adotteremo Pnpm come package manager per la modalità di sviluppo e di test, Npm per la modalità di produzione e Git per il controllo di versione.
 
-##### `nuxi add`
+#### `nuxi add`
 
 Una volta inizializzato il progetto, questo è il comando per aggiungere funzionalità all'app. Prende come terzo argomento il tipo di template da aggiungere, che può essere tra:
 
@@ -76,34 +76,34 @@ Una volta inizializzato il progetto, questo è il comando per aggiungere funzion
 - **composable**: Una funzione, simile ad un hook React, che può essere usata in uno o più componenti Vue. È un modo per riutilizzare la logica di business in più parti dell'applicazione.
 - **plugin**: Uno script typescript che viene eseguito prima di inizializzare l'applicazione Vue. Utile per l'inizializzazione di componenti software di terze parti.
 
-##### `nuxi dev`
+Questi template sono dettagliati nel paragrafo [Directories](#directories).
+
+#### `nuxi dev`
 
 È il comando per avviare il server di sviluppo, che permette di testare l'applicazione in locale. Di default il server è accessibile alla rotta `http://localhost:3000`, ma si può cambiare la porta con l'opzione `--port <numero-porta>`. Il server di sviluppo è dotato di *hot reloading*, cioè la capacità di ricaricare automaticamente la pagina web quando si salvano i file del progetto, in modo da velocizzare il ciclo di sviluppo.
 
-##### `nuxi devtools`
+#### `nuxi devtools`
 
 Abilita o disabilita l'iniezione degli script Devtools nell'app Vue, quando è lanciata con `nuxi dev`. Sono un set di strumenti il debugging di applicazioni Nuxt, aggiuntivi a quelli già presenti nei browser moderni[^devtools].
 
+> ![Devtools di Nuxt. In questa sezione è mostrato il grafo delle pagine agganciate al Vue-router, i middleware e i layout per ogni pagina. È presente inoltre un indicatore che mostra come il rendering della pagina `testpage` abbia impiegato 10ms.](./res/nuxt-devtools.png){width=70%}
 
 [^devtools]: Come quelli di [Firefox](https://firefox-source-docs.mozilla.org/devtools-user/), dei derivati di [Chromium](https://developer.chrome.com/docs/devtools?hl=it), di [Safari](https://developer.apple.com/safari/tools/) ed di [Edge](https://learn.microsoft.com/en-us/microsoft-edge/devtools-guide-chromium/overview).
 
+#### `nuxi test`
 
-
-
-##### `nuxi test`
-
-Esegue i test definiti in `tests`[^home-directory]. Richiede l'installazione di `@nuxt/test-utils` come dipendenza di sviluppo. 
+Esegue i test definiti in `~/tests`[^home-directory]. Richiede l'installazione di `@nuxt/test-utils` come dipendenza di sviluppo. 
 
 
 [^home-directory]: Nella trattazione si userà la convenzione, usata anche da Nuxt, di indicare con `~` la directory di radice del progetto, dove sono presenti i file `nuxt.config.ts` e `package.json`.
 
-##### `nuxi build`
+#### `nuxi build`
 
-##### `nuxi module`
+#### `nuxi module`
 
+### Directories
 
-#### Directories
-
+Viene di seguito esposta una panoramica di tutte le directories che si possono trovare in un progetto Nuxt:
 
 ```bash
 assets/					# Risorse statiche come immagini, media e font
@@ -123,13 +123,33 @@ package.json
 tsconfig.json
 ```
 
-##### Layouts
+#### Pages
 
-##### Server
+rotte
 
-propriamente backend
+routing
 
-#### tooling e Typescript "out of the box"
+#### Components
+
+Componenti *built-in*:
+
+- `<ClientOnly>`
+- `<DevOnly>`
+- `<NuxtErrorBoundary>`
+- `<NuxtImg>`
+- `<NuxtLayout>`
+- `<NuxtLink>`
+- `<NuxtLoadingIndicator>`
+- `<NuxtPicture>`
+- `<NuxtRouteAnnouncer>`
+- `<NuxtWelcome>`
+- `<ServerPlaceholder>`
+
+#### Layouts
+
+#### Server
+
+####
 
 
 tsconfig.json
@@ -147,7 +167,7 @@ tutto questo manualmente!
 
 Durante la fase di progettazione, diversi tipi di applicazione suggeriscono diverse esigenze, e Nuxt si dimostra versatile a partire dalle modalità di rendering che offre.
 
-In questo contesto, con rendering di una pagina web non si intende il processo di disegno dei pixel sullo schermo, del quale generalmente si occuperà il browser web delegando al sistema operativo la gestione dell'hardware. Qui con rendering si intende il processo di generazione del codice HTML, CSS e Javascript che costituisce la pagina web, e che viene inviato al client per essere visualizzato.
+In questo contesto, con rendering di una pagina web non si intende il processo di disegno dei pixel sullo schermo, del quale generalmente si occuperà il browser web delegando al sistema operativo la gestione dell'hardware. Qui con rendering si intende il processo di generazione del codice HTML, CSS e Javascript che costituisce la pagina web.
 
 #### Client Side Rendering
 

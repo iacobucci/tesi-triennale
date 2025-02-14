@@ -5,6 +5,8 @@ Usage:
     pandoc --filter ./minted.py -o myfile.tex myfile.md
 '''
 
+# https://github.com/nick-ulle/pandoc-minted/blob/master/pandoc-minted.py
+
 from string import Template
 from pandocfilters import toJSONFilter, RawBlock, RawInline
 
