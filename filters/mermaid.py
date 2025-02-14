@@ -21,7 +21,7 @@ def intercept_codeblock(elem, doc):
 			with open(mmd, "w", encoding="utf-8") as mermaid_file:
 				mermaid_file.write(code_content)
 
-			subprocess.run(["mmdc", "-i", mmd, "-o", pdf], check=True, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+			subprocess.run(["node_modules/@mermaid-js/mermaid-cli/src/cli.js", "-i", mmd, "-o", pdf], check=True, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
 
 			subprocess.run(["pdfcrop", pdf, pdf], check=True, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
 

@@ -253,20 +253,16 @@ Esempi di framework che supportano il SSR sono: Angular Universal, Next.js per R
 
 Le tecniche di rilascio di applicazioni web si sono evolute di pari passo alle tecnologie di sviluppo. 
 
-monolitico
-	server fisico, per un unico servizio web
+Il primo modello era quello *monolitico*, in cui l'applicazione web viene distribuita su un server fisico, con un indirizzo IP statico, e che necessita di configurazioni manuali.
 
-docker
-	condivide kernel
-		usa meno risorse di vm che emulano un sistema operativo (come KVM) o addirittura un intero sistema hardware (come QEMU)
-	sono riproducibili
-		le immagini sono versionate e possono essere distribuite
-		le immagini sono leggere
-			le immagini sono composte da strati, che possono essere condivisi tra più immagini
-	sono portabili
+Poi, attorno all'inizio degli anni 2000, sono emersi i primi **provider di cloud**, come Amazon Web Services, Google Cloud Platform, Microsoft Azure e IBM Cloud, che non solo offrivano servizi di hosting di *virtual private server*, traducendo quindi il paradigma monolitico su macchine virtuali, ma anche servizi di *infrastrucure as a service*, permettendo ai progettisti di app web di modificare le risorse di calcolo e di archiviazione secondo necessità e di automatizzare il processo di rilascio. 
 
-continuos integration
-	automatizza il processo di build e di test
-	permette di rilasciare più frequentemente
+Una tecnologia in particolare si è affermata come standard per la distribuzione di applicazioni web attraverso l'infrastruttura cloud, il **container**, e la sua implementazione più popolare, Docker.
 
-	
+Docker è un sistema di virtualizzazione di risorse a livello di sistema operativo, che permette di isolare i processi di un'applicazione in un ambiente chiuso che condivide il kernel del sistema operativo host.
+Questa tecnica è diversa da quelle di virtualizzazione classiche, che mirano ad emulare un intero sistema operativo, come fa ad esempio KVM, o un intero sistema hardware, come fa QEMU. Docker è più leggero e più veloce, e permette di avere un ambiente di esecuzione riproducibile e portabile, che può essere distribuito su qualsiasi macchina che abbia Docker installato. [^docker]
+
+[^docker]: [Docker - What is a container?](https://www.docker.com/resources/what-container) In questo articolo vengono comparate le tecnologie di virtualizzazione tradizionali con Docker.
+
+Il ruolo degli informatici coinvolti nello sviluppo di applicazioni web si è quindi differenziato tra gli *architetti di cloud* e gli *ingegneri di sviluppo*. Tuttavia, una volta che l'infrastruttura è pronta, il processo di rilascio di un'aggiornamento dell'applicazione si semplifica notevolmente, grazie ai metodi di di **continuous integration** come Travis CI, Circle CI e Github Actions, che permettono di automatizzare il processo di build e di test, e di rilasciare su cloud con la stessa facilità con cui si fa un commit sul repository di codice.
+

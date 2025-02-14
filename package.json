@@ -1,0 +1,11 @@
+{
+  "name": "tesi-triennale",
+  "version": "1.0.0",
+  "description": "Tesi di laurea triennale su sviluppo web in Aws, Nuxt e Typeorm",
+  "license": "ISC",
+  "author": "Valerio Iacobucci",
+  "type": "commonjs",
+  "dependencies": {
+    "mmdc": "^0.0.1"
+  }
+}

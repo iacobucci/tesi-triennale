@@ -1,6 +1,6 @@
 # Descrizione delle tecnologie
 
-In questo capitolo si illustrano due particolari tecnologie per la realizzazione di applicazioni web: Nuxt e Typeorm. Sono state scelte tra le molte alternative disponibili per il loro uso diffuso e consolidato nel settore perché esemplificano una naturale continuazione delle linee evolutive descritte nel [capitolo precedente](#linee-evolutive) fornendo una soluzione alle problematiche affrontate, e per altre ragioni che saranno discusse in seguito.
+In questo capitolo si illustrano due particolari tecnologie per la realizzazione di applicazioni web: Nuxt e Typeorm. Sono state scelte tra le molte alternative disponibili per il loro uso diffuso e consolidato nel settore, e perché esemplificano una naturale continuazione delle linee evolutive descritte nel [capitolo precedente](#linee-evolutive) fornendo una soluzione alle problematiche affrontate, e per altre ragioni che saranno discusse in seguito.
 
 ## Nuxt
 
@@ -48,25 +48,23 @@ Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo
 
 [^convention-over-configuration]: [Wikipedia - Convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration)
 
-È consigliato avviare un nuovo progetto con la *command line interface* di Nuxt, che guida lo sviluppatore nella scelta delle opzioni di configurazione. Questo per scaricare dagli archivi NPM le ultime versioni dei pacchetti necessari, per creare la struttura di base del progetto e per generare i file di configurazione standard.
-
 ### Command line interface
 
 L'ecosistema Nuxt fa uso di un programma invocabile da linea di comando chiamato *nuxi*. È installabile globalmente su un sistema provvisto di Node eseguendo `npm i -g @nuxt/cli`, e dispone di vari sotto-comandi per la gestione del progetto. È consigliato usare `npx nuxi <sotto-comando>` per evitare conflitti tra le versioni dei pacchetti installati localmente e globalmente: anteponendo "npx" si userà, se presente, la versione locale `node_modules/@nuxt/cli`.
 
-#### `nuxi init <nome-progetto>`
+##### `nuxi init <nome-progetto>`
 
 È il comando per avviare un nuovo progetto nella directory `./<nome-progetto>`. Eseguendolo si dovrà scegliere il sistema di gestione dei pacchetti, che riguarderà il modo con il quale Nuxt ed anche gli agli altri pacchetti di terze parti saranno installati, e può essere tra:
 
-- **Npm**: Il classico package manager di Node, solitamente installato assieme ad esso scegliendo il pacchetto `node` nelle repository delle maggiori distribuzioni Linux, e disponibile di default nelle immagini Docker ufficiali di Node.
+- **Npm**: Il classico package manager di Node, solitamente installato assieme ad esso scegliendo il pacchetto `node` nelle repository delle maggiori distribuzioni Linux, e disponibile di default nelle immagini Docker ufficiali di Node. È intesa come la sensible default.
 - **Pnpm**: Un package manager alternativo a npm, progettato per migliorare le performance e ottimizzare l'utilizzo dello spazio su disco rispetto a npm, preferito per lo sviluppo locale.
-- **Yarn**: Un package manager alternativo a npm, sviluppato in Facebook nel 2016.
+- **Yarn**: Un altro package manager alternativo a npm, sviluppato in Facebook nel 2016.
 - **Bun**: Con questa opzione si sceglie di usare una runtime diversa da Node: Bun, più efficiente in alcune operazioni di I/O, compatibile con le API Node e i suoi pacchetti di terze parti.
 - **Deno**: Un'altra runtime JavaScript che offre supporto nativo a Typescript, ma non è del tutto compatibile con alcuni pacchetti npm.
 
-Subito dopo c'è la scelta **Initialize git repository**, che eseguirà `git init` se selezionata. Nella trattazione che segue adotteremo Npm e Git.
+Subito dopo c'è la scelta **Initialize git repository**, che eseguirà `git init` se selezionata. Nella trattazione che segue adotteremo Pnpm come package manager per la modalità di sviluppo e di test, Npm per la modalità di produzione e Git per il controllo di versione.
 
-#### `nuxi add`
+##### `nuxi add`
 
 È il comando per aggiungere un nuovo **template** al progetto, cioè un insieme di file e di configurazioni predefinite che possono essere usate per creare una nuova funzionalità. 
 
@@ -78,25 +76,25 @@ Subito dopo c'è la scelta **Initialize git repository**, che eseguirà `git ini
 - **composable**:
 - **plugin**:
 
-#### `nuxi dev`
+##### `nuxi dev`
 
-#### `nuxi devtools`
+##### `nuxi devtools`
 
-Abilita o disabilita l'iniezione degli script Devtools, cioè un set di strumenti il debugging e profilazione di applicazioni Nuxt, aggiuntivi a quelli già presenti nei browser moderni[^devtools].
+Abilita o disabilita l'iniezione degli script Devtools, cioè un set di strumenti il debugging di applicazioni Nuxt, aggiuntivi a quelli già presenti nei browser moderni[^devtools].
 
 [^devtools]: Come quelli di [Firefox](https://firefox-source-docs.mozilla.org/devtools-user/), dei derivati di [Chromium](https://developer.chrome.com/docs/devtools?hl=it), di [Safari](https://developer.apple.com/safari/tools/) ed di [Edge](https://learn.microsoft.com/en-us/microsoft-edge/devtools-guide-chromium/overview).
 
-#### `nuxi typecheck`
-
-npm install --save-dev vue-tsc typescript
-
-#### `nuxi test`
+##### `nuxi test`
 
 Esegue i test di unità e di integrazione
 
-#### `nuxi build`
+##### `nuxi build`
 
-### Struttura delle directories
+##### `nuxi module`
+
+
+#### Directories
+
 
 ```bash
 assets/					# Risorse statiche come immagini, media e font
@@ -115,6 +113,26 @@ nuxt.config.ts
 package.json
 tsconfig.json
 ```
+
+##### Layouts
+
+##### Server
+
+propriamente backend
+
+#### tooling e Typescript "out of the box"
+
+
+tsconfig.json
+
+vite
+	in alternativa a webpack e a configurazione manuale
+
+tutto questo manualmente!
+
+#### Configurazione
+
+.nuxt.config.ts
 
 ### Modalità di rendering del frontend
 
@@ -188,21 +206,12 @@ md -> html
 
 ### Server Nitro
 
-#### Composables
-
-sono funzioni che si possono usare sia nel frontend che nel backend, hanno la stessa firma ma un comportamento e implementazioni diverse
-
-useFetch
-useQuery
-
 #### Routes tipizzate
 
 COME FANNO AD ESSERCI DELLE ROUTES TIPIZZATE??
 controllare
 
 #### Modalità di sviluppo
-
-Hot module reloading
 
 #### Build per la produzione
 
@@ -239,6 +248,10 @@ Oltre a modificare la monorepo, gli sviluppatori Open source sono invitati a cre
 Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di usare Nuxt in combinazione con Typeorm.
 
 [^moduli-nuxt]: [Moduli supportati ufficialmente da Nuxt](https://nuxt.com/modules)
+
+
+
+
 
 ## Typeorm
 
