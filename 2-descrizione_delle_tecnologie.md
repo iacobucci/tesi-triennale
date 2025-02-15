@@ -1,6 +1,6 @@
 # Descrizione delle tecnologie
 
-In questo capitolo si illustrano due particolari tecnologie per la realizzazione di applicazioni web: Nuxt e Typeorm. Sono state scelte tra le molte alternative disponibili per il loro uso diffuso e consolidato nel settore, e perché esemplificano una naturale continuazione delle linee evolutive descritte nel [capitolo precedente](#linee-evolutive) fornendo una soluzione alle problematiche affrontate, e per altre ragioni che saranno discusse in seguito.
+In questo capitolo si illustrano due particolari tecnologie per la realizzazione di applicazioni web: Nuxt e TypeORM. Sono state scelte tra le molte alternative disponibili per il loro uso diffuso e consolidato nel settore, e perché esemplificano una naturale continuazione delle linee evolutive descritte nel [capitolo precedente](#linee-evolutive) fornendo una soluzione alle problematiche affrontate, e per altre ragioni che saranno discusse in seguito.
 
 ## Nuxt
 
@@ -42,9 +42,11 @@ vue -- Richiesta utente --> controller
 controller -.-> vue
 ```
 
-> L'architettura generale di una applicazione Nuxt. Si noti che il frontend Vue adotta il pattern *MVVM* quindi si hanno due modelli con interfacce potenzialmente distinte. Infatti nel modo tradizionale di usare Vue, backend e frontend potrebbero essere viste come due applicazioni a bassa coesione (basti pensare a come potrebbero essere realizzate in due linguaggi di programmaizone differenti) ed alto accoppiamento (nel senso che un cambiamento da un lato potrebbe richiederebbe un altro cambiamento dall'altro lato del sistema, per mantenere la coerenza). Nuxt si occupa appunto di gestire la **comunicazione tra i due models**: il model dei dati persistenti ed il model dell'applicazione che esegue nel browser, in modo da ottenere *loose coupling* e *high cohesion*.
+> L'architettura generale di una applicazione Nuxt. Si noti che il frontend Vue adotta il pattern *MVVM* quindi si hanno due modelli con interfacce potenzialmente distinte. Infatti nel modo tradizionale di usare Vue, backend e frontend potrebbero essere viste come due applicazioni a bassa coesione (basti pensare a come potrebbero essere realizzate in due linguaggi di programmazione differenti) ed alto accoppiamento (nel senso che un cambiamento da un lato potrebbe richiedere un altro cambiamento dall'altro lato del sistema, per mantenere la coerenza). Nuxt si occupa appunto di gestire la **comunicazione tra i due models**: il model dei dati persistenti ed il model dell'applicazione che esegue nel browser, in modo da ottenere *loose coupling* e *high cohesion*.
 
 Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo obiettivo di semplificare la creazione di applicazioni web fornendo un'infrastruttura preconfigurata e pronta all'uso. In questo modo lo sviluppatore può concentrarsi da subito sulla logica dell'applicazione, piuttosto che sulla configurazione del progetto. È quindi ricalcato il punto di vista di David Heinemeier Hansson su Rails, il framework per applicazioni web per Ruby che ideò nel luglio 2004, per il quale sosteneva il principio "convention over configuration"[^convention-over-configuration].
+
+Nonostante questo, Nuxt utilizza internamente tecnologie raffinate, come Typescript e Vite, che consentono di scrivere codice robusto. Con Nuxt si possono realizzare applicazioni di vario genere, come *landing page*, blog, documentazioni o wiki, e-commerce, dashboard gestionali, sistemi di social networking, applicazioni mobile-first, etc...
 
 [^convention-over-configuration]: [Wikipedia - Convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration)
 
@@ -68,25 +70,38 @@ Subito dopo c'è la scelta **Initialize git repository**, che eseguirà `git ini
 
 Una volta inizializzato il progetto, questo è il comando per aggiungere funzionalità all'app. Prende come terzo argomento il tipo di template da aggiungere, che può essere tra:
 
+- **app**: Il componente Vue che fa da entry point dell'applicazione. È già presente di default in ogni progetto Nuxt, ma può essere sovrascritto con questo comando.
 - **page**: Una pagina web, che sarà accessibile alla rotta `/<nome-pagina>`.
 - **layout**: Un layout Vue, cioè un componente che definisce la struttura di una o più pagine. È un modo di riutilizzare il codice HTML e CSS in più parti dell'applicazione.
 - **component**: Un componente Vue, riutilizzabile in tutte le pagine o layout.
+- **error**: Un componente Vue che sarà mostrato in caso di errore.
 - **middleware**: Un middleware, cioè una funzione che può essere eseguita prima di caricare una pagina, lato server o lato client.
-- **api**: Un endpoint API, che sarà accessibile alla rotta `/api/<nome-endpoint>`. Utile per la comunicazione tra frontend e backend.
 - **composable**: Una funzione, simile ad un hook React, che può essere usata in uno o più componenti Vue. È un modo per riutilizzare la logica di business in più parti dell'applicazione.
-- **plugin**: Uno script typescript che viene eseguito prima di inizializzare l'applicazione Vue. Utile per l'inizializzazione di componenti software di terze parti.
-
-Questi template sono dettagliati nel paragrafo [Directories](#directories).
+- **plugin**: Uno script typescript che viene eseguito prima di inizializzare l'applicazione Vue. Utile per l'inizializzazione di componenti software di terze parti. A differenza dei middleware, i plugin vengono eseguiti solo una volta, all'avvio dell'applicazione.
+- **api**: Un endpoint API, che sarà accessibile alla rotta `/api/<nome-endpoint>`. Utile per la comunicazione tra frontend e backend.
+- **server-route**: Un endpoint API, che sarà accessibile alla rotta `/<nome-endpoint>`.
+- **server-middleware**: Un middleware, simile a quelli di Express, che verrà eseguito prima di caricare una pagina, lato server.
+- **server-plugin**: Uno script typescript che viene eseguito prima di inizializzare il server Nitro. Utile per l'inizializzazione di componenti software di terze parti.
+- **server-util**: Un modulo typescript importato automaticamente in ogni file di tipo server.
+- **module**: Con questa opzione si crea un modulo Nuxt per sperimentarlo, e che potrà essere utilizzato anche in altri progetti.
 
 #### `nuxi dev`
 
-È il comando per avviare il server di sviluppo, che permette di testare l'applicazione in locale. Di default il server è accessibile alla rotta `http://localhost:3000`, ma si può cambiare la porta con l'opzione `--port <numero-porta>`. Il server di sviluppo è dotato di *hot reloading*, cioè la capacità di ricaricare automaticamente la pagina web quando si salvano i file del progetto, in modo da velocizzare il feedback del sistema al programmatore durante lo sviluppo.
+Una volta aggiunte le prime funzionalità si può lanciare  il server di sviluppo, che permette di testare l'applicazione in locale. Di default il server è accessibile alla rotta `http://localhost:3000`, ma si può cambiare la porta con l'opzione `--port <numero-porta>`. Il server di sviluppo è dotato di *hot reloading*, cioè la capacità di ricaricare automaticamente la pagina web quando si salvano i file del progetto, in modo da velocizzare il feedback del sistema al programmatore.
 
 #### `nuxi devtools`
 
 Abilita o disabilita l'iniezione degli script Devtools nell'app Vue, quando è lanciata con `nuxi dev`. Sono un set di strumenti il debugging di applicazioni Nuxt, aggiuntivi a quelli già presenti nei browser moderni[^devtools].
 
-grafo delle pagine
+Viene aggiunto un elemento html alla pagina, nel quale sono presenti diverse sezioni che mostrano informazioni di profilazione dell'app in sviluppo, tra cui:
+
+- **Pages**: Un grafo delle pagine 
+- **Components**: Un grafo delle pagine 
+- **Components tree**: Un grafo delle pagine 
+- **Imports**: Un grafo delle pagine 
+- **Modules**: Un grafo delle pagine 
+- **Assets**: Un grafo delle pagine 
+
 
 
 > ![Devtools di Nuxt. In questa sezione è mostrato il grafo delle pagine agganciate al Vue-router, i middleware e i layout per ogni pagina. È presente inoltre un indicatore che mostra come il rendering della pagina `testpage` abbia impiegato 10ms.](./res/nuxt-devtools.png){width=70%}
@@ -326,7 +341,7 @@ Nel particolare la repository è strutturata secondo il modello di *monorepo*, q
 - `packages/test-utils` contiene degli script per il testing di unità.
 - `packages/vite` è una fork di Vite, un bundler per gli script di frontend, usato di default da Nuxt.
 - `packages/webpack` è una fork di Webpack, un'altro bundler per gli script di frontend che si può scegliere in alternativa a Vite.
-- `docs` è la documentazione ufficiale, scritta sotto forma di sito web staico, usando Nuxt stesso.
+- `docs` è la documentazione ufficiale, scritta sotto forma di sito web statico, usando Nuxt stesso.
 
 I contributi sono proposti su Github e l'iter consigliato varia in base al tipo di modifica:
 
@@ -345,7 +360,7 @@ Al Novembre 2024, sono stati aperti circa 15'000 issues, sono stati avanzati cir
 Oltre a modificare la monorepo, gli sviluppatori Open source sono invitati a creare **moduli** per estendere le Nuxt con funzionalità non essenziali, ma idonee per l'interoperabilità con altri software. Questi moduli possono essere pubblicati su Npm come pacchetti, con `@nuxt/kit` come dipendenza, ed al Dicembre 2024 se ne contano più di 200[^moduli-nuxt].
 
 
-Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di usare Nuxt in combinazione con Typeorm.
+Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di usare Nuxt in combinazione con TypeORM.
 
 [^moduli-nuxt]: [Moduli supportati ufficialmente da Nuxt](https://nuxt.com/modules)
 
@@ -353,7 +368,7 @@ Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di 
 
 
 
-## Typeorm
+## TypeORM
 
 DESIGN PATTERNS
 COME FA A FUNZIONARE?

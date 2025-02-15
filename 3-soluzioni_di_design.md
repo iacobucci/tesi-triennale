@@ -10,3 +10,4 @@ In questo capitolo si illustrano alcune soluzioni di design per la realizzazione
 ## Scalabilità
 
 
+[^serverless]: [Serverless architectures](https://martinfowler.com/articles/serverless.html) - Articolo di Mike Roberts sul blog di Martin Fowler che descrive 

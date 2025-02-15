@@ -24,6 +24,10 @@
 
 1. [TypeORM official documentation](https://typeorm.io/) - la documentazione ufficiale della libreria TypeORM.
 
+1. [Web browser engineering](https://browser.engineering/onepage.html) - un libro online di Pavel Panchekha e Chris Harrelson che spiega come funzionano i browser web e mostra un'implementazione Python di un browser completo.
+
+1. [AWS Cloudformation Documentation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-guide.html) - la documentazione ufficiale di AWS Cloudformation, completa di riferimenti all'API yaml, usata nella trattazione.
+
 1. [Fireship](https://www.youtube.com/@Fireship) - il canale YouTube di Jeff Delaney, una risorsa comprensiva delle molte aree dello sviluppo web, sul quale sono pubblicati tutorial, introduzioni a nuove tecnologie e notizie di attualità sul settore informatico.
 
 ## Ringraziamenti {.unnumbered}
