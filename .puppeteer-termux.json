@@ -1,0 +1,6 @@
+{
+	"executablePath": "/data/data/com.termux/files/usr/bin/chromium-browser",
+	"args": [
+		"--no-sandbox"
+	]
+}

@@ -21,7 +21,10 @@ def intercept_codeblock(elem, doc):
 			with open(mmd, "w", encoding="utf-8") as mermaid_file:
 				mermaid_file.write(code_content)
 
-			subprocess.run(["node_modules/@mermaid-js/mermaid-cli/src/cli.js", "-i", mmd, "-o", pdf], check=True, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+			my_env = os.environ.copy()
+			my_env["PUPPETEER_SKIP_DOWNLOAD"] = "true"
+
+			subprocess.run(["npx", "@mermaid-js/mermaid-cli", "-p", ".puppeteer-termux.json", "-i", mmd, "-o", pdf], env=my_env, check=True, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
 
 			subprocess.run(["pdfcrop", pdf, pdf], check=True, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
 
