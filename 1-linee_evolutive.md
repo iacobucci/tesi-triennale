@@ -265,4 +265,3 @@ Questa tecnica è diversa da quelle di virtualizzazione classiche, che mirano ad
 [^docker]: [Docker - What is a container?](https://www.docker.com/resources/what-container) In questo articolo vengono comparate le tecnologie di virtualizzazione tradizionali con Docker.
 
 Il ruolo degli informatici coinvolti nello sviluppo di applicazioni web si è quindi differenziato tra gli *architetti di cloud* e gli *ingegneri di sviluppo*. Tuttavia, una volta che l'infrastruttura è pronta, il processo di rilascio di un'aggiornamento dell'applicazione si semplifica notevolmente, grazie ai metodi di di **continuous integration** come Travis CI, Circle CI e Github Actions, che permettono di automatizzare il processo di build e di test, e di rilasciare su cloud con la stessa facilità con cui si fa un commit sul repository di codice.
-

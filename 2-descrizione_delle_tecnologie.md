@@ -31,7 +31,7 @@ subgraph vue[**View**]
 end
 
 model[**Model**
-Dati persistenti]
+Dati persistenti	]
 controller[**Controller**
 Server Nitro]
 
@@ -80,7 +80,7 @@ Una volta inizializzato il progetto, questo è il comando per aggiungere funzion
 - **plugin**: Uno script typescript che viene eseguito prima di inizializzare l'applicazione Vue. Utile per l'inizializzazione di componenti software di terze parti. A differenza dei middleware, i plugin vengono eseguiti solo una volta, all'avvio dell'applicazione.
 - **api**: Un endpoint API, che sarà accessibile alla rotta `/api/<nome-endpoint>`. Utile per la comunicazione tra frontend e backend.
 - **server-route**: Un endpoint API, che sarà accessibile alla rotta `/<nome-endpoint>`.
-- **server-middleware**: Un middleware, simile a quelli di Express, che verrà eseguito prima di caricare una pagina, lato server.
+- **server-middleware**: Un middleware, simile a quelli di Express, che si interpone tra
 - **server-plugin**: Uno script typescript che viene eseguito prima di inizializzare il server Nitro. Utile per l'inizializzazione di componenti software di terze parti.
 - **server-util**: Un modulo typescript importato automaticamente in ogni file di tipo server.
 - **module**: Con questa opzione si crea un modulo Nuxt per sperimentarlo, e che potrà essere utilizzato anche in altri progetti.
@@ -101,8 +101,6 @@ Viene aggiunto un elemento html alla pagina, nel quale sono presenti diverse sez
 - **Imports**: Un grafo delle pagine 
 - **Modules**: Un grafo delle pagine 
 - **Assets**: Un grafo delle pagine 
-
-
 
 > ![Devtools di Nuxt. In questa sezione è mostrato il grafo delle pagine agganciate al Vue-router, i middleware e i layout per ogni pagina. È presente inoltre un indicatore che mostra come il rendering della pagina `testpage` abbia impiegato 10ms.](./res/nuxt-devtools.png){width=70%}
 
@@ -126,6 +124,8 @@ Esegue i test definiti in `~/tests`[^home-directory]. Richiede l'installazione d
 [^home-directory]: Nella trattazione si userà la convenzione, usata anche da Nuxt, di indicare con `~` la directory di radice del progetto, dove sono presenti i file `nuxt.config.ts` e `package.json`.
 
 #### `nuxi build`
+
+#### `nuxi cleanup`
 
 Con i comandi esposti si possono controllare le misure
 
@@ -153,7 +153,6 @@ tsconfig.json
 
 #### Pages
 
-
 ```html
 <script setup lang="ts">
 definePageMeta(
@@ -175,7 +174,12 @@ definePageMeta(
 </style>
 ```
 
-dunque vue esegue
+##### Script
+##### Template
+##### Style
+
+setup
+	import automatici
 
 lang="ts"
 
@@ -228,8 +232,11 @@ Componenti *built-in*:
 setup
 	abilita la composition api
 
+reattività dei componenti
 
 #### Layouts
+
+uso di css custom
 
 #### Server
 
@@ -323,6 +330,8 @@ md -> html
 
 #### Routes tipizzate
 
+tipi di fetch
+
 COME FANNO AD ESSERCI DELLE ROUTES TIPIZZATE??
 controllare
 
@@ -376,4 +385,3 @@ COME FA A FUNZIONARE?
 ### Dbms supportati
 
 ### Rappresentazione di entità e relazioni in Typescript
-
