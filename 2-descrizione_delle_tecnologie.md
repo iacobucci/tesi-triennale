@@ -4,7 +4,7 @@ In questo capitolo si illustrano due particolari tecnologie per la realizzazione
 
 ## Nuxt
 
-Nuxt è un framework per applicazioni web, avviato come progetto Open source da Alexandre Chopin e Pooya Parsa nel 2016, che continua ad essere mantenuto attivamente su Github da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/nuxt/nuxt](https://github.com/nuxt/nuxt).
+Nuxt è un framework per applicazioni web, avviato come progetto Open source da Alexandre e Sebastien Chopin e Pooya Parsa nel 2016, che continua ad essere mantenuto attivamente su Github da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/nuxt/nuxt](https://github.com/nuxt/nuxt).
 
 Nuxt si propone di risolvere i problemi di performance, di ottimizzazione e di accessibilità delle applicazioni basate su componenti con il suo sistema di frontend, ma anche di fornire un ambiente di sviluppo flessibile, per facilitare la scalabilità e la manutenibilità del codice backend. Si possono infatti realizzare applicazioni **fullstack** secondo il pattern MVC, in cui la view è implementata con Vue ed il controller con *Nitro*, un server http fatto su misura per Nuxt.
 
@@ -48,6 +48,47 @@ Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo
 
 Nonostante questo, Nuxt utilizza internamente tecnologie raffinate, come Typescript e Vite, che consentono di scrivere codice robusto. Con Nuxt si possono realizzare applicazioni di vario genere, come *landing page*, blog, documentazioni o wiki, e-commerce, dashboard gestionali, sistemi di social networking, applicazioni mobile-first, etc...
 
+La repository di sviluppo di Nuxt è organizzata secondo il modello di *monorepo*, quindi include pacchetti funzionanti in maniera disaccoppiata, ma che sono usati tutti in maniera coesa all'interno del sistema Nuxt.
+
+- `packages/nuxt` è il core del framework.
+- `packages/nuxi` è lo strumento da linea di comando per la creazione di nuovi progetti, ora spostato su [github.com/nuxt/cli](github.com/nuxt/cli).
+- `packages/schema` contiene le definizioni dei tipi di dati utilizzati.
+- `packages/kit` è un toolkit per la creazione di moduli aggiuntivi.
+- `packages/test-utils` contiene degli script per il testing di unità.
+- `packages/vite` è una fork di Vite, un bundler per gli script di frontend, usato di default da Nuxt.
+- `packages/webpack` è una fork di Webpack, un'altro bundler per gli script di frontend che si può scegliere in alternativa a Vite.
+- `docs` è la documentazione ufficiale, scritta sotto forma di sito web statico, usando Nuxt stesso.
+
+Si possono proporre contribuiti su Github e l'iter consigliato varia in base al tipo di modifica:
+
+- Per proporre un **Bugfix** si apre un *issue*[^github-issue] per discutere il problema, e poi si apre una *pull request* che risolva l'issue.
+
+- Per proporre una **Nuova funzionalità** si apre una *discussion*, e poi di aprire una *pull request* che implementi la funzionalità.
+
+[^github-issue]: Si tratta di un thread aggiunto alla sezione "Issues", che funziona come un forum specifico per ogni progetto, accessibile a tutti gli utenti registrati di Github.
+
+I contributi poi vengono sottoposti a test automatici prima di essere passati ad una revisione da parte del team di sviluppo, in modo da conformare lo stile del codice, della documentazione ed anche del messaggio di commit. Le etichette fornite nelle *PR* più comunemente sono: `enhancement`, `nice-to-have`, `bug`, `discussion`, `documentation`, `performance` e `refactor`.
+
+Al Novembre 2024, sono stati aperti circa 15'000 issues, sono stati avanzati circa 7'000 commit da più di 700 contributori. I progetti Open source su Github che usano Nuxt sono circa 350'000 e questi numeri sono in costante crescita.
+
+Oltre a modificare la monorepo, gli sviluppatori Open source sono invitati a creare moduli per estendere le Nuxt con funzionalità non essenziali, ma idonee per l'interoperabilità con altri software. Questi moduli possono essere pubblicati su Npm come pacchetti, con `@nuxt/kit` come dipendenza, ed al Dicembre 2024 se ne contano più di 200[^moduli-nuxt].
+
+La versione vanilla di Nuxt propone un'intelaiatura che include una command line interface con cui si definisce il funzionamento del backend, che determina il modo in cui il frontend viene renderizzato. Il frontend, a sua volta, può fare richieste al backend per ottenere i dati necessari alla visualizzazione delle pagine web.
+
+In questo schema sono mostrate queste parti in comunicazione:
+
+```mermaid {height=1.2cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+flowchart LR
+
+cli --> server -- Modalità di rendering --> frontend
+frontend -- Fetch dei dati --> server
+
+cli[Command line interface]
+server[Backend]
+frontend[Frontend]
+```
+
 [^convention-over-configuration]: [Wikipedia - Convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration)
 
 ### Command line interface
@@ -64,7 +105,30 @@ L'ecosistema Nuxt fa uso di un programma invocabile da linea di comando chiamato
 - **Bun**: Con questa opzione si sceglie di usare una runtime diversa da Node: Bun, più efficiente in alcune operazioni di I/O, compatibile con le API Node e i suoi pacchetti di terze parti.
 - **Deno**: Un'altra runtime JavaScript che offre supporto nativo a Typescript, ma non è del tutto compatibile con alcuni pacchetti npm.
 
-Subito dopo c'è la scelta **Initialize git repository**, che eseguirà `git init` se selezionata. Nella trattazione che segue adotteremo Pnpm come package manager per la modalità di sviluppo e di test, Npm per la modalità di produzione e Git per il controllo di versione.
+Subito dopo c'è la scelta **Initialize git repository**, che eseguirà `git init` se selezionata. Nella trattazione che segue adotteremo Npm come package manager e Git per il controllo di versione.
+
+La directory `./nome-progetto` sarà indicata come `~`[^user-home], e conterrà i seguenti:
+
+``` bash
+.git/				
+.nuxt/				# Files temporanei usati dal server di sviluppo
+.output/			# Files generati durante la build per la produzione
+node_modules/		# Librerie di Nuxt e di terze parti
+public/				# Risorse statiche da distribuire con l'applicazione
+	robots.txt
+	favicon.ico
+server/				# Directory preposta al codice riservato al server
+	tsconfig.json	# Configurazione del compilatore Typescript per il backend
+.gitignore			# Lista dei file da ignorare durante il versionamento
+app.vue				# Entry point dell'applicazione
+nuxt.config.ts		# File di configurazione di Nuxt
+package-lock.json	# Albero delle versioni delle dipendenze
+package.json		# Lista delle dipendenze e dei comandi di build
+README.md			# Documentazione del progetto
+tsconfig.json		# Configurazione del compilatore Typescript per il frontend
+```
+
+[^user-home]: Nel contesto di sistemi Unix-like, la tilde `~` è un alias per la directory home dell'utente corrente. Nei files di un'app Nuxt, invece indica la directory radice del progetto.
 
 #### `nuxi add`
 
@@ -84,6 +148,10 @@ Una volta inizializzato il progetto, questo è il comando per aggiungere funzion
 - **server-plugin**: Uno script typescript che viene eseguito prima di inizializzare il server Nitro. Utile per l'inizializzazione di componenti software di terze parti.
 - **server-util**: Un modulo typescript importato automaticamente in ogni file di tipo server.
 - **module**: Con questa opzione si crea un modulo Nuxt per sperimentarlo, e che potrà essere utilizzato anche in altri progetti.
+
+Ogni aggiunta corrisponde ad un nuovo file che verrà creato nella directory corrispondente, provvisto di un *boilerplate*[^boilerplate], che sarà possibile modificare per adattarlo alle proprie esigenze.
+
+[^boilerplate]: Cioè del codice ripetuto frequentemente.
 
 #### `nuxi dev`
 
@@ -114,14 +182,12 @@ Consente di eseguire il controllo statico del codice Typescript, per trovare err
 
 #### `nuxi test`
 
-Esegue i test definiti in `~/tests`[^home-directory]. Richiede l'installazione di `@nuxt/test-utils` come dipendenza di sviluppo. In questo modo si possono avviare i testi di
+Esegue i test definiti in `~/tests`. Richiede l'installazione di `@nuxt/test-utils` come dipendenza di sviluppo. In questo modo si possono avviare i testi di
 
 - Unità: sono i test che verifica il comportamento di una singola funzione o di un singolo componente secondo la previsione del programmatore. Sono implementati con `vitest`, di default, o `jest`.
 - Componenti: 
 - Integrazione: si tratta di test che verificano il corretto funzionamento di più componenti insieme, con un mock del router. Questo tipo di test garantisce che, ad un'aggiunta di un nuovo componente, non si verifichino errori di rendering o di logica con i componenti già esistenti.
 - End-to-end (E2E): questo tipo di test simula l'interazione di un utente con l'applicazione, attraverso un browser virtuale, implementato con `playwright` o `puppeteer`. Questo tipo di test garantisce che l'applicazione sia accessibile e usabile da un utente reale, mitigando i problemi di accessibilità discussi nel [capitolo 1](#ritorno-al-server-side-rendering).
-
-[^home-directory]: Nella trattazione si userà la convenzione, usata anche da Nuxt, di indicare con `~` la directory di radice del progetto, dove sono presenti i file `nuxt.config.ts` e `package.json`.
 
 #### `nuxi build`
 
@@ -129,27 +195,7 @@ Esegue i test definiti in `~/tests`[^home-directory]. Richiede l'installazione d
 
 Con i comandi esposti si possono controllare le misure
 
-### Directories
-
-Viene di seguito proposta una panoramica di tutte le directories che si possono trovare in un progetto Nuxt:
-
-```bash
-assets/					# Risorse statiche come immagini, media e font
-components/
-composables/
-layouts/
-middleware/
-node_modules/			# Dipendenze del progetto
-pages/					# Pagine del sito
-	# PARLARE DI COME page[nome_parametro] rende disponibile $route.params.nome_parametro
-plugins/
-public/
-server/
-app.vue					# Il componente principale montato sulla radice
-nuxt.config.ts
-package.json
-tsconfig.json
-```
+### Frontend
 
 #### Pages
 
@@ -339,34 +385,9 @@ controllare
 
 #### Build per la produzione
 
-### Repository e contributi
-
-Nel particolare la repository è strutturata secondo il modello di *monorepo*, quindi include pacchetti funzionanti in maniera disaccoppiata, ma che sono usati tutti in maniera coesa all'interno del sistema Nuxt.
-
-- `packages/nuxt` è il core del framework.
-- `packages/nuxi` è lo strumento da linea di comando per la creazione di nuovi progetti, ora spostato su [github.com/nuxt/cli](github.com/nuxt/cli).
-- `packages/schema` contiene le definizioni dei tipi di dati utilizzati.
-- `packages/kit` è un toolkit per la creazione di moduli aggiuntivi.
-- `packages/test-utils` contiene degli script per il testing di unità.
-- `packages/vite` è una fork di Vite, un bundler per gli script di frontend, usato di default da Nuxt.
-- `packages/webpack` è una fork di Webpack, un'altro bundler per gli script di frontend che si può scegliere in alternativa a Vite.
-- `docs` è la documentazione ufficiale, scritta sotto forma di sito web statico, usando Nuxt stesso.
-
-I contributi sono proposti su Github e l'iter consigliato varia in base al tipo di modifica:
-
-- Per proporre un **Bugfix** si apre un *issue*[^github-issue] per discutere il problema, e poi si apre una *pull request* che risolva l'issue.
-
-- Per proporre una **Nuova funzionalità** si apre una *discussion*, e poi di aprire una *pull request* che implementi la funzionalità.
-
-[^github-issue]: Si tratta di un thread aggiunto alla sezione "Issues", che funziona come un forum specifico per ogni progetto, accessibile a tutti gli utenti registrati di Github.
-
-I contributi poi vengono sottoposti a test automatici prima di essere passati ad una revisione da parte del team di sviluppo, in modo da conformare lo stile del codice, della documentazione ed anche del messaggio di commit. Le etichette fornite nelle *PR* più comunemente sono: `enhancement`, `nice-to-have`, `bug`, `discussion`, `documentation`, `performance` e `refactor`.
-
-Al Novembre 2024, sono stati aperti circa 15'000 issues, sono stati avanzati circa 7'000 commit da più di 700 contributori. I progetti Open source su Github che usano Nuxt sono circa 350'000 e questi numeri sono in costante crescita.
 
 #### Moduli
 
-Oltre a modificare la monorepo, gli sviluppatori Open source sono invitati a creare **moduli** per estendere le Nuxt con funzionalità non essenziali, ma idonee per l'interoperabilità con altri software. Questi moduli possono essere pubblicati su Npm come pacchetti, con `@nuxt/kit` come dipendenza, ed al Dicembre 2024 se ne contano più di 200[^moduli-nuxt].
 
 
 Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di usare Nuxt in combinazione con TypeORM.
