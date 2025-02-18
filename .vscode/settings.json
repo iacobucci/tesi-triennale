@@ -5,6 +5,10 @@
 			// "*.tex"
 		]
 	},
+	"files.exclude": {
+		".git": true,
+		"node_modules": true,
+	},
 	"latex-workshop.latex.autoBuild.run": "never",
 	"cSpell.words": [
 		"Alexandre",
@@ -47,5 +51,6 @@
 		"vueview",
 		"vueviewmodel",
 		"Widenius"
-	]
+	],
+	"editor.scrollbar.verticalScrollbarSize": 26
 }

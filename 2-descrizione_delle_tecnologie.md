@@ -128,7 +128,7 @@ README.md			# Documentazione del progetto
 tsconfig.json		# Configurazione del compilatore Typescript per il frontend
 ```
 
-[^user-home]: Nel contesto di sistemi Unix-like, la tilde `~` è un alias per la directory home dell'utente corrente. Nei files di un'app Nuxt, invece indica la directory radice del progetto.
+[^user-home]: Nel contesto di sistemi Unix-like, la tilde `~` è un alias per la directory home dell'utente corrente. Nei files di un'app Nuxt invece indica la directory radice del progetto.
 
 #### `nuxi add`
 
@@ -163,6 +163,7 @@ Abilita o disabilita l'iniezione degli script Devtools nell'app Vue, quando è l
 
 Viene aggiunto un elemento html alla pagina, nel quale sono presenti diverse sezioni che mostrano informazioni di profilazione dell'app in sviluppo, tra cui:
 
+TODO
 - **Pages**: Un grafo delle pagine 
 - **Components**: Un grafo delle pagine 
 - **Components tree**: Un grafo delle pagine 
@@ -185,6 +186,7 @@ Consente di eseguire il controllo statico del codice Typescript, per trovare err
 Esegue i test definiti in `~/tests`. Richiede l'installazione di `@nuxt/test-utils` come dipendenza di sviluppo. In questo modo si possono avviare i testi di
 
 - Unità: sono i test che verifica il comportamento di una singola funzione o di un singolo componente secondo la previsione del programmatore. Sono implementati con `vitest`, di default, o `jest`.
+TODO
 - Componenti: 
 - Integrazione: si tratta di test che verificano il corretto funzionamento di più componenti insieme, con un mock del router. Questo tipo di test garantisce che, ad un'aggiunta di un nuovo componente, non si verifichino errori di rendering o di logica con i componenti già esistenti.
 - End-to-end (E2E): questo tipo di test simula l'interazione di un utente con l'applicazione, attraverso un browser virtuale, implementato con `playwright` o `puppeteer`. Questo tipo di test garantisce che l'applicazione sia accessibile e usabile da un utente reale, mitigando i problemi di accessibilità discussi nel [capitolo 1](#ritorno-al-server-side-rendering).
@@ -298,6 +300,9 @@ tutto questo manualmente!
 
 #### Configurazione
 
+https://github.com/nuxt/nuxt/issues/23009#issue-1881478762
+https://github.com/nitrojs/nitro/discussions/235
+
 .nuxt.config.ts
 
 ### Modalità di rendering del frontend
@@ -341,7 +346,7 @@ Il beneficio che si ottiene nello sviluppare in maniera CSR con Nuxt è la dispo
 
 #### Universal rendering
 
-```mermaid {align=l width=5cm}
+```mermaid {align=l width=7cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 sequenceDiagram
     participant Browser
