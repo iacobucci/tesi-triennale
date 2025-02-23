@@ -42,13 +42,13 @@ vue -- Richiesta utente --> controller
 controller -.-> vue
 ```
 
-> L'architettura generale di una applicazione Nuxt. Si noti che il frontend Vue adotta il pattern *MVVM* quindi si hanno due modelli con interfacce potenzialmente distinte. Infatti nel modo tradizionale di usare Vue, backend e frontend potrebbero essere viste come due applicazioni a bassa coesione (basti pensare a come potrebbero essere realizzate in due linguaggi di programmazione differenti) ed alto accoppiamento (nel senso che un cambiamento da un lato potrebbe richiedere un altro cambiamento dall'altro lato del sistema, per mantenere la coerenza). Nuxt si occupa appunto di gestire la **comunicazione tra i due models**: il model dei dati persistenti ed il model dell'applicazione che esegue nel browser, in modo da ottenere *loose coupling* e *high cohesion*.
+> L'architettura generale di una applicazione Nuxt. Si noti che la View adotta a sua volta il pattern *MVVM* quindi si hanno due modelli dei dati con interfacce potenzialmente distinte. Infatti nel modo tradizionale di usare Vue, backend e frontend potrebbero essere viste come due applicazioni a bassa coesione (basti pensare a come potrebbero essere realizzate in due linguaggi di programmazione differenti) ed alto accoppiamento (nel senso che un cambiamento da un lato potrebbe richiedere un altro cambiamento dall'altro lato del sistema, per mantenere la coerenza). Nuxt si occupa appunto di gestire la **comunicazione tra i due models**: il model dei dati persistenti ed il model dell'applicazione che esegue nel browser, in modo da ottenere *loose coupling* e *high cohesion*.
 
 Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo obiettivo di semplificare la creazione di applicazioni web fornendo un'infrastruttura preconfigurata e pronta all'uso. In questo modo lo sviluppatore può concentrarsi da subito sulla logica dell'applicazione, piuttosto che sulla configurazione del progetto. È quindi ricalcato il punto di vista di David Heinemeier Hansson su Rails, il framework per applicazioni web per Ruby che ideò nel luglio 2004, per il quale sosteneva il principio "convention over configuration"[^convention-over-configuration].
 
-Nonostante questo, Nuxt utilizza internamente tecnologie raffinate, come Typescript e Vite, che consentono di scrivere codice robusto. Con Nuxt si possono realizzare applicazioni di vario genere, come *landing page*, blog, documentazioni o wiki, e-commerce, dashboard gestionali, sistemi di social networking, applicazioni mobile-first, etc...
+Nonostante questo, Nuxt utilizza internamente tecnologie raffinate, come Typescript e Vite, che consentono di scrivere codice robusto. Con Nuxt si possono realizzare applicazioni di vario genere, come siti vetrina, blog, documentazioni o wiki, e-commerce, dashboard gestionali, piattaforme di social networking, applicazioni mobile-first, etc...
 
-La repository di sviluppo di Nuxt è organizzata secondo il modello di *monorepo*, quindi include pacchetti funzionanti in maniera disaccoppiata, ma che sono usati tutti in maniera coesa all'interno del sistema Nuxt.
+La repository di sviluppo di Nuxt è organizzata secondo il modello di *monorepo*, quindi include pacchetti funzionanti in maniera disaccoppiata, ma che sono usati tutti in maniera coesa all'interno del sistema Nuxt. La versione corrente è la **3.15**, rilasciata nel dicembre 2024. La struttura del monorepo è la seguente:
 
 - `packages/nuxt` è il core del framework.
 - `packages/nuxi` è lo strumento da linea di comando per la creazione di nuovi progetti, ora spostato su [github.com/nuxt/cli](github.com/nuxt/cli).
@@ -73,15 +73,15 @@ Al Novembre 2024, sono stati aperti circa 15'000 issues, sono stati avanzati cir
 
 Oltre a modificare la monorepo, gli sviluppatori Open source sono invitati a creare moduli per estendere le Nuxt con funzionalità non essenziali, ma idonee per l'interoperabilità con altri software. Questi moduli possono essere pubblicati su Npm come pacchetti, con `@nuxt/kit` come dipendenza, ed al Dicembre 2024 se ne contano più di 200[^moduli-nuxt].
 
-La versione vanilla di Nuxt propone un'intelaiatura che include una command line interface con cui si definisce il funzionamento del backend, che determina il modo in cui il frontend viene renderizzato. Il frontend, a sua volta, può fare richieste al backend per ottenere i dati necessari alla visualizzazione delle pagine web.
+La versione vanilla di Nuxt propone un'intelaiatura che include una command line interface con cui si definisce il funzionamento del backend, che determina il modo in cui il frontend verrà mostrato agli utenti. Il frontend, a sua volta, è in comunicazione con il backend per ottenere dati aggiornati.
 
-In questo schema sono mostrate queste parti in comunicazione:
+In questo schema sono mostrate queste parti e le loro interazioni:
 
 ```mermaid {height=1.2cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 flowchart LR
 
-cli --> server -- Modalità di rendering --> frontend
+cli -- Avvia --> server -- Modalità di rendering --> frontend
 frontend -- Fetch dei dati --> server
 
 cli[Command line interface]
@@ -110,13 +110,13 @@ Subito dopo c'è la scelta **Initialize git repository**, che eseguirà `git ini
 La directory `./nome-progetto` sarà indicata come `~`[^user-home], e conterrà i seguenti:
 
 ``` bash
-.git/				
+.git/				# Versioni dei file del progetto
 .nuxt/				# Files temporanei usati dal server di sviluppo
 .output/			# Files generati durante la build per la produzione
 node_modules/		# Librerie di Nuxt e di terze parti
 public/				# Risorse statiche da distribuire con l'applicazione
-	robots.txt
-	favicon.ico
+	robots.txt		# File di configurazione per i motori di ricerca
+	favicon.ico		# Icona del sito
 server/				# Directory preposta al codice riservato al server
 	tsconfig.json	# Configurazione del compilatore Typescript per il backend
 .gitignore			# Lista dei file da ignorare durante il versionamento
@@ -140,7 +140,7 @@ Una volta inizializzato il progetto, questo è il comando per aggiungere funzion
 - **component**: Un componente Vue, riutilizzabile in tutte le pagine o layout.
 - **error**: Un componente Vue che sarà mostrato in caso di errore.
 - **middleware**: Un middleware, cioè una funzione che può essere eseguita prima di caricare una pagina, lato server o lato client.
-- **composable**: Una funzione, simile ad un hook React, che può essere usata in uno o più componenti Vue. È un modo per riutilizzare la logica di business in più parti dell'applicazione.
+- **composable**: Una funzione che può essere usata in uno o più componenti Vue. È un modo per riutilizzare la logica di business in più parti dell'applicazione.
 - **plugin**: Uno script typescript che viene eseguito prima di inizializzare l'applicazione Vue. Utile per l'inizializzazione di componenti software di terze parti. A differenza dei middleware, i plugin vengono eseguiti solo una volta, all'avvio dell'applicazione.
 - **api**: Un endpoint API, che sarà accessibile alla rotta `/api/<nome-endpoint>`. Utile per la comunicazione tra frontend e backend.
 - **server-route**: Un endpoint API, che sarà accessibile alla rotta `/<nome-endpoint>`.
@@ -155,7 +155,7 @@ Ogni aggiunta corrisponde ad un nuovo file che verrà creato nella directory cor
 
 #### `nuxi dev`
 
-Una volta aggiunte le prime funzionalità si può lanciare  il server di sviluppo, che permette di testare l'applicazione in locale. Di default il server è accessibile alla rotta `http://localhost:3000`, ma si può cambiare la porta con l'opzione `--port <numero-porta>`. Il server di sviluppo è dotato di *hot reloading*, cioè la capacità di ricaricare automaticamente la pagina web quando si salvano i file del progetto, in modo da velocizzare il feedback del sistema al programmatore.
+Una volta aggiunte le prime funzionalità si può lanciare  il server di sviluppo, che permette di testare l'applicazione in locale. Di default il server è accessibile alla rotta `http://localhost:3000`, ma si può cambiare la porta con l'opzione `--port <numero-porta>`. Il server di sviluppo è dotato nativamente di *hot reloading*, cioè la capacità di ricaricare automaticamente la pagina web quando si salvano i file del progetto, in modo da velocizzare il feedback del sistema al programmatore.
 
 #### `nuxi devtools`
 
@@ -163,19 +163,27 @@ Abilita o disabilita l'iniezione degli script Devtools nell'app Vue, quando è l
 
 Viene aggiunto un elemento html alla pagina, nel quale sono presenti diverse sezioni che mostrano informazioni di profilazione dell'app in sviluppo, tra cui:
 
-TODO
-- **Pages**: Un grafo delle pagine 
-- **Components**: Un grafo delle pagine 
-- **Components tree**: Un grafo delle pagine 
-- **Imports**: Un grafo delle pagine 
-- **Modules**: Un grafo delle pagine 
-- **Assets**: Un grafo delle pagine 
+- **Pages**: Lista delle pagine dell'applicazione, con la possibilità di navigare tra di esse.
+- **Components**: Lista dei componenti Vue inseriti nel bundle, con riferimenti e dipendenze.
+- **Components tree**: Albero dei componenti Vue della pagina corrente. Fornisce una visualizzazione più ordinata rispetto ai devtools del browser.
+- **Imports**: Lista dei composables inseriti nel bundle.
+- **Modules**: Lista dei moduli utilizzati dall'applicazione, lato server o client.
+- **Assets**: Risorse statiche usate dall'applicazione, come immagini, font, icone, etc...
+- **Open Graph**: Metadati Open Graph[^open-graph] della pagina corrente, utili per la condivisione sui social network.
+- **Timeline**: Un grafico che mostra il tempo di rendering delle pagine, dei componenti e dei moduli.
+- **Hooks**: Lista dei hooks, cioè delle funzioni che vengono eseguite in determinati momenti del ciclo di vita dell'applicazione e dei singoli componenti.
+- **Server routes**: Un modo per visualizzare le rotte del server Nitro e fare delle richieste di test, con possibilità di aggiungere parametri GET, body POST, header, cookies e di simulare la provenienza della richiesta dall'app.
+- **Inspect**: In questa sezione il codice dei file vue e typescript per il frontend viene riportato con tutti gli stage di compilazione, fino al codice Javascript finale eseguito dal browser.
 
-> ![Devtools di Nuxt. In questa sezione è mostrato il grafo delle pagine agganciate al Vue-router, i middleware e i layout per ogni pagina. È presente inoltre un indicatore che mostra come il rendering della pagina `testpage` abbia impiegato 10ms.](./res/nuxt-devtools.png){width=70%}
+> ![Devtools di Nuxt. In questa sezione è mostrato la lista delle pagine agganciate al Vue-router, i middleware e i layout per ogni pagina. È presente inoltre un indicatore che mostra come il rendering della pagina `testpage` ha impiegato 10ms.](./res/nuxt-devtools.png){width=70%}
+
+[^devtools]: Come quelli di [Firefox](https://firefox-source-docs.mozilla.org/devtools-user/), dei derivati di [Chromium](https://developer.chrome.com/docs/devtools?hl=it), di [Safari](https://developer.apple.com/safari/tools/) ed di [Edge](https://learn.microsoft.com/en-us/microsoft-edge/devtools-guide-chromium/overview).
+
+[^open-graph]: [Open Graph Protocol](https://ogp.me/#metadata) - Protocollo per l'inserimento di metadati nelle pagine web, che saranno mostrati come copertina quando la pagina viene condivisa sui social network.
 
 #### `nuxi module`
 
-[^devtools]: Come quelli di [Firefox](https://firefox-source-docs.mozilla.org/devtools-user/), dei derivati di [Chromium](https://developer.chrome.com/docs/devtools?hl=it), di [Safari](https://developer.apple.com/safari/tools/) ed di [Edge](https://learn.microsoft.com/en-us/microsoft-edge/devtools-guide-chromium/overview).
+Ha due ulteriori sottocomandi, `search` e `add`, che permettono di cercare e aggiungere moduli Nuxt, tra quelli ufficialmente supportati[^moduli-nuxt].
 
 #### `nuxi typecheck`
 
@@ -186,18 +194,44 @@ Consente di eseguire il controllo statico del codice Typescript, per trovare err
 Esegue i test definiti in `~/tests`. Richiede l'installazione di `@nuxt/test-utils` come dipendenza di sviluppo. In questo modo si possono avviare i testi di
 
 - Unità: sono i test che verifica il comportamento di una singola funzione o di un singolo componente secondo la previsione del programmatore. Sono implementati con `vitest`, di default, o `jest`.
-TODO
-- Componenti: 
+- Componenti: permettono di verificare il corretto funzionamento di un singolo componente e dei composable ad esso associati.
 - Integrazione: si tratta di test che verificano il corretto funzionamento di più componenti insieme, con un mock del router. Questo tipo di test garantisce che, ad un'aggiunta di un nuovo componente, non si verifichino errori di rendering o di logica con i componenti già esistenti.
-- End-to-end (E2E): questo tipo di test simula l'interazione di un utente con l'applicazione, attraverso un browser virtuale, implementato con `playwright` o `puppeteer`. Questo tipo di test garantisce che l'applicazione sia accessibile e usabile da un utente reale, mitigando i problemi di accessibilità discussi nel [capitolo 1](#ritorno-al-server-side-rendering).
+- End-to-end (E2E): questo tipo di test simula l'interazione di un utente con l'applicazione, attraverso un browser virtuale, implementato con `playwright` o `puppeteer`. Questo tipo di test garantisce che l'applicazione sia accessibile e usabile da un utente reale, mitigando i problemi di accessibilità tipici single page applications.
+
+```typescript
+describe('CounterWithComposable Component', () => {
+	it('è renderizzato correttamente', () => {
+		const wrapper = mount(CounterWithComposable);
+		expect(wrapper.text()).toContain('Count: 0');
+	});
+
+	it('incrementa il valore quando il bottone Increment è premuto', async () => {
+		const wrapper = mount(CounterWithComposable);
+		await wrapper.find('button:first-of-type').trigger('click');
+		expect(wrapper.text()).toContain('Count: 1');
+	});
+
+	it('decrementa il valore quando il bottone Decrement è premuto', async () => {
+		const wrapper = mount(CounterWithComposable);
+		await wrapper.find('button:last-of-type').trigger('click');
+		expect(wrapper.text()).toContain('Count: -1');
+	});
+});
+```
+> Esempio di test di un componente Vue con `vitest`. Il test verifica che il componente `CounterWithComposable` sia renderizzato e funzioni correttamente. C'è da notare che con l'utilizzo dei test Vite la funzionalità di importazione automatica di Nuxt è disabilitata, quindi si può procedere con il *mocking* delle dipendenze (implementando un comportamento fasullo) o con l'importazione di `ref` e del composable `useCounter` all'interno dei componenti da testare.
+
 
 #### `nuxi build`
 
+Compila il codice Typescript e genera i file necessari per la distribuzione dell'applicazione. I file generati sono salvati nella directory `./.output`, e possono essere distribuiti su un server web per la produzione. L'albero delle dipendenze viene ridotto al minimo con una procedura chiamata *tree-shaking* e le dipendenze necessarie e sufficienti per l'esecuzione dell'applicazione vengono copiate in `./.output/server/node_modules`. L'app può essere avviata con `node ./.output/server/index.mjs`.	
+
 #### `nuxi cleanup`
 
-Con i comandi esposti si possono controllare le misure
+Rimuove i file temporanei e i file generati durante la build.
 
 ### Frontend
+
+Nuxt adotta delle convenzioni per il frontend: i file che definiscono le pagine accessibili all'utente sono organizzate in una struttura gerarchica di directory. Ogni pagina può essere inclusa in un layout, che definisce la struttura generale della pagina, e può usare dei middleware, che sono delle funzioni che vengono eseguite prima di caricare la pagina. Ogni componente di cui le pagine sono composte può essere definito in un file separato, per favorire il riutilizzo del codice. Tutti i file Vue che seguono le convenzioni di Nuxt sono importati automaticamente.
 
 #### Pages
 
@@ -277,10 +311,20 @@ Componenti *built-in*:
 - `<NuxtWelcome>`
 - `<ServerPlaceholder>`
 
+hooks
+
 setup
 	abilita la composition api
 
 reattività dei componenti
+
+sintassi vue
+
+```html
+<!-- i "moustache" permettono di interpolare il valore di una variabile -->
+<p>{{ message }}</p>
+```
+
 
 #### Layouts
 
@@ -289,7 +333,6 @@ uso di css custom
 #### Server
 
 ####
-
 
 tsconfig.json
 
@@ -306,6 +349,8 @@ https://github.com/nitrojs/nitro/discussions/235
 .nuxt.config.ts
 
 ### Modalità di rendering del frontend
+
+<!-- TODO https://www.youtube.com/watch?v=b1S5os65Urs -->
 
 Durante la fase di progettazione, diversi tipi di applicazione suggeriscono diverse esigenze, e Nuxt si dimostra versatile a partire dalle modalità di rendering che offre.
 
@@ -377,8 +422,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec pur
 #### Static Site Generation
 md -> html
 
-### Server Nitro
-
 #### Routes tipizzate
 
 tipi di fetch
@@ -390,24 +433,13 @@ controllare
 
 #### Build per la produzione
 
-
-#### Moduli
-
-
-
 Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di usare Nuxt in combinazione con TypeORM.
 
 [^moduli-nuxt]: [Moduli supportati ufficialmente da Nuxt](https://nuxt.com/modules)
 
-
-
-
-
 ## TypeORM
 
-DESIGN PATTERNS
-COME FA A FUNZIONARE?
-
-### Dbms supportati
+TypeORM è un ORM (Object-Relational Mapping) basato su Typescript, che permette di rappresentare le entità e le relazioni di un database relazionale in modo dichiarativo, e di eseguire operazioni *CRUD* (Create, Read, Update, Delete) su di esse con API type-safe.
+Il progetto, avviato nel 2016 da Umed Khudoiberdiev, è attualmente mantenuto da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/typeorm/typeorm](github.com/typeorm/typeorm). La versione stabile corrente è la **0.3.20**, rilasciata nel gennaio 2024.
 
 ### Rappresentazione di entità e relazioni in Typescript

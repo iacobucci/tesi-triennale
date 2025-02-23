@@ -2,6 +2,8 @@
 
 ## Testi di riferimento {.unnumbered}
 
+**Capitolo 1**
+
 1. [CERN - A short history of the Web](https://home.cern/science/computing/birth-web/short-history-web) - un articolo che percorre velocemente le origini del world wide web.
 
 1. [ECMA - 262](https://ecma-international.org/publications-and-standards/standards/ecma-262/) - lo standard ufficiale di Javascript.
@@ -20,11 +22,28 @@
 
 1. [Google developers - Core web vitals](https://developers.google.com/search/docs/appearance/core-web-vitals?hl=it) - una guida di Google sulle metriche di performance web.
 
+1. [Web browser engineering](https://browser.engineering/onepage.html) - un libro online di Pavel Panchekha e Chris Harrelson che spiega come funzionano i browser web e mostra un'implementazione Python di un browser completo.
+
+---
+
+**Capitolo 2**
+
+
 1. [Nuxt official documentation](https://nuxt.com/docs/getting-started/introduction) - la documentazione ufficiale del framework Nuxt.
 
 1. [TypeORM official documentation](https://typeorm.io/) - la documentazione ufficiale della libreria TypeORM.
 
-1. [Web browser engineering](https://browser.engineering/onepage.html) - un libro online di Pavel Panchekha e Chris Harrelson che spiega come funzionano i browser web e mostra un'implementazione Python di un browser completo.
+1. [Vite official documentation](https://vitejs.dev/guide) - la documentazione ufficiale del bundler Vite.
+
+1. [Vitest official documentation](https://vitest.dev/guide) - la documentazione ufficiale del test runner Vitest.
+
+1. [Rollup official documentation](https://configuration-options) - la documentazione ufficiale del bundler Rollup.
+
+1. [Esbuild officila documentation](https://esbuild.github.io/api/) - la documentazione ufficiale del bundler Esbuild.
+
+---
+
+**Capitolo 3**
 
 1. [AWS Cloudformation Documentation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-guide.html) - la documentazione ufficiale di AWS Cloudformation, completa di riferimenti all'API yaml, usata nella trattazione.
 
