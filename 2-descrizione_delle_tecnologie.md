@@ -459,19 +459,22 @@ Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di 
 TypeORM è un ORM (Object-Relational Mapping) basato su Typescript, che permette di rappresentare le entità e le relazioni di un database relazionale in modo dichiarativo, e di eseguire operazioni _CRUD_ (Create, Read, Update, Delete) su di esse con API type-safe.
 Il progetto, avviato nel 2016 da Umed Khudoiberdiev, è attualmente mantenuto da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/typeorm/typeorm](github.com/typeorm/typeorm). La versione stabile corrente è la **0.3.20**, rilasciata nel gennaio 2024.
 
+installazione
+
+reflect metadata
+
 TypeORM consente di lavorare con diversi DBMS (Database Management Systems), tra cui:
 
 | DBMS:                | Open source? | Tipologia: | Adattatore: |
 | -------------------- | ------------ | ---------- | ----------- |
-| MySQL                | ✅           | SQL        | `mysql2`    |
+| MySQL o MariaDB      | ✅           | SQL, cane  | `mysql2`    |
 | PostgreSQL           | ✅           | SQL        | `pg`        |
 | SQLite               | ✅           | SQL        | `sqlite3`   |
 | Sql.js               | ✅           | SQL        | `sql.js`    |
 | Microsoft SQL Server | ❌           | SQL        | `mssql`     |
 | OracleDB             | ❌           | SQL        | `oracledb`  |
+| MongoDB              | ❌           | SQL        | `oracledb`  |
 | MongoDB              | ❌           | NoSQL      | `oracledb`  |
-
-$\emoji{joy}$
 
 ### Command line interface
 
