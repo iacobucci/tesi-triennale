@@ -463,18 +463,17 @@ installazione
 
 reflect metadata
 
-TypeORM consente di lavorare con diversi DBMS (Database Management Systems), tra cui:
+TypeORM consente di lavorare con diversi DBMS (Database Management Systems), ovvero:
 
-| DBMS:                | Open source? | Tipologia: | Adattatore: |
-| -------------------- | ------------ | ---------- | ----------- |
-| MySQL o MariaDB      | ✅           | SQL, cane  | `mysql2`    |
-| PostgreSQL           | ✅           | SQL        | `pg`        |
-| SQLite               | ✅           | SQL        | `sqlite3`   |
-| Sql.js               | ✅           | SQL        | `sql.js`    |
-| Microsoft SQL Server | ❌           | SQL        | `mssql`     |
-| OracleDB             | ❌           | SQL        | `oracledb`  |
-| MongoDB              | ❌           | SQL        | `oracledb`  |
-| MongoDB              | ❌           | NoSQL      | `oracledb`  |
+| DBMS:                | Relazionale?    | Server based? | Adattatore: |
+| :------------------: | :-------------: | :-----------: | :---------: |
+| MySQL o MariaDB      | ✅              | ✅            | `mysql2`    |
+| PostgreSQL           | ✅              | ✅            | `pg`        |
+| SQLite               | ✅              | ❌            | `sqlite3`   |
+| Sql.js               | ✅              | ❌            | `sql.js`    |
+| Microsoft SQL Server | ✅              | ✅            | `mssql`     |
+| OracleDB             | ✅              | ✅            | `oracledb`  |
+| MongoDB              | ❌, a documenti | ✅            | `mongodb`   |
 
 ### Command line interface
 

@@ -1,12 +1,23 @@
 #!/usr/bin/python3
 import sys
 
+# emoji = {}
+# import os
+# import json
+
+# with open(os.path.dirname(__file__) + '/emoji.json') as f:
+# 	j = json.load(f)
+# 	for i in j:
+# 		emoji[i['emoji']] = '\\' + i['aliases'][0]
+
 def replace(text: str) -> str:
-    return text.replace('✅', '\\emoji{check-mark-button}').replace('❌', '\\emoji{cross-mark}')
-    # return text.replace('✅', 'Sì').replace('❌', 'No')
+	# for i in emoji:
+	# 	text = text.replace(i, emoji[i])
+	# return text
+	return text.replace('✅', '\\emoji{check-mark-button}').replace('❌', '\\emoji{cross-mark}')
 
 # read from stdin and write to stdout
-if __name__ == '__main__':
+def main():
     # Leggi l'input da stdin
     input_text = sys.stdin.read()
 
@@ -15,3 +26,8 @@ if __name__ == '__main__':
 
     # Scrivi l'output su stdout in ASCII
     print(output_text)
+
+if __name__ == '__main__':
+	# for i in emoji:
+	# 	print(i, emoji[i])
+	main()
