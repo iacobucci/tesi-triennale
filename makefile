@@ -17,7 +17,7 @@ all:
 	mv out/texput.pdf $(NAME).pdf
 
 tex:
-	ls | grep ".md$$" | sort --numeric-sort | xargs -I {} sh -c 'cat "{}" && echo -e "\n\n\n"' | ./filters/4-emojis.py | $(PANDOC)
+	ls | grep ".md$$" | sort --numeric-sort | xargs -I {} sh -c 'cat "{}" && echo -e "\n\n\n"' | $(PANDOC)
 
 pdf:
-	(cat template.tex out/$(NAME).tex ; echo "\\end{document}") | pdflatex -shell-escape -output-directory=out 
+	(cat template.tex out/$(NAME).tex ; echo "\\end{document}") | ./filters/4-emojis.py | lualatex -shell-escape -output-directory=out 

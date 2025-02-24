@@ -471,6 +471,8 @@ TypeORM consente di lavorare con diversi DBMS (Database Management Systems), tra
 | OracleDB             | ❌           | SQL        | `oracledb`  |
 | MongoDB              | ❌           | NoSQL      | `oracledb`  |
 
+$\emoji{joy}$
+
 ### Command line interface
 
 ### Rappresentazione di entità e relazioni in Typescript

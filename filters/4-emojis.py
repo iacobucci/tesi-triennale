@@ -2,7 +2,8 @@
 import sys
 
 def replace(text: str) -> str:
-    return text.replace('✅', 'Sì').replace('❌', 'No')
+    return text.replace('✅', '\\emoji{check-mark-button}').replace('❌', '\\emoji{cross-mark}')
+    # return text.replace('✅', 'Sì').replace('❌', 'No')
 
 # read from stdin and write to stdout
 if __name__ == '__main__':
