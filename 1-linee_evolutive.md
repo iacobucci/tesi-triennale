@@ -26,17 +26,17 @@ I linguaggi di programmazione utilizzati all'epoca per scrivere programmi CGI er
 
 ##### Linguaggi di basso livello o di scripting
 
-- Linguaggi di basso livello come C o C++, sono performanti ma di difficile progettazione e manutenzione.
+-   Linguaggi di basso livello come C o C++, sono performanti ma di difficile progettazione e manutenzione.
 
-- Linguaggi di scripting come Perl o Shell UNIX, erano più facili da utilizzare ma meno efficienti: comodi per la manipolazione di stringhe e file, ma non per la gestione di strutture dati complesse.
+-   Linguaggi di scripting come Perl o Shell UNIX, erano più facili da utilizzare ma meno efficienti: comodi per la manipolazione di stringhe e file, ma non per la gestione di strutture dati complesse.
 
 ##### Linguaggi di templating
 
 Successivamente, dal 1995 in poi, emersero alcuni Linguaggi di templating che consentono di incorporare codice dinamico all'interno di pagine HTML dal lato server.
 
-- Java Server Pages (JSP) è un'estensione di Java, quindi era possibile usare tutte le librerie di questo linguaggio molto popolare all'epoca.
+-   Java Server Pages (JSP) è un'estensione di Java, quindi era possibile usare tutte le librerie di questo linguaggio molto popolare all'epoca.
 
-- PHP è un linguaggio interpretato che ha avuto molto successo per oltre un decennio[^tiobe] grazie alla sua semplicità.
+-   PHP è un linguaggio interpretato che ha avuto molto successo per oltre un decennio[^tiobe] grazie alla sua semplicità.
 
 ```php
 <?php
@@ -61,7 +61,7 @@ if (mysql_num_rows($result) > 0){
 ?>
 ```
 
-> Un esempio di pagina di autenticazione in PHP, che riflette lo stile di programmazione tipico dell'epoca[^mysqlphp]. È da notare come il codice HTML da inviare al browser sia inserito direttamente all'interno del codice da mantenere privato nel lato server, rendendone difficile la manutenzione per via della _confusione tra logica di presentazione e logica di business_. Vengono poi adoperati 3 linguaggi diversi (PHP, HTML, SQL), soluzione non ottimale per la leggibilità, che si aggiunge ai problemi di sicurezza legati all'*interpolazione* di stringhe all'interno di query SQL.
+> Un esempio di pagina di autenticazione in PHP, che riflette lo stile di programmazione tipico dell'epoca[^mysqlphp]. È da notare come il codice HTML da inviare al browser sia inserito direttamente all'interno del codice da mantenere privato nel lato server, rendendone difficile la manutenzione per via della _confusione tra logica di presentazione e logica di business_. Vengono poi adoperati 3 linguaggi diversi (PHP, HTML, SQL), soluzione non ottimale per la leggibilità, che si aggiunge ai problemi di sicurezza legati all'_interpolazione_ di stringhe all'interno di query SQL.
 
 [^tiobe]: [Indice TIOBE per PHP](https://www.tiobe.com/tiobe-index/php/), si può vedere come il suo utilizzo sia diminuito a partire dal 2010.
 [^mysqlphp]: La libreria mysql di Micheal Widenius per PHP 2 risale al 1996.
@@ -70,28 +70,31 @@ if (mysql_num_rows($result) > 0){
 
 Il dinamismo delle pagine web supportato da server CGI e linguaggi di scripting era comunque limitato per via del caricamento di nuove pagine ad ogni richiesta. Non era possibile aggiornare parzialmente la pagina, ma solo scaricarne una nuova. Nel 1995 il Netscape Navigator 2.0 introdusse il supporto ad un nuovo linguaggio di scripting, che successivamente venne chiamato Javascript, realizzato da Brendan Eich, per ovviare a questo problema.
 
-**Gestione di eventi e manipolazione del DOM:** Uno script Javascript, distribuito all'interno di una pagina HTML, può essere eseguito dal browser web in risposta a determinati eventi dell'utente. Inizialmente il motore di esecuzione era sincrono, cioè bloccava l'esecuzione del codice fino al completamento dell'operazione, e le possibilità di Javascript si limitavano alla manipolazione a *runtime*[^runtime] del DOM (Document Object Model), quindi ad aggiungere, rimuovere o modificare elementi HTML.
+**Gestione di eventi e manipolazione del DOM:** Uno script Javascript, distribuito all'interno di una pagina HTML, può essere eseguito dal browser web in risposta a determinati eventi dell'utente. Inizialmente il motore di esecuzione era sincrono, cioè bloccava l'esecuzione del codice fino al completamento dell'operazione, e le possibilità di Javascript si limitavano alla manipolazione a _runtime_[^runtime] del DOM (Document Object Model), quindi ad aggiungere, rimuovere o modificare elementi HTML.
 
 **Richieste HTTP asincrone:** Le pagine web, erano diventate _attive_, ma tutte le risorse da fornire agli utenti dovevano essere inserite nella pagina inviata come prima risposta HTTP. Nel 1999 però, il browser Internet Explorer 5 introdusse un'estensione del linguaggio Javascript, che disponeva di un oggetto chiamato _XMLHttpRequest_, in grado effettuare richieste HTTP asincrone al server e dunque ricevere risposte senza dover ricaricare l'intera pagina. Così si gettavano le basi per la realizzazione di _Single Page Applications_.
 
 La libreria jQuery, rilasciata nel 2006, ha rivestito una particolare importanza perché semplificava la manipolazione del DOM e le richieste HTTP, fornendo un'interfaccia più semplice e omogenea rispetto ai diversi browser, che esponevano API diverse e non ancora standardizzate.
 
 ```javascript
-$('#update').click(function() {
-	$.ajax({ // scaricamento asincrono
-		url: 'data.json', type: 'GET', dataType: 'json',
-		success: function(data) {
-			var content = '';
+$("#update").click(function () {
+	$.ajax({
+		// scaricamento asincrono
+		url: "data.json",
+		type: "GET",
+		dataType: "json",
+		success: function (data) {
+			var content = "";
 			for (var i = 0; i < data.length; i++) {
-				content += '<p>' + data[i].name + '</p>';
+				content += "<p>" + data[i].name + "</p>";
 			}
-			$('#content').html(content);
+			$("#content").html(content);
 		},
 	});
 });
 ```
 
-> Nel frammento di codice jQuery, è messo in evidenza uno stile *imperativo* di definizione del comportamento dell'interfaccia, poco manutenibile per applicazioni complesse.
+> Nel frammento di codice jQuery, è messo in evidenza uno stile _imperativo_ di definizione del comportamento dell'interfaccia, poco manutenibile per applicazioni complesse.
 
 [^runtime]: Il momento in cui la pagina è resa attiva con Javascript.
 
@@ -107,30 +110,34 @@ In questo modo si poterono realizzare non solo applicazioni **frontend** ma anch
 const http = require("http");
 const mysql = require("mysql");
 
-const connection = mysql.createConnection({ /* ... */ })
+const connection = mysql.createConnection({
+	/* ... */
+});
 
 const server = http.createServer((req, res) => {
-	if (req.method === 'POST' && req.url === '/login') {
+	if (req.method === "POST" && req.url === "/login") {
 		var username, password;
 		// unmarshalling della query string ...
 		var login = "SELECT * FROM Users WHERE username = ? AND password = ?";
 		connection.query(login, [username, password], (err, rows) => {
 			if (rows.length > 0) {
-				res.writeHead(200, {"Content-Type": "text/html"});
+				res.writeHead(200, { "Content-Type": "text/html" });
 				res.end("<h1>Benvenuto " + username + "</h1>");
 			} else {
-				res.writeHead(401, {"Content-Type": "text/html"});
+				res.writeHead(401, { "Content-Type": "text/html" });
 				res.end("<h1>Accesso negato</h1>");
 			}
 		});
 	}
 });
-server.listen(80, () => { console.log("Server in ascolto alla porta 8080"); });
+server.listen(80, () => {
+	console.log("Server in ascolto alla porta 8080");
+});
 ```
 
 > In questo frammento di codice è mostrato l'utilizzo della libreria "http" fornita di default da Node e della libreria "mysql" di Felix Geisendörfer, una delle prime per l'accesso a database da Node. È da notare l'architettura a callback, che permette di gestire in maniera asincrona le richieste HTTP e le query al database.
 
-> In questo esempio le query SQL sono parametrizzate, facendo uso di *Prepared statements*, per evitare attacchi di tipo injection, ma rimangono cablate all'interno di stringhe, rendendo il codice vulnerabile a errori di sintassi e di tipo.
+> In questo esempio le query SQL sono parametrizzate, facendo uso di _Prepared statements_, per evitare attacchi di tipo injection, ma rimangono cablate all'interno di stringhe, rendendo il codice vulnerabile a errori di sintassi e di tipo.
 
 [^prestazioniv8]: [Google Chrome announcement:](https://youtu.be/LRmrMiOWdfc?si=gaHRFdA8QcYZ0NYq&t=2676) in questo video si può vedere come l'esecuzione di Javascript su Chrome sia di circa 60 volte più veloce che su Internet Explorer 8.
 [^headless]: Cioè senza interfaccia grafica.
@@ -141,17 +148,17 @@ Anche con Node fu possibile realizzare applicazioni web _monolitiche_, parimenti
 
 Tuttavia le tendenze di quel periodo (circa 2010) si discostarono dal modo tradizionale di scrivere applicazioni web, basate su pagine generate lato server, per passare a un modello di **client-side rendering**. Secondo questo modello il server invia al browser una pagina HTML con un DOM minimo, corredato di script JS che si occupano di popolare a runtime il DOM con contenuti e di gestire le logiche di presentazione.
 
-Le applicazioni renderizzate lato cliente potevano beneficiare di una maggiore *reattività* e di una migliore esperienza utente, essendo basate su una pagina unica che veniva aggiornata in maniera incrementale, aggirando i caricamenti di nuove pagine da richiedere al server. Le richieste al server, essendo asincrone, potevano essere gestite in modo meno invasivo rispetto a prima: mentre la comunicazione avveniva in background, l'utente poteva continuare ad interagire con l'applicazione.
+Le applicazioni renderizzate lato cliente potevano beneficiare di una maggiore _reattività_ e di una migliore esperienza utente, essendo basate su una pagina unica che veniva aggiornata in maniera incrementale, aggirando i caricamenti di nuove pagine da richiedere al server. Le richieste al server, essendo asincrone, potevano essere gestite in modo meno invasivo rispetto a prima: mentre la comunicazione avveniva in background, l'utente poteva continuare ad interagire con l'applicazione.
 
-Il vantaggio di questo paradigma da parte degli sviluppatori era la possibilità di scrivere la logica di presentazione interamente in Javascript, sfruttando il sistema di oggetti e la modularità del linguaggio in maniera più espressiva rispetto al templating o all'uso imperativo delle API DOM. 
+Il vantaggio di questo paradigma da parte degli sviluppatori era la possibilità di scrivere la logica di presentazione interamente in Javascript, sfruttando il sistema di oggetti e la modularità del linguaggio in maniera più espressiva rispetto al templating o all'uso imperativo delle API DOM.
 
 L'idea centrale delle nuove tendenze _CSR_ era quella di progettare l'interfaccia utente partendo da parti più piccole, chiamate **componenti**, e riutilizzabili all'interno dell'intera applicazione. Lo stile assunto era _dichiarativo_[^dichiarativo]. Ad ogni componente sono associati:
 
 [^dichiarativo]: In questo contesto, uno stile dichiarativo è riferito ad un approccio alla programmazione in cui si descrive cosa il programma deve fare piuttosto che come farlo. Con jQuery si dovevano specificare esplicitamente i passaggi per manipolare il DOM, mentre i componenti permettono di definire il comportamento dell'interfaccia attraverso delle dichiarazioni più astratte e concise.
 
-- un template HTML, più piccolo e gestibile rispetto ad una pagina intera.
-- un foglio CSS, per la stilizzazione.
-- il codice Javascript che ne definisce la logica di interazione.
+-   un template HTML, più piccolo e gestibile rispetto ad una pagina intera.
+-   un foglio CSS, per la stilizzazione.
+-   il codice Javascript che ne definisce la logica di interazione.
 
 Tra gli esempi più noti di sistemi di componenti:
 
@@ -211,14 +218,16 @@ Nel 2012 Anders Hejlsberg ed il suo team interno a Microsoft iniziarono a lavora
 
 [^transpiling]: [Wikipedia - Source-to-source compiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) - il transpiling è il processo di traduzione automatica di codice sorgente da un linguaggio ad un altro.
 
-L'adozione di Typescript è stata pressoché immediata, per il motivo che la conversione di basi di codice a partire da Javascript vanilla[^vanilla] era a costo zero: ogni sorgente Javascript è valido Typescript. Typescript ha avuto successo non solo lato client, ma anche lato server. Sono comparse infatti alcune librerie di supporto all'accesso a database basate sul pattern **ORM**, *Object-relational mapping*, quindi capaci di mappare il modello dei dati presente nel database a strutture dati proprie di Typescript. Librerie notevoli di questo tipo sono:
+L'adozione di Typescript è stata pressoché immediata, per il motivo che la conversione di basi di codice a partire da Javascript vanilla[^vanilla] era a costo zero: ogni sorgente Javascript è valido Typescript. Typescript ha avuto successo non solo lato client, ma anche lato server. Sono comparse infatti alcune librerie di supporto all'accesso a database basate sul pattern **ORM**, _Object-relational mapping_, quindi capaci di mappare il modello dei dati presente nel database a strutture dati proprie di Typescript. Librerie notevoli di questo tipo sono:
 
 [^vanilla]: Con "vanilla" ci riferisce a Javascript senza estensioni, quindi al codice che può eseguire nativamente sui browser conformi alle specifiche ECMA. Typescript invece è un _superset_, quindi ha un insieme di espressioni sintattiche più grande ma che comprende interamente quello di Javascript.
 
 ##### Sequelize
+
 È stata una delle prime, il progetto è iniziato nel 2010 quindi funzionava con Javascript vanilla, ma si è evoluta fino a supportare le migliorie di Typescript ed una moltitudine di DBMS.
 
 ##### TypeORM
+
 Offre un supporto a Typescript nativamente. È illustrata con dettaglio nel [capitolo 2](#typeorm).
 
 L'evoluzione dei sistemi per fare query a basi di dati da Javascript è poi diramata in direzioni diverse, da quelli che usano protocolli applicativi binari (basati ad esempio su gRPC) a quelli che usano linguaggi di query specifici (come GraphQL), ad ORM che introducono nuovi linguaggi di definizione dei modelli (come Prisma).
@@ -228,21 +237,26 @@ L'evoluzione dei sistemi per fare query a basi di dati da Javascript è poi dira
 Dal lancio di React sempre più applicazioni web hanno fatto uso della tecnica CSR per via della migliorata esperienza utente e di sviluppo. Questo approccio ha portato però una serie di nuovi problemi e limitazioni legate al meccanismo di rendering.
 
 ##### Performance su dispositivi lenti
-I *bundle* Javascript che vengono generati per le applicazioni CSR sono spesso onerosi in termini di risorse, e la loro esecuzione su dispositivi con capacità di calcolo limitate può risultare lenta e insoddisfacente per l'utente.
+
+I _bundle_ Javascript che vengono generati per le applicazioni CSR sono spesso onerosi in termini di risorse, e la loro esecuzione su dispositivi con capacità di calcolo limitate può risultare lenta e insoddisfacente per l'utente.
 
 ##### Search engine optimization
-I siti web che fanno uso di CSR sono più difficilmente indicizzabili dai *crawler* dei motori di ricerca, questo può portare a problemi di esposizione e di traffico ridotti.
+
+I siti web che fanno uso di CSR sono più difficilmente indicizzabili dai _crawler_ dei motori di ricerca, questo può portare a problemi di esposizione e di traffico ridotti.
 
 ##### First contentful paint
+
 È il tempo che intercorre tra la cattura della risposta HTTP del server e il momento in cui viene visualizzato a schermo dal browser il primo elemento di contenuto significativo per l'utente. Nelle applicazioni CSR questa durata spesso eccede quella massima suggerita da Google[^corewebvitals].
 
 ##### Cumulative shift layout
+
 Per il motivo che gli aggiornamenti dell'interfaccia vengono vengono resi graficamente in maniera sequenziale nel browser, potrebbero esserci dei fastidiosi spostamenti di elementi visivi nell'interfaccia durante la fase di caricamento.
 
 ##### Accessibility
+
 Per gli stessi motivi che portano al cumulative shift layout, ci potrebbero essere degli impedimenti di accessibilità per chi usa metodi di input alternativi o per gli screen-reader che aiutano le persone non vedenti nella fruizione delle pagine web.
 
-------
+---
 
 Per questi motivi, a partire dal 2016, sono emerse delle nuove tendenze che hanno portato ad un ritorno al server-side rendering, in combinazione con i sistemi basati su componenti, per unire i vantaggi di entrambi i modelli.
 Esempi di framework che supportano il SSR sono: Angular Universal, Next.js per React e Nuxt per Vue, che verrà illustrato nel [capitolo 2](#nuxt).
@@ -251,11 +265,11 @@ Esempi di framework che supportano il SSR sono: Angular Universal, Next.js per R
 
 ## Servizi cloud e containerizzazione
 
-Le tecniche di rilascio di applicazioni web si sono evolute di pari passo alle tecnologie di sviluppo. 
+Le tecniche di rilascio di applicazioni web si sono evolute di pari passo alle tecnologie di sviluppo.
 
-Il primo modello era quello *monolitico*, in cui l'applicazione web viene distribuita su un server fisico, con un indirizzo IP statico, e che necessita di configurazioni manuali.
+Il primo modello era quello _monolitico_, in cui l'applicazione web viene distribuita su un server fisico, con un indirizzo IP statico, e che necessita di configurazioni manuali.
 
-Poi, attorno all'inizio degli anni 2000, sono emersi i primi **provider di cloud**, come Amazon Web Services, Google Cloud Platform, Microsoft Azure e IBM Cloud, che non solo offrivano servizi di hosting di *virtual private server*, traducendo quindi il paradigma monolitico su macchine virtuali, ma anche servizi di *infrastrucure as a service*, permettendo ai progettisti di app web di modificare le risorse di calcolo e di archiviazione secondo necessità e di automatizzare il processo di rilascio. 
+Poi, attorno all'inizio degli anni 2000, sono emersi i primi **provider di cloud**, come Amazon Web Services, Google Cloud Platform, Microsoft Azure e IBM Cloud, che non solo offrivano servizi di hosting di _virtual private server_, traducendo quindi il paradigma monolitico su macchine virtuali, ma anche servizi di _infrastrucure as a service_, permettendo ai progettisti di app web di modificare le risorse di calcolo e di archiviazione secondo necessità e di automatizzare il processo di rilascio.
 
 Una tecnologia in particolare si è affermata come standard per la distribuzione di applicazioni web attraverso l'infrastruttura cloud, il **container**, e la sua implementazione più popolare, Docker.
 
@@ -264,4 +278,4 @@ Questa tecnica è diversa da quelle di virtualizzazione classiche, che mirano ad
 
 [^docker]: [Docker - What is a container?](https://www.docker.com/resources/what-container) In questo articolo vengono comparate le tecnologie di virtualizzazione tradizionali con Docker.
 
-Il ruolo degli informatici coinvolti nello sviluppo di applicazioni web si è quindi differenziato tra gli *architetti di cloud* e gli *ingegneri di sviluppo*. Tuttavia, una volta che l'infrastruttura è pronta, il processo di rilascio di un'aggiornamento dell'applicazione si semplifica notevolmente, grazie ai metodi di di **continuous integration** come Travis CI, Circle CI e Github Actions, che permettono di automatizzare il processo di build e di test, e di rilasciare su cloud con la stessa facilità con cui si fa un commit sul repository di codice.
+Il ruolo degli informatici coinvolti nello sviluppo di applicazioni web si è quindi differenziato tra gli _architetti di cloud_ e gli _ingegneri di sviluppo_. Tuttavia, una volta che l'infrastruttura è pronta, il processo di rilascio di un'aggiornamento dell'applicazione si semplifica notevolmente, grazie ai metodi di di **continuous integration** come Travis CI, Circle CI e Github Actions, che permettono di automatizzare il processo di build e di test, e di rilasciare su cloud con la stessa facilità con cui si fa un commit sul repository di codice.

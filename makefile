@@ -4,9 +4,9 @@ NAME = tesi
 PANDOC = pandoc \
 		--from markdown \
 		--mathjax \
-		-F ./filters/mermaid.py \
-		-F ./filters/minted.py \
-		-F ./filters/images.py \
+		-F ./filters/1-images.py \
+		-F ./filters/2-mermaid.py \
+		-F ./filters/3-minted.py \
 		--top-level-division=chapter \
 		-o out/$(NAME).tex
 
@@ -17,7 +17,7 @@ all:
 	mv out/texput.pdf $(NAME).pdf
 
 tex:
-	ls | grep ".md$$" | sort --numeric-sort | xargs -I {} sh -c 'cat "{}" && echo -e "\n\n\n"' | $(PANDOC)
+	ls | grep ".md$$" | sort --numeric-sort | xargs -I {} sh -c 'cat "{}" && echo -e "\n\n\n"' | ./filters/4-emojis.py | $(PANDOC)
 
 pdf:
 	(cat template.tex out/$(NAME).tex ; echo "\\end{document}") | pdflatex -shell-escape -output-directory=out 
