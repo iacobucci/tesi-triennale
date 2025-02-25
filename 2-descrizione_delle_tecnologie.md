@@ -460,7 +460,110 @@ TypeORM è un ORM (Object-Relational Mapping) basato su Typescript, che permette
 
 Il progetto, avviato nel 2016 da Umed Khudoiberdiev, è attualmente mantenuto da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/typeorm/typeorm](github.com/typeorm/typeorm). La versione stabile corrente è la **0.3.20**, rilasciata nel gennaio 2024.
 
-Si può installare in un progetto Node con `npm install typeorm`, e richiede `typescript` con versione 4.5 o successiva. L'uso di TypeORM come libreria in un tag script di un file HTML non è supportato.
+Si può installare in un progetto Node con `npm install typeorm`, e richiede `typescript` con versione 4.5 o successiva, con le dichiarazioni di tipo `@types/node`. L'uso di TypeORM come libreria in un tag script di un file HTML non è supportato.
+
+### Command line interface
+
+Si può avviare un progetto con la CLI di TypeORM con `npx typeorm init --database <database>`, scegliendo tra i seguenti database: `mysql`, `mariadb`, `postgres`, `cockroachdb`, `sqlite`, `mssql`, `sap`, `spanner`, `oracle`, `mongodb`, `cordova`, `react-native`, `expo`, `nativescript`. Una volta che il progetto è configurato si possono eseguire i seguenti comandi:
+
+#### `typeorm entity:create <percorso>`
+
+Genera il file di una nuova entità in una directory specificata. Si tratta di un file Typescript che rappresenta una tabella del database, con i campi e le relazioni definite come proprietà della classe.
+
+#### `typeorm schema:sync`
+
+Sincronizza il database con le entità definite nel progetto.
+Il protocollo di sincronizzazione è evidenziato nel diagramma di flusso sotto.
+
+```mermaid {height=2cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+graph LR;
+    A[schema:sync] --> B{Il database esiste?};
+    B -- No --> C[Crea il database];
+    B -- Sì --> D{Le tabelle esistono?};
+	C --> D;
+    D -- No --> E[Crea le tabelle];
+    D -- Sì --> F{Le colonne esistono?};
+	E --> F;
+    F -- No --> G[Crea le colonne];
+    F -- Sì --> H[Modifica le colonne secondo le entità];
+```
+
+#### `typeorm schema:drop`
+
+Elimina tutte le tabelle del database.
+
+#### `typeorm schema:log`
+
+Stampa su _stdout_ le query SQL che verranno eseguite dal comando `schema:sync`.
+
+#### `typeorm query <query>`
+
+Esegue una query SQL sul database, nel dialetto del DBMS specificato.
+
+#### `typeorm cache:clear`
+
+Svuota la cache delle query.
+
+#### `typeorm subscriber:create <percorso>`
+
+Crea un nuovo subscriber, cioè una funzione che viene eseguita quando si verifica un evento sul database.
+
+#### `typeorm migration:create <percorso>`
+
+Crea un nuovo file di migrazione, che potrà essere utilizzato per sincronizzare il database successivamente.
+
+#### `typeorm migration:run`
+
+Runs all pending migrations.
+
+#### `typeorm migration:show`
+
+Stampa su stdout
+
+#### `typeorm migration:revert`
+
+Annulla l'ultima migrazione eseguita.
+
+#### `typeorm migration:generate <percorso>`
+
+Genera una migration a partire dalle differenze tra le entità e le tabelle del database.
+
+```mermaid {height=6.3cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+graph LR
+	subgraph Migrations
+		direction LR
+	subgraph Modifica schema
+		direction TB
+		A[Modifica
+		schema] --> B{Schema del database aggiornato?}
+		B -- No --> C[typeorm
+		migration:generate]
+		C --> D[File di
+		migrazione
+		con SQL]
+		AA[typeorm
+		migration:create] --> D
+		D --> E[typeorm
+		migration:run]
+		B -- Sì --> F[Database
+		sincronizzato]
+	end
+	subgraph Rollback
+		direction TB
+		E --Esegue SQL
+		sul database--> F
+		F --> G{Rollback
+		necessario?}
+		G -- Sì --> H[typeorm migration:revert]
+		H -->|Annulla ultima migrazione| F
+		G -- No --> I[Operazioni completate]
+	end
+	end
+```
+
+### Collegamento con il database
 
 TypeORM consente di lavorare con diversi DBMS (Database Management Systems), tra cui:
 
@@ -473,37 +576,10 @@ TypeORM consente di lavorare con diversi DBMS (Database Management Systems), tra
 | Microsoft SQL Server |       ✅        |      ✅       |   `mssql`   |
 |       OracleDB       |       ✅        |      ✅       | `oracledb`  |
 |       MongoDB        | ❌, a documenti |      ✅       |  `mongodb`  |
+|       SAP Hana       |       ✅        |  in memoria   | `hdb-pool`  |
+| Google Cloud Spanner |       ✅        |      ✅       |  `spanner`  |
 
-### Command line interface
-
-typeorm schema:sync Synchronizes your entities with database schema. It runs schema update queries on all connections you have. To run update queries on a concrete connection use -c option.
-
-typeorm schema:log Shows sql to be executed by schema:sync command. It shows sql log only for your default dataSource. To run update queries on a concrete connection use -c option.
-
-typeorm schema:drop Drops all tables in the database on your default dataSource. To drop table of a concrete connection's database use -c option.
-typeorm query [query] Executes given SQL query on a default dataSource. Specify connection name to run query on a specific dataSource.
-
-typeorm entity:create <path> Generates a new entity.
-
-typeorm subscriber:create <path> Generates a new subscriber.
-
-typeorm migration:create <path> Creates a new migration file.
-
-typeorm migration:generate <path> Generates a new migration file with sql needs to be executed to update schema.
-
-typeorm migration:run Runs all pending migrations.
-
-typeorm migration:show Show all migrations and whether they have been run or not
-
-typeorm migration:revert Reverts last executed migration.
-
-typeorm version Prints TypeORM version this project uses.
-
-typeorm cache:clear Clears all data stored in query runner cache.
-
-typeorm init Generates initial TypeORM project structure. If name specified then creates files inside directory called as name. If its not specified then creates files inside current directory.
-
-### Collegamento con il database
+DataSource
 
 ### Rappresentazione di entità e relazioni in Typescript
 

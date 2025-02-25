@@ -10,6 +10,8 @@
 		"node_modules": true,
 	},
 	"latex-workshop.latex.autoBuild.run": "never",
+	"latex-workshop.view.pdf.trim": 15,
+	"latex-workshop.view.pdf.zoom": "page-width",
 	"cSpell.words": [
 		"Alexandre",
 		"Anders",
