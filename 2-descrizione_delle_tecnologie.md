@@ -99,7 +99,7 @@ L'ecosistema Nuxt fa uso di un programma invocabile da linea di comando chiamato
 
 È il comando per avviare un nuovo progetto nella directory `./<nome-progetto>`. Eseguendolo si dovrà scegliere il sistema di gestione dei pacchetti, che riguarderà il modo con il quale Nuxt ed anche gli agli altri pacchetti di terze parti saranno installati, e può essere tra:
 
--   **Npm**: Il classico package manager di Node, solitamente installato assieme ad esso scegliendo il pacchetto `node` nelle repository delle maggiori distribuzioni Linux, e disponibile di default nelle immagini Docker ufficiali di Node. È intesa come la sensible default.
+-   **Npm**: Il classico package manager di Node, solitamente installato assieme ad esso scegliendo il pacchetto `node` nelle repository delle maggiori distribuzioni Linux, e disponibile di default nelle immagini Docker ufficiali di Node.
 -   **Pnpm**: Un package manager alternativo a npm, progettato per migliorare le performance e ottimizzare l'utilizzo dello spazio su disco rispetto a npm, preferito per lo sviluppo locale.
 -   **Yarn**: Un altro package manager alternativo a npm, sviluppato in Facebook nel 2016.
 -   **Bun**: Con questa opzione si sceglie di usare una runtime diversa da Node: Bun, più efficiente in alcune operazioni di I/O, compatibile con le API Node e i suoi pacchetti di terze parti.
@@ -457,27 +457,108 @@ Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di 
 ## TypeORM
 
 TypeORM è un ORM (Object-Relational Mapping) basato su Typescript, che permette di rappresentare le entità e le relazioni di un database relazionale in modo dichiarativo, e di eseguire operazioni _CRUD_ (Create, Read, Update, Delete) su di esse con API type-safe.
+
 Il progetto, avviato nel 2016 da Umed Khudoiberdiev, è attualmente mantenuto da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/typeorm/typeorm](github.com/typeorm/typeorm). La versione stabile corrente è la **0.3.20**, rilasciata nel gennaio 2024.
 
-installazione
+Si può installare in un progetto Node con `npm install typeorm`, e richiede `typescript` con versione 4.5 o successiva. L'uso di TypeORM come libreria in un tag script di un file HTML non è supportato.
 
-reflect metadata
+TypeORM consente di lavorare con diversi DBMS (Database Management Systems), tra cui:
 
-TypeORM consente di lavorare con diversi DBMS (Database Management Systems), ovvero:
-
-| DBMS:                | Relazionale?    | Server based? | Adattatore: |
+|        DBMS:         |  Relazionale?   | Server based? | Adattatore: |
 | :------------------: | :-------------: | :-----------: | :---------: |
-| MySQL o MariaDB      | ✅              | ✅            | `mysql2`    |
-| PostgreSQL           | ✅              | ✅            | `pg`        |
-| SQLite               | ✅              | ❌            | `sqlite3`   |
-| Sql.js               | ✅              | ❌            | `sql.js`    |
-| Microsoft SQL Server | ✅              | ✅            | `mssql`     |
-| OracleDB             | ✅              | ✅            | `oracledb`  |
-| MongoDB              | ❌, a documenti | ✅            | `mongodb`   |
+|   MySQL o MariaDB    |       ✅        |      ✅       |  `mysql2`   |
+|      PostgreSQL      |       ✅        |      ✅       |    `pg`     |
+|        SQLite        |       ✅        |    su file    |  `sqlite3`  |
+|        Sql.js        |       ✅        |  in memoria   |  `sql.js`   |
+| Microsoft SQL Server |       ✅        |      ✅       |   `mssql`   |
+|       OracleDB       |       ✅        |      ✅       | `oracledb`  |
+|       MongoDB        | ❌, a documenti |      ✅       |  `mongodb`  |
 
 ### Command line interface
 
+typeorm schema:sync Synchronizes your entities with database schema. It runs schema update queries on all connections you have. To run update queries on a concrete connection use -c option.
+
+typeorm schema:log Shows sql to be executed by schema:sync command. It shows sql log only for your default dataSource. To run update queries on a concrete connection use -c option.
+
+typeorm schema:drop Drops all tables in the database on your default dataSource. To drop table of a concrete connection's database use -c option.
+typeorm query [query] Executes given SQL query on a default dataSource. Specify connection name to run query on a specific dataSource.
+
+typeorm entity:create <path> Generates a new entity.
+
+typeorm subscriber:create <path> Generates a new subscriber.
+
+typeorm migration:create <path> Creates a new migration file.
+
+typeorm migration:generate <path> Generates a new migration file with sql needs to be executed to update schema.
+
+typeorm migration:run Runs all pending migrations.
+
+typeorm migration:show Show all migrations and whether they have been run or not
+
+typeorm migration:revert Reverts last executed migration.
+
+typeorm version Prints TypeORM version this project uses.
+
+typeorm cache:clear Clears all data stored in query runner cache.
+
+typeorm init Generates initial TypeORM project structure. If name specified then creates files inside directory called as name. If its not specified then creates files inside current directory.
+
+### Collegamento con il database
+
 ### Rappresentazione di entità e relazioni in Typescript
+
+Una delle features di TypeORM è la possibilità di definire le entità del database come classi Typescript. Per definire la tabella `users` si inizia creando la classe `User`:
+
+```typescript
+export class User {
+	public id: number;
+	public firstName: string;
+	public lastName: string;
+	public fullName(): string {
+		return `${this.firstName} ${this.lastName}`;
+	}
+}
+```
+
+Poi si annota la classe con il decoratore `@Entity`:
+
+```typescript
+import { Entity } from "typeorm";
+@Entity()
+export class User {
+	// ...
+}
+```
+
+E successivamente si annotano i campi che si intende tradurre in colonne della tabella con il decoratore `@Column`:
+
+```mermaid {align=r width=5cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+erDiagram
+    USERS {
+        int id
+        string firstName
+        string lastName
+    }
+```
+
+```typescript
+import { Entity, Column } from "typeorm";
+@Entity()
+export class User {
+	@Column()
+	public id: number;
+	@Column()
+	public firstName: string;
+	@Column()
+	public lastName: string;
+	public fullName(): string {
+		return `${this.firstName} ${this.lastName}`;
+	}
+}
+```
+
+Si possono definire anche dei constraint sulle colonne
 
 Data source
 
