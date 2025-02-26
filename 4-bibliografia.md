@@ -28,8 +28,13 @@
 
 **Capitolo 2**
 
+1. [Introduction to Node.js](https://nodejs.org/en/learn/getting-started/introduction-to-nodejs) - una guida introduttiva a Node.js.
+
+1. [Typescript official documentation](https://www.typescriptlang.org/docs/) - la documentazione ufficiale di Typescript.
 
 1. [Nuxt official documentation](https://nuxt.com/docs/getting-started/introduction) - la documentazione ufficiale del framework Nuxt.
+
+1. [Vue template syntax](https://vuejs.org/guide/template-syntax.html) - la guida ufficiale alla sintassi dei template di Vue.
 
 1. [TypeORM official documentation](https://typeorm.io/) - la documentazione ufficiale della libreria TypeORM.
 

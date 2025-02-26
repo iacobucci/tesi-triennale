@@ -38,9 +38,6 @@ const { data: users } = await useAsyncData('users', async () => {
 </template>
 ```
 
-
-
-
 ## Applicazione che usa Nuxt e typeORM
 
 ### Strumenti dell'editor di testo

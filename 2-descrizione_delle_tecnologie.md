@@ -255,6 +255,8 @@ pages/
 		pagina-1.vue	# Pagina accessibile a /gruppo-<nome>/pagina-1
 ```
 
+<!-- TODO -->
+
 ```html
 <script setup lang="ts">
 	definePageMeta({
@@ -377,7 +379,7 @@ In questo contesto, con rendering di una pagina web non si intende il processo d
 
 #### Client Side Rendering
 
-```mermaid {align=l width=7cm}
+```mermaid {height=6cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 sequenceDiagram
     participant Browser
@@ -408,7 +410,7 @@ Il beneficio che si ottiene nello sviluppare in maniera CSR con Nuxt è la dispo
 
 #### Universal rendering
 
-```mermaid {align=l width=7cm}
+```mermaid {height=6cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 sequenceDiagram
     participant Browser
@@ -454,11 +456,13 @@ Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di 
 
 [^moduli-nuxt]: [Moduli supportati ufficialmente da Nuxt](https://nuxt.com/modules)
 
+---
+
 ## TypeORM
 
 TypeORM è un ORM (Object-Relational Mapping) basato su Typescript, che permette di rappresentare le entità e le relazioni di un database relazionale in modo dichiarativo, e di eseguire operazioni _CRUD_ (Create, Read, Update, Delete) su di esse con API type-safe.
 
-Il progetto, avviato nel 2016 da Umed Khudoiberdiev, è attualmente mantenuto da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/typeorm/typeorm](github.com/typeorm/typeorm). La versione stabile corrente è la **0.3.20**, rilasciata nel gennaio 2024.
+Il progetto, avviato nel 2016 da Umed Khudoiberdiev, è attualmente mantenuto da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/typeorm/typeorm](github.com/typeorm/typeorm). La versione stabile corrente è la **0.3.20**, rilasciata nel gennaio 2024, ma lo sviluppo di versioni _nightly_ è in corso. Attualmente TypeORM è usato come dipendenza in quasi 400'000 progetti su Github.
 
 Si può installare in un progetto Node con `npm install typeorm`, e richiede `typescript` con versione 4.5 o successiva, con le dichiarazioni di tipo `@types/node`. L'uso di TypeORM come libreria in un tag script di un file HTML non è supportato.
 
@@ -478,7 +482,8 @@ Il protocollo di sincronizzazione è evidenziato nel diagramma di flusso sotto.
 ```mermaid {height=2cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 graph LR;
-    A[schema:sync] --> B{Il database esiste?};
+    A[typeorm
+	schema:sync] --> B{Il database esiste?};
     B -- No --> C[Crea il database];
     B -- Sì --> D{Le tabelle esistono?};
 	C --> D;
@@ -487,6 +492,8 @@ graph LR;
 	E --> F;
     F -- No --> G[Crea le colonne];
     F -- Sì --> H[Modifica le colonne secondo le entità];
+	classDef code font-family: monospace;
+	class A code
 ```
 
 #### `typeorm schema:drop`
@@ -515,11 +522,11 @@ Crea un nuovo file di migrazione, che potrà essere utilizzato per sincronizzare
 
 #### `typeorm migration:run`
 
-Runs all pending migrations.
+Esegue tutte le migrazioni pendenti, cioè le modifiche allo schema del database che non sono state ancora applicate.
 
 #### `typeorm migration:show`
 
-Stampa su stdout
+Stampa su stdout le migrazioni pendenti.
 
 #### `typeorm migration:revert`
 
@@ -561,7 +568,11 @@ graph LR
 		G -- No --> I[Operazioni completate]
 	end
 	end
+	classDef code font-family: monospace;
+	class C,AA,E,H, code
 ```
+
+> Diagramma di flusso delle migrazioni in TypeORM. L'esecuzione del SQL è specifica per il DBMS scelto, e può essere differente tra i vari database supportati.
 
 ### Collegamento con il database
 
@@ -579,11 +590,94 @@ TypeORM consente di lavorare con diversi DBMS (Database Management Systems), tra
 |       SAP Hana       |       ✅        |  in memoria   | `hdb-pool`  |
 | Google Cloud Spanner |       ✅        |      ✅       |  `spanner`  |
 
-DataSource
+Per effettuare la connessione con il database occorre installare l'adattatore mediante npm, e configurare un istanza di `DataSource` con le opzioni di accesso al database.
+
+Ad esempio, in PostgreSQL:
+
+```typescript
+import { DataSource } from "typeorm";
+import type { DataSourceOptions } from "typeorm";
+
+let options: DataSourceOptions = {
+	type: "postgres",
+	host: "localhost",
+	port: 5432,
+	database: "dev",
+	username: "dev",
+	password: "dev",
+	synchronize: true,
+	logging: true,
+	entities: [],
+	migrations: [],
+	subscribers: [],
+};
+
+const AppDataSource = new DataSource(options);
+```
+
+> L'annotazione di tipo `DataSourceOptions` è opzionale, ma il costruttore di `DataSource` accetta un oggetto che eredita da quel tipo. In base al campo `type` il compilatore Typescript inferirà il tipo specifico delle opzioni, che implementa l'interfaccia `DataSourceOptions`, e che è diverso per i vari adattatori[^data-source-options]. Negli array `entities`, `migrations` e `subscribers` si possono inserire i riferimenti alle classi che rappresentano le entità, le migrazioni e i subscriber del database. Inoltre con `synchronize: true` si forza la sincronizzazione del database, attivando lo stesso comportamento del comando `typeorm schema:sync` ad ogni avvio dell'applicazione. Con `logging: true` si abilita la stampa su stdout delle query SQL eseguite sul database durante l'esecuzione dell'applicazione. Il campo `logging` è di tipo `boolean | ["query", "error",` `"schema", "warn", "info", "log"] | AbstractLogger`, e permette di specificare quali tipi di log abilitare o di passare un logger personalizzato.
+
+[^data-source-options]: È possibile consultare quali opzioni sono disponibili per i vari adattatori [qui](https://typeorm.io/data-source-options).
+
+In un'applicazione Typescript che viene impacchettata per l'utilizzo su client (browser) si può usare il modulo `typeorm/browser` per interagire con `indexedDB`, un database locale che è supportato da tutti i browser moderni, per memorizzare i dati in locale.
+
+```typescript
+import { DataSource } from "typeorm/browser";
+
+const AppDataSource = new DataSource({
+	type: "indexeddb",
+	database: "mydb",
+	entities: [],
+	synchronize: true,
+});
+```
+
+Successivamente si può inizializzare la connessione con il database con il metodo `initialize`, per iniziare a fare queries.
+
+```typescript
+export async function initialize() {
+	try {
+		if (!AppDataSource.isInitialized) {
+			await AppDataSource.initialize();
+			console.log("Typeorm inizializzato");
+		}
+	} catch (error) {
+		console.error("Errore inizializzazione Typeorm", error);
+		throw error;
+	}
+}
+```
+
+Questa operazione è asincrona, quindi si può usare `await` per attendere il completamento dell'inizializzazione, ed è da preferire eseguirla all'avvio dell'applicazione, per evitare errori di connessione al database durante l'esecuzione.
 
 ### Rappresentazione di entità e relazioni in Typescript
 
-Una delle features di TypeORM è la possibilità di definire le entità del database come classi Typescript. Per definire la tabella `users` si inizia creando la classe `User`:
+#### Decoratori
+
+Una delle features principali di TypeORM è la possibilità di definire le entità del database come classi Typescript con _decoratori_[^decoratori], al contrario di altri ORM che usano un formato di configurazione esterno, come Prisma, o che usano un formato di configurazione interno, come Sequelize.
+
+[^decoratori]: I decoratori sono funzioni che modificano il comportamento di una classe o di una funzione, aggiungendo o modificando proprietà o metodi. Sono stati introdotti in ES7 e sono supportati da Typescript.
+
+È necessario installare uno _shim_ (una libreria che si interpone tra due API) per poter usare i decoratori di TypeORM, con `npm install reflect-metadata --save`.
+
+È inoltre necessario configurare il compilatore typescript per supportare i decoratori, aggiungendo le seguenti opzioni al file `tsconfig.json`:
+
+```json
+{
+	"compilerOptions": {
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
+	}
+}
+```
+
+Poi bisogna importare il modulo `reflect-metadata` globalmente in un file di entry del progetto:
+
+```typescript
+import "reflect-metadata";
+```
+
+Si potrà quindi definire la tabella `users` con la classe `User`:
 
 ```typescript
 export class User {
@@ -608,16 +702,6 @@ export class User {
 
 E successivamente si annotano i campi che si intende tradurre in colonne della tabella con il decoratore `@Column`:
 
-```mermaid {align=r width=5cm}
-%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
-erDiagram
-    USERS {
-        int id
-        string firstName
-        string lastName
-    }
-```
-
 ```typescript
 import { Entity, Column } from "typeorm";
 @Entity()
@@ -634,11 +718,13 @@ export class User {
 }
 ```
 
-Si possono definire anche dei constraint sulle colonne
+In questo modo il tipo di dato da assegnare alla colonna è inferito automaticamente dal tipo della proprietà, e si può continuare ad usare il metodo `fullName` per ottenere il nome completo dell'utente.
 
-Data source
+####
 
 #### Migrations
+
+#### Listeners e subscribers
 
 ### Query
 
