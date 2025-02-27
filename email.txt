@@ -1,0 +1,43 @@
+Buonasera Professore,
+
+Le allego il PDF con l'aggiunta di: 
+- una breve esposizione degli obiettivi, dal momento che Lei ne aveva evidenziato la mancanza.
+- aggiunta di un paragrafo al primo capitolo su cloud computing, infrastructure as code e continuous integration, che sono argomenti di tirocinio.
+- secondo capitolo (Descrizione delle tecnologie). Ho mostrato le API ed il funzionamento interno delle librerie Nuxt e TypeORM, facendo degli esempi di casi d'uso tipici.
+
+Nel frattempo ho preparato una repository (https://github.com/iacobucci/aws-nuxt-typeorm), dove ho testato il branch principale per l'infrastructure as code e la continuous integration con AWS e Github Actions, continuando l'argomento di tirocinio, e rilasciando un'applicazione di test che usa Nuxt e TypeORM in combinazione. Alla pagina https://github.com/iacobucci/aws-nuxt-typeorm/actions si può vedere come il workflow sia stato eseguito con successo, su un nuovo account AWS con free-tier.
+
+Questo workflow include la connessione della repository ad un "role" AWS con permessi limitati mediante OIDC (un sistema di chiavi certificate, al contrario del salvataggio nei "secrets" della repository di username e password di AWS), la preparazione della cloud per includere una VPC con subnet, gateway, NAS e load balancer, un registry di immagini docker.
+
+Il workflow procede con un checkout della repository in ambiente virtuale fornito da Github Actions, la sua build, un push dell'immagine risultante nel registry definito precedentemente, e l'aggiornamento dei servizi containerizzati in AWS ECS con la nuova immagine. Le task, cioè i singoli container in esecuzione, possono essere decise in base al numero di richieste e scalare automaticamente, ma per finalità di test le ho limitate a 2.
+
+Il workflow usa un template di AWS cloudformation autocontenuto nella repository, che si può adattare alle esigenze del team di sviluppo, ed ad ogni nuovo push su master aggiorna la cloud con le differenze tra il template e lo stato attuale, riducendo le modifiche dell'aggiornamento a quelle necessarie.
+
+Per testare il database ho aggiunto un'istanza di RDS, database relazionale ad alta disponibilità, configurato per eseguire PostgreSQL con una quantità di spazio idonea per il free-tier (20GB). Le credenziali di questo sono conservate nei secrets della repository: sono oscurate a tutti i collaboratori di un progetto github, e vengono passate al workflow di CI/CD che le porterà in ambiente AWS ed anche come variabili di ambiente ai container. È in questo modo che i container saranno in collegamento con il database.
+
+In un branch di sviluppo della repository, https://github.com/iacobucci/aws-nuxt-typeorm/tree/dev, Ho aggiunto anche dei componenti per il frontend personalizzati per il frontend, basati su Shadcn (un sistema di componenti funzionante anche con Vue) e adattabili con Tailwind. In più ho integrato un sistema che rende type-safe le richieste GET (nei parametri) e POST (nel body) tra il frontend e il backend, con un sistema di validazione automatica dei dati in ingresso e in uscita, usando Zod (una libreria di validazione a runtime per TypeScript) e tRPC (una libreria per gestire le richieste HTTP in modo type-safe, che si può montare sopra le astrazioni già presenti in nuxt).
+
+Nella repository ho aggiunto dei test unitari automatizzati che si possono eseguire durante lo sviluppo, sia di feature di Nuxt che di query TypeORM.
+
+Ho pensato che i test di performance da includere nel capitolo 3 di cui Lei mi parlava si potrebbero declinare in un modo simile a questo:
+
+- Per AWS: Testare la velocità di risposta del server in relazione al numero di richieste HTTP, con uno strumento come "wrk", anche in base alla topologia della rete (Server monolitico con database in locale, Server monolitico con database in cloud, Server distribuito con database in cloud...).
+- Per Nuxt: Testare la velocità di rendering di pagine in funzione di quanti componenti innestati ci sono e della modalità di rendering scelta per nuxt (SSR, SPA,), con gli strumenti sviluppatore di un browser web, come "lighthouse" per Chromium o il profiler di Firefox: vengono forniti degli score di performance, accessibilità, best practices e search engine optimization.
+- Per TypeORM: Testare la velocità delle query (che risultano in numero di righe variabile, con join di grado variabile, effetti cascade), rispetto a delle query SQL dirette.
+
+Per la continuazione nel capitolo 3 (Soluzioni di design), avevo pensato alle seguenti sezioni:
+- Spiegazione della IaC e CI/CD con AWS e Github Actions, da argomento di tirocinio, applicata al contesto delle tecnologie in esame e con snippet di codice.
+- Soluzioni progettuali per l'interoperatività tra le tecnologie scelte.
+	- Realizzazione del plugin Nuxt per il collegamento con TypeORM.
+	- design patterns per la condivisione di classi del domain model tra il frontend ed il backend (le classi alle quali TypeORM è collegato implementano delle interfacce che anche l'applicazione client usa, ad esempio con dei Data Transfer Objects, per la UI).
+	- Utilizzo di un sistema di validazione type-safe per parametri GET o body POST con Zod e tRPC, proponendo una soluzione per i problemi evidenziati rispetto all'attuale mancanza di sicurezza di tipo di alcune API che Nuxt fornisce di default (C'è un issue irrisolto su questo argomento, e questa è una delle soluzioni più accreditate).
+- Test di performance dell'applicazione in deploy su AWS.
+
+Non ho ancora raffinato i dati per i test di performance, per i quali pensavo di fare dei grafici con i risultati ottenuti, e di fare un confronto tra le diverse topologie architetturali di server di calcolo e database. Tuttavia i risultati sono conformi a:
+- AWS: Il server distribuito con database in cloud ha meno latenza nel rispondere, ma è il più costoso a parità di tempo di utilizzo.
+- Nuxt: Il rendering SSR è più veloce fino alla fase di "reattività parziale" della pagina, ma più lento nella fase di "completamento di reattività totale" (nelle SPA i componenti che vengono caricati sequenzialmente sono da subito disponibili). Tuttavia con la tecnica di rendering misto e seguendo delle buone pratiche di organizzazione del codice si possono ottenere risultati migliori sul profiler Lighthouse.
+- TypeORM: Le query che percorrono molti join con Active Record sono più lente di quelle con Query Builder, ma più facili da scrivere e mantenere. Query Builder ha a sua volta dei rallentamenti, ma trascurabili, rispetto a SQL raw. Farei dei test per ottenere dei risultati numerici e confrontarli.
+
+Le chiedo se sia opportuno scegliere un tema per l'applicazione del branch di sviluppo che sto allestendo, magari anche in vista della presentazione, che si presti alla trattazione di API complesse con autenticazione e autorizzazione. Negli esempi che sto portando avanti il modello di dominio riguarda utenti, messaggi, post e commenti, quindi un generico social network, ma potrei adattarlo con prontezza. Inoltre le chiedo se le sezioni del capitolo 3 ed i relativi test di performance siano adeguati.
+
+Grazie per l'attenzione, buona serata!

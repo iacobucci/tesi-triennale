@@ -242,7 +242,9 @@ Poi bisogna importare il modulo `reflect-metadata` globalmente in un file di ent
 import "reflect-metadata";
 ```
 
-Si potrà quindi definire la tabella `users` con la classe `User`:
+Si potrà quindi definire la tabella `users`[^naming-strategy] con la classe `User`:
+
+[^naming-strategy]: [Strategie di naming automatico](#strategie-di-naming-automatico).
 
 ```typescript
 export class User {
@@ -436,45 +438,45 @@ erDiagram
 
 ```typescript
 export interface Name {
-	first: string
-	last: string
+	first: string;
+	last: string;
 }
 
 export const NameEntitySchema = new EntitySchema<Name>({
-    name: "name",
-    columns: {
-        first: { type: "varchar" },
-        last: { type: "varchar" },
-    },
-})
+	name: "name",
+	columns: {
+		first: { type: "varchar" },
+		last: { type: "varchar" },
+	},
+});
 
 export interface User {
-    id: string
-    name: Name
+	id: string;
+	name: Name;
 }
 
 export const UserEntitySchema = new EntitySchema<User>({
-    name: "user",
-    columns: {
-        id: { primary: true, type: "int", generated: true },
-    },
-    embeddeds: {
-        name: { schema: NameEntitySchema, prefix: "name_" }
-    },
-})
+	name: "user",
+	columns: {
+		id: { primary: true, type: "int", generated: true },
+	},
+	embeddeds: {
+		name: { schema: NameEntitySchema, prefix: "name_" },
+	},
+});
 ```
 
 Si passa un oggetto di tipo `EntitySchemaOptions` al costruttore di `EntitySchema`, che contiene le opzioni di configurazione della tabella, tra cui:
 
 -   `name: string`: il nome della tabella.
 -   `columns: EntitySchemaOptions<T>.columns`: un oggetto che mappa i nomi delle colonne, tipizzati come string literals, ad ulteriori opzioni della colonna, cioè ad un `EntitySchemaColumnOptions`. Ognuno di questi ha i campi:
-	-	`type: ColumnType`: il tipo di dato della colonna, istanza di `ColumnType`.
-	-	`primary?: boolean`: se la colonna è parte della chiave primaria, `false` di default.
-	-	`generated?: boolean`: se il valore della colonna è generato automaticamente, `false` di default.
-	-	`default?: any`: il valore di default della colonna.
--  `embeddeds: EntitySchemaColumnOptions[]`: un oggetto che mappa i nomi delle proprietà annidate ai loro schemi e ai prefissi delle colonne annidate. Per ogni proprietà annidata si deve definire:
-	-	`schema: EntitySchema`: lo schema dell'entità annidata.
-	-	`prefix: string`: il prefisso delle colonne annidate.
+    -   `type: ColumnType`: il tipo di dato della colonna, istanza di `ColumnType`.
+    -   `primary?: boolean`: se la colonna è parte della chiave primaria, `false` di default.
+    -   `generated?: boolean`: se il valore della colonna è generato automaticamente, `false` di default.
+    -   `default?: any`: il valore di default della colonna.
+-   `embeddeds: EntitySchemaColumnOptions[]`: un oggetto che mappa i nomi delle proprietà annidate ai loro schemi e ai prefissi delle colonne annidate. Per ogni proprietà annidata si deve definire:
+    -   `schema: EntitySchema`: lo schema dell'entità annidata.
+    -   `prefix: string`: il prefisso delle colonne annidate.
 
 La tipizzazione forte è garantita anche nel caso degli schemi.
 
@@ -497,8 +499,8 @@ Alcune delle opzioni più comuni per PostgreSQL sono:
     -   `"varchar"`: Una stringa di lunghezza variabile.
     -   `"text"`: Una stringa di lunghezza arbitraria.
     -   `"boolean"`: Un valore booleano.
-    -   `"date"`: Una data.
-    -   `"timestamp"`: Una data e un orario.
+    -   `"date"`: Una data senza orario, in TypeScript un oggetto `Date`.
+    -   `"timestamp"`: Una data e un orario, in TypeScript un oggetto `Date`.
     -   `"json"`: Un oggetto JSON. Con questo tipo si possono memorizzare oggetti complessi, come array e oggetti annidati, ma per le operazioni di ricerca e ordinamento. È preferibile usare un tipo di dato nativo del database.
     -   `"jsonb"`: Un oggetto JSON binario.
     -   `"enum"`: Un insieme di valori possibili. Si definisce con un array di stringhe, che viene tipizzato come uno _string literal type_, o anche con un enum Typescript. In entrambi i casi la tipizzazione è garantita.
@@ -526,7 +528,7 @@ export class PostRefactoringTIMESTAMP implements MigrationInterface {
 	async down(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.query(
 			`ALTER TABLE "user" RENAME COLUMN "surname" TO "lastname"`
-		); 
+		);
 	}
 }
 ```
@@ -551,15 +553,252 @@ La pratica di migrazione di database è tuttavia consigliata per modifiche in fa
 
 ### Rappresentazione di relazioni
 
+Dopo la definizione delle entità, si possono definire le relazioni tra di esse, seguendo le convenzioni del modello relazionale.
+
+Si possono definire relazioni uno a uno con `@OneToOne`, relazioni uno a molti con `@OneToMany` e `@ManyToOne`, e relazioni molti a molti con `@ManyToMany`. Ogni decoratore per le relazioni, oltre alla classe di destinazione al quale si aggancia, accetta un parametro di tipo `RelationOptions`, che permette di configurare la relazione con:
+
+- `cascade?: boolean | ("insert" | "update" | "remove" | "soft-remove" | "recover")[]`: specifica le operazioni che devono essere propagate alla relazione. Se `true`, tutte le operazioni di `insert`, `update` e `remove` sono propagate. Se `false`, nessuna operazione è propagata. Se un array di stringhe tra quelle accettabili, solo le operazioni specificate sono propagate.
+- `eager?: boolean`: se il caricamento della relazione deve essere eager, `true` di default.
+- `lazy?: boolean`: se il caricamento della relazione deve essere lazy.
+
 #### Relazioni uno a uno
+
+```typescript
+@Entity()
+export class User {
+	@PrimaryGeneratedColumn()
+	id: number;
+
+	@Column()
+	username: string;
+
+	@OneToOne(() => Profile, (profile) => profile.user, { cascade: true })
+	@JoinColumn()
+	profile: Profile;
+}
+
+@Entity()
+export class Profile {
+	@PrimaryGeneratedColumn()
+	id: number;
+
+	@Column()
+	bio: string;
+
+	@OneToOne(() => User, (user) => user.profile)
+	user: User;
+}
+```
+
+```mermaid {height=4.5cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+erDiagram
+    User ||--|| Profile : has
+    User {
+        int id
+        string username
+    }
+    Profile {
+        int id
+        string bio
+    }
+```
 
 #### Relazioni uno a molti
 
+```typescript
+@Entity()
+export class User {
+	@PrimaryGeneratedColumn()
+	id: number;
+
+	@Column()
+	username: string;
+
+	@OneToMany(() => Post, (post) => post.author)
+	posts: Post[];
+}
+
+@Entity()
+export class Post {
+	@PrimaryGeneratedColumn()
+	id: number;
+
+	@Column()
+	content: string;
+
+	@ManyToOne(() => User, (user) => user.posts)
+	author: User;
+}
+```
+
+```mermaid {height=4.5cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+erDiagram
+    User ||--o{ Post : writes
+    User {
+        int id
+        string username
+    }
+    Post {
+        int id
+        string content
+    }
+```
+
 #### Relazioni molti a uno
+
+```typescript
+@Entity()
+export class Comment {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  text: string;
+
+  @ManyToOne(() => Post, (post) => post.comments)
+  post: Post;
+}
+
+@Entity()
+export class Post {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  content: string;
+
+  @OneToMany(() => Comment, (comment) => comment.post)
+  comments: Comment[];
+}
+```
+
+```mermaid {height=4.5cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+erDiagram
+    Post ||--o{ Comment : has
+    Post {
+        int id
+        string content
+    }
+    Comment {
+        int id
+        string text
+    }
+
+```
 
 #### Relazioni molti a molti
 
-#### Fetch e lazy loading
+
+```typescript
+@Entity()
+export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  username: string;
+
+  @ManyToMany(() => Post, (post) => post.likedBy)
+  likedPosts: Post[];
+
+  @ManyToMany(() => User)
+  @JoinTable()
+  friends: User[];
+}
+
+@Entity()
+export class Post {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  content: string;
+
+  @ManyToMany(() => User, (user) => user.likedPosts)
+  @JoinTable()
+  likedBy: User[];
+}
+```
+
+```mermaid {height=4.5cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+erDiagram
+    User }o--o{ User : friends
+    User }o--o{ Post : likes
+    User {
+        int id
+        string username
+    }
+    Post {
+        int id
+        string content
+    }
+```
+
+`@JoinTable()` è un decoratore che permette di definire una tabella di join, ed in questo caso crea una tabella `user_liked_posts`^[naming-strategy] con le colonne `user_id` e `post_id`.
+
+#### Eager e lazy loading
+
+Il caricamento delle relazioni può essere configurato come _eager_ o _lazy_.
+
+##### Eager loading
+
+Con un caricamento eager le entità correlate vengono caricate insieme all'entità principale, in un'unica query SQL. Questo può essere utile quando si sa che le entità correlate verranno sempre usate insieme all'entità principale, ma può portare ad inefficienze se le entità correlate sono molte o pesanti.
+
+```typescript
+@Entity()
+export class User {
+  @ManyToMany(() => Post, (post) => post.likedBy, { eager: true })
+  @JoinTable()
+  likedPosts: Post[];
+}
+
+@Entity()
+export class Post {
+  @ManyToMany(() => User, (user) => user.likedPosts, { eager: true })
+  likedBy: User[];
+}
+```
+
+##### Lazy loading
+
+Al contrario, con un caricamento lazy le entità correlate vengono caricate solo quando vengono effettivamente usate. Le entità correlate sono memorizzate come `Promise`, che se risolte restituiscono l'entità correlata. Durante la risoluzione della `Promise` viene eseguita una query SQL per recuperare l'entità correlata.
+
+```typescript
+@Entity()
+export class User {
+  @ManyToMany(() => Post, (post) => post.likedBy, { lazy: true })
+  @JoinTable()
+  likedPosts: Promise<Post[]>;
+}
+
+@Entity()
+export class Post {
+  @ManyToMany(() => User, (user) => user.likedPosts, { lazy: true })
+  likedBy: Promise<User[]>;
+}
+```
+
+Internamente TypeORM usa delle `Proxy` Javascript per intercettare gli accessi alle proprietà lazy, in modo concettualmente analogo a:
+
+```typescript
+user.likedPosts = new Proxy(Promise.resolve([]), {
+  get(target, prop) {
+    if (!target.__loaded) {
+      target.__loaded = true;
+      target.__data = databaseQuery("SELECT * FROM post WHERE userId = ?", user.id);
+    }
+    return Reflect.get(target.__data, prop);
+  }
+});
+```
+
+### Strategie di naming automatico {.unnumbered}
+
+ciao
 
 ### Query
 

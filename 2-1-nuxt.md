@@ -230,10 +230,6 @@ Nuxt adotta delle convenzioni per il frontend: i file che definiscono le pagine 
 
 #### Pages
 
-<!-- TODO -->
-
-La struttura delle pagine è la seguente:
-
 ```bash
 pages/
 	index.vue			# Pagina principale, accessibile alla rotta /
