@@ -551,15 +551,15 @@ La pratica di migrazione di database è tuttavia consigliata per modifiche in fa
 
 ### Rappresentazione di relazioni
 
--   `@OneToOne()`: Definisce una relazione uno a uno
--   `@OneToMany()`: Definisce una relazione uno a molti
--   `@ManyToOne()`: Definisce una relazione molti a uno
--   `@ManyToMany()`: Definisce una relazione molti a molti
--   `@JoinColumn()`: Specifica la colonna di join per una relazione
--   `@JoinTable()`: Specifica la tabella di join per una relazione many-to-many
+#### Relazioni uno a uno
 
+#### Relazioni uno a molti
 
-lazy loading
+#### Relazioni molti a uno
+
+#### Relazioni molti a molti
+
+#### Fetch e lazy loading
 
 ### Query
 

@@ -230,6 +230,8 @@ Nuxt adotta delle convenzioni per il frontend: i file che definiscono le pagine 
 
 #### Pages
 
+<!-- TODO -->
+
 La struttura delle pagine è la seguente:
 
 ```bash
@@ -313,6 +315,8 @@ interface PageMeta {
 
 #### Components
 
+<!-- TODO regole di templating di vue -->
+
 Componenti _built-in_:
 
 -   `<ClientOnly>`
@@ -326,6 +330,24 @@ Componenti _built-in_:
 -   `<NuxtRouteAnnouncer>`
 -   `<NuxtWelcome>`
 -   `<ServerPlaceholder>`
+
+Composables:
+
+-	useNuxtApp
+-	useAppConfig
+-	useRuntimeConfig
+-	useHead
+-	useRoute
+-	useRouter
+-	useError
+-	useState
+-	useAsyncData
+-	useFetch
+-	useLoadingIndicator
+-	useRequestHeader
+-	useRequestURL
+-	useCookie
+-	useHydration
 
 hooks
 
@@ -352,6 +374,7 @@ https://github.com/nitrojs/nitro/discussions/235
 
 ### Modalità di rendering del frontend
 
+<!-- https://nuxt.com/docs/guide/concepts/rendering -->
 <!-- TODO https://www.youtube.com/watch?v=b1S5os65Urs -->
 
 Durante la fase di progettazione, diversi tipi di applicazione suggeriscono diverse esigenze, e Nuxt si dimostra versatile a partire dalle modalità di rendering che offre.
@@ -409,19 +432,23 @@ sequenceDiagram
 
 md -> html
 
+Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di usare Nuxt in combinazione con TypeORM.
+
+[^moduli-nuxt]: [Moduli supportati ufficialmente da Nuxt](https://nuxt.com/modules)
+
+### Server e fetching
+
+#### Middleware
+
 #### Routes tipizzate
 
-tipi di fetch
+problema del body e dei parametri
 
-COME FANNO AD ESSERCI DELLE ROUTES TIPIZZATE??
-controllare
+#### Middlewares
 
 #### Modalità di sviluppo
 
 #### Build per la produzione
 
-Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di usare Nuxt in combinazione con TypeORM.
-
-[^moduli-nuxt]: [Moduli supportati ufficialmente da Nuxt](https://nuxt.com/modules)
 
 ---
