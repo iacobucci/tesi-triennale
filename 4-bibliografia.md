@@ -46,6 +46,8 @@
 
 1. [Esbuild officila documentation](https://esbuild.github.io/api/) - la documentazione ufficiale del bundler Esbuild.
 
+1. [PostgreSQL 17 documentation](https://www.postgresql.org/docs/17/) - la documentazione ufficiale del database PostgreSQL nella versione 17.4.
+
 ---
 
 **Capitolo 3**
