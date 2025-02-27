@@ -605,6 +605,8 @@ let options: DataSourceOptions = {
 	database: "dev",
 	username: "dev",
 	password: "dev",
+	ssl: true,
+	connectTimeoutMS: 10000,
 	synchronize: true,
 	logging: true,
 	entities: [],
@@ -615,7 +617,30 @@ let options: DataSourceOptions = {
 const AppDataSource = new DataSource(options);
 ```
 
-> L'annotazione di tipo `DataSourceOptions` è opzionale, ma il costruttore di `DataSource` accetta un oggetto che eredita da quel tipo. In base al campo `type` il compilatore Typescript inferirà il tipo specifico delle opzioni, che implementa l'interfaccia `DataSourceOptions`, e che è diverso per i vari adattatori[^data-source-options]. Negli array `entities`, `migrations` e `subscribers` si possono inserire i riferimenti alle classi che rappresentano le entità, le migrazioni e i subscriber del database. Inoltre con `synchronize: true` si forza la sincronizzazione del database, attivando lo stesso comportamento del comando `typeorm schema:sync` ad ogni avvio dell'applicazione. Con `logging: true` si abilita la stampa su stdout delle query SQL eseguite sul database durante l'esecuzione dell'applicazione. Il campo `logging` è di tipo `boolean | ["query", "error",` `"schema", "warn", "info", "log"] | AbstractLogger`, e permette di specificare quali tipi di log abilitare o di passare un logger personalizzato.
+Le opzioni di connessione sono specifiche per ogni adattatore, ma quelle comuni sono:
+
+-   `type: string`: il tipo di database, tra quelli supportati da TypeORM. In base a questo campo il compilatore Typescript inferirà il tipo specifico delle opzioni.
+-   `entities: EntitySchema[]`: un array di classi che rappresentano le migrazioni del database
+-   `migrations: Function[]`: un array di classi che rappresentano le migrazioni del database.
+-   `subscribers: Function[]`: un array di classi che rappresentano i subscriber del database.
+-   `synchronize: boolean`: indica se sincronizzare il database con le entità definite nel progetto.
+-   `logging: boolean | ["query", "error", "schema", "warn", "info", "log"]`
+    `| AbstractLogger`: abilita la stampa su stdout delle query SQL eseguite sul database durante l'esecuzione dell'applicazione e permette di specificare quali tipi di log abilitare o di passare un logger personalizzato.
+-   `cache: boolean | {type: ["database", "redis", ...],options: {...} }`: abilita la cache delle query, con la possibilità di specificare il tipo di cache, tra le quali anche Redis.
+
+Per i DBMS che richiedono una connessione a server, si aggiungono le opzioni:
+
+-   `host: string`: l'indirizzo IP o il nome del server.
+-   `port: number`: la porta del server.
+-   `database: string`: il nome del database.
+-   `username: string`: l'utente del database.
+-   `password: string`: la password dell'utente.
+-   `ssl: boolean`: abilita la connessione sicura.
+
+In più, per PostgreSQL, si può specificare:
+
+-   `connectTimeoutMS: number`: il tempo massimo di attesa per la connessione al server, in millisecondi.
+-   `uuidExtension: boolean`: abilita l'estensione UUID di PostgreSQL.
 
 [^data-source-options]: È possibile consultare quali opzioni sono disponibili per i vari adattatori [qui](https://typeorm.io/data-source-options).
 
@@ -652,7 +677,7 @@ Questa operazione è asincrona, quindi si può usare `await` per attendere il co
 
 ### Rappresentazione di entità e relazioni in Typescript
 
-#### Decoratori
+#### Entità
 
 Una delle features principali di TypeORM è la possibilità di definire le entità del database come classi Typescript con _decoratori_[^decoratori], al contrario di altri ORM che usano un formato di configurazione esterno, come Prisma, o che usano un formato di configurazione interno, come Sequelize.
 
@@ -720,20 +745,233 @@ export class User {
 
 In questo modo il tipo di dato da assegnare alla colonna è inferito automaticamente dal tipo della proprietà, e si può continuare ad usare il metodo `fullName` per ottenere il nome completo dell'utente.
 
-####
+Per rendere le entità persistenti si devono aggiungere i riferimenti delle classi ad un array nel campo `entities` delle opzioni di `DataSource`.
 
-#### Migrations
+#### Entità annidate
+
+Un'entità può supportare delle entità annidate, che sono rappresentate come proprietà di tipo `Entity`:
+
+```typescript
+import { Name } from "./Name";
+
+@Entity()
+export class User {
+	@Column()
+	id: number;
+
+	@Column(() => Name)
+	name: Name;
+}
+```
+
+Dove `Name` è una classe che rappresenta un nome, con delle `@Column` sui campi da annidare.
+
+```typescript
+export class Name {
+	@Column()
+	first: string;
+
+	@Column()
+	last: string;
+}
+```
+
+In questo modo la tabella risultante sarà:
+
+```mermaid {height=3cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+erDiagram
+	User {
+		number id
+		string name_first
+		string name_last
+	}
+
+```
+
+Quindi si potrà accedere ai campi annidati con `user.name.first` e `user.name.last`, e per ogni entità che fa uso di `Name` si otterrà una riduzione della ridondanza del codice.
+
+#### Polimorfismo delle entità
+
+Le entità possono essere definite in modo polimorfico, cioè con una gerarchia di classi che condividono delle proprietà comuni.
+
+Si inizia definendo un'entità padre `User`:
+
+```typescript
+@Entity()
+export class User {
+	@Column()
+	id: number;
+
+	@Column()
+	firstName: string;
+
+	@Column()
+	lastName: string;
+}
+```
+
+Poi si definiscono le entità figlie `Admin` e `Customer`:
+
+```typescript
+@Entity()
+export class Supplier extends User {
+	@Column()
+	companyName: string;
+}
+```
+
+```typescript
+@Entity()
+export class Customer extends User {
+	@Column()
+	shippingAddress: string;
+}
+```
+
+Il diagramma delle tabelle risultante sarà:
+
+```mermaid {height=3cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+erDiagram
+	User {
+		number id
+		string firstName
+		string lastName
+	}
+
+	Supplier {
+		number id
+		string firstName
+		string lastName
+		string companyName
+	}
+
+	Customer {
+		number id
+		string firstName
+		string lastName
+		string shippingAddress
+	}
+```
+
+L'ereditarietà è supportata ad un livello di profondità arbitrario.
+
+È possibile usare anche il pattern di *Single table inheritance* (STI), in cui tutte le entità figlie condividono la stessa tabella, e si usa un campo `type` per distinguere i diversi tipi di entità.
+
+```typescript
+@Entity()
+@TableInheritance({ column: { type: "varchar", name: "type" } })
+export class User {
+	...
+}
+
+export class Supplier extends User {
+	...
+}
+
+export class Customer extends User {
+	...
+}
+```
+
+Così facendo si otterrà un'unica tabella `User` con un campo `type` che può assumere i valori `Supplier` e `Customer`:
+
+```mermaid {height=3cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+erDiagram
+	User {
+		number id
+		string firstName
+		string lastName
+		string type
+		string companyName
+		string shippingAddress
+	}
+```
+
+#### Proprietà delle colonne
+
+Si possono impostare proprietà delle colonne del database sempre mediante decoratori:
+
+-   `@PrimaryGeneratedColumn()`: Chiave primaria generata automaticamente.
+-   `@PrimaryColumn()`: Chiave primaria.
+-   `@Column("int")`: Tipo di dato della colonna. Un `number` Typescript può essere mappato a `int` in SQL.
+-   `@Column("varchar")` oppure `@Column("text")`: Tipo di dato della colonna. Una `string` Typescript può essere mappata a `varchar` o `text` in SQL.
+
+Si possono aggiungere delle proprietà aggiuntive passando un oggetto di opzioni, di tipo `ColumnOptions`, al decoratore `@Column(options: ColumnOptions)`:
+
+Alcune delle opzioni più comuni per PostgreSQL sono:
+
+-   `type: ColumnType`: Il tipo di dato della colonna, istanza di `ColumnType`, tra i quali:
+    -   `"int"`: Un intero a 32 bit.
+    -   `"bigint"`: Un intero a 64 bit.
+    -   `"varchar"`: Una stringa di lunghezza variabile.
+    -   `"text"`: Una stringa di lunghezza arbitraria.
+    -   `"boolean"`: Un valore booleano.
+    -   `"date"`: Una data.
+    -   `"timestamp"`: Una data e un orario.
+    -   `"json"`: Un oggetto JSON. Con questo tipo si possono memorizzare oggetti complessi, come array e oggetti annidati, ma per le operazioni di ricerca e ordinamento. È preferibile usare un tipo di dato nativo del database.
+    -   `"jsonb"`: Un oggetto JSON binario.
+    -   `"enum"`: Un insieme di valori possibili. Si definisce con un array di stringhe, che viene tipizzato come uno _string literal type_, o anche con un enum Typescript. In entrambi i casi la tipizzazione è garantita.
+-   `length: number`: La lunghezza massima della colonna, per i tipi `varchar` e `text`.
+-   `nullable: boolean`: Se la colonna può avere valori nulli.
+-   `default: any`: Il valore di default della colonna.
+-   `unique: boolean`: Se i valori della colonna devono essere unici.
+-   `primary: boolean`: Se la colonna è parte della chiave primaria.
+-   `generated: boolean`: Se il valore della colonna è generato automaticamente.
+-   `comment: string`: Un commento sulla colonna.
+
+#### Relazioni
+
+-   `@OneToOne()`: Definisce una relazione uno a uno
+-   `@OneToMany()`: Definisce una relazione uno a molti
+-   `@ManyToOne()`: Definisce una relazione molti a uno
+-   `@ManyToMany()`: Definisce una relazione molti a molti
+-   `@JoinColumn()`: Specifica la colonna di join per una relazione
+-   `@JoinTable()`: Specifica la tabella di join per una relazione many-to-many
 
 #### Listeners e subscribers
 
+#### Migrations
+
+```typescript
+import { MigrationInterface, QueryRunner } from "typeorm";
+
+export class PostRefactoringTIMESTAMP implements MigrationInterface {
+	async up(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.query(
+			`ALTER TABLE "post" RENAME COLUMN "title" TO "name"`
+		);
+	}
+	async down(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.query(
+			`ALTER TABLE "post" RENAME COLUMN "name" TO "title"`
+		); // reverts things made in "up" method
+	}
+}
+```
+
+```typescript
+import { MigrationInterface, QueryRunner, TableColumn } from "typeorm";
+
+export class PostRefactoringTIMESTAMP implements MigrationInterface {
+	async up(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.renameColumn("post", "title", "name");
+	}
+
+	async down(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.renameColumn("post", "name", "title");
+	}
+}
+```
+
 ### Query
+
+crud acid
 
 #### Active record
 
 #### Query builder
-
-#### Crud
-
-#### Acid
 
 #### Lazy
