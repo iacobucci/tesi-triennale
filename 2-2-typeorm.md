@@ -242,9 +242,9 @@ Poi bisogna importare il modulo `reflect-metadata` globalmente in un file di ent
 import "reflect-metadata";
 ```
 
-Si potrà quindi definire la tabella `users`[^naming-strategy] con la classe `User`:
+Si potrà quindi definire la tabella `user`[^naming-strategy] con la classe `User`:
 
-[^naming-strategy]: [Strategie di naming automatico](#strategie-di-naming-automatico).
+[^naming-strategy]: A riguardo, il praragrafo [Strategie di naming automatico](#strategie-di-naming-automatico).
 
 ```typescript
 export class User {
@@ -323,10 +323,10 @@ In questo modo la tabella risultante sarà:
 ```mermaid {height=3cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 erDiagram
-	User {
+	user {
 		number id
-		string name_first
-		string name_last
+		varchar name_first
+		varchar name_last
 	}
 
 ```
@@ -376,24 +376,24 @@ Il diagramma delle tabelle risultante sarà:
 ```mermaid {height=3cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 erDiagram
-	User {
+	user {
 		number id
-		string firstName
-		string lastName
+		varchar firstName
+		varchar lastName
 	}
 
-	Supplier {
+	supplier {
 		number id
-		string firstName
-		string lastName
-		string companyName
+		varchar firstName
+		varchar lastName
+		varchar companyName
 	}
 
-	Customer {
+	customer {
 		number id
-		string firstName
-		string lastName
-		string shippingAddress
+		varchar firstName
+		varchar lastName
+		varchar shippingAddress
 	}
 ```
 
@@ -417,18 +417,18 @@ export class Customer extends User {
 }
 ```
 
-Così facendo si otterrà un'unica tabella `User` con un campo `type` che può assumere i valori `Supplier` e `Customer`:
+Così facendo si otterrà un'unica tabella `user` con un campo `type` che può assumere i valori `Supplier` e `Customer`:
 
 ```mermaid {height=3cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 erDiagram
-	User {
+	user {
 		number id
-		string firstName
-		string lastName
-		string type
-		string companyName
-		string shippingAddress
+		varchar firstName
+		varchar lastName
+		varchar type
+		varchar companyName
+		varchar shippingAddress
 	}
 ```
 
@@ -555,13 +555,24 @@ La pratica di migrazione di database è tuttavia consigliata per modifiche in fa
 
 Dopo la definizione delle entità, si possono definire le relazioni tra di esse, seguendo le convenzioni del modello relazionale.
 
-Si possono definire relazioni uno a uno con `@OneToOne`, relazioni uno a molti con `@OneToMany` e `@ManyToOne`, e relazioni molti a molti con `@ManyToMany`. Ogni decoratore per le relazioni, oltre alla classe di destinazione al quale si aggancia, accetta un parametro di tipo `RelationOptions`, che permette di configurare la relazione con:
+Si possono definire relazioni uno a uno con `@OneToOne`, relazioni uno a molti con `@OneToMany` e `@ManyToOne`, e relazioni molti a molti con `@ManyToMany`. Ogni decoratore per le relazioni, accetta un argomento `typeFunctionOrTarget` che specifica il tipo di entità correlata con una funzione che restituisce il `type`. Opzionalmente accetta un argomento `inverseSide`, che specifica la proprietà della relazione inversa, tramite una funzione che prende come argomento il tipo di entità corrente e restituisce il suo `field` che inverte la relazione. Si passa infine un oggetto `RelationOptions`, che permette di configurare la relazione con:
 
-- `cascade?: boolean | ("insert" | "update" | "remove" | "soft-remove" | "recover")[]`: specifica le operazioni che devono essere propagate alla relazione. Se `true`, tutte le operazioni di `insert`, `update` e `remove` sono propagate. Se `false`, nessuna operazione è propagata. Se un array di stringhe tra quelle accettabili, solo le operazioni specificate sono propagate.
-- `eager?: boolean`: se il caricamento della relazione deve essere eager, `true` di default.
-- `lazy?: boolean`: se il caricamento della relazione deve essere lazy.
+-   `cascade?: boolean | ("insert" | "update" | "remove" | "soft-remove" | "recover")[]`: specifica le operazioni che devono essere propagate alla relazione. Se `true`, tutte le operazioni di `insert`, `update` e `remove` sono propagate. Se `false`, nessuna operazione è propagata. Se un array di stringhe tra quelle accettabili, solo le operazioni specificate sono propagate. `false` di default.
+-   `eager?: boolean`: se il caricamento della relazione deve essere eager, `true` di default.
+-   `lazy?: boolean`: se il caricamento della relazione deve essere lazy.
+-   `orphanedRowAction?: "nullify" | "delete" | "soft-delete" | "disable"`: specifica l'azione da intraprendere quando un'entità correlata è rimossa. Se `nullify`, la chiave esterna è impostata a `null`. Se `delete`, l'entità correlata è rimossa. Se `soft-delete`, l'entità correlata è marcata come eliminata. Se `disable`, l'entità correlata è marcata come disabilitata. `nullify` di default.
 
 #### Relazioni uno a uno
+
+Nell'esempio che segue, ogni utente ha un solo profilo, e ogni profilo è associato ad un solo utente. È impostato il `cascade` a `true`, in modo che le operazioni di `insert`, `update` e `remove` siano propagate solo nella direzione `User` -> `Profile`. Questo prevede che un profilo venga creato, aggiornato o rimosso solo quando un utente è già presente, e che un utente venga rimosso solo se il profilo è già stato rimosso.
+
+È fatto uso di una colonna di join, `profile_id`, e punta alla tabella `profiles`. Si usa il decoratore `@JoinColumn()`, che accetta un oggetto di tipo `JoinColumnOptions` per specificare le opzioni della colonna di join, tra cui:
+
+-   `name: string`: il nome della colonna di join.
+-   `referencedColumnName: string`: il nome della colonna di riferimento.
+-   `foreignKeyConstraintName: string`: il nome del vincolo di chiave esterna.
+
+Questi parametri sono opzionali perchè TypeORM usa delle convenzioni per inferire i nomi delle tabelle e delle colonne^[naming-strategy].
 
 ```typescript
 @Entity()
@@ -572,7 +583,9 @@ export class User {
 	@Column()
 	username: string;
 
-	@OneToOne(() => Profile, (profile) => profile.user, { cascade: true })
+	@OneToOne(() => Profile, (profile) => profile.user, {
+		cascade: true,
+	})
 	@JoinColumn()
 	profile: Profile;
 }
@@ -593,18 +606,21 @@ export class Profile {
 ```mermaid {height=4.5cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 erDiagram
-    User ||--|| Profile : has
-    User {
-        int id
+    user ||--|| profile : has
+    user {
+        int id pk
+		int profile_id fk
         string username
     }
-    Profile {
-        int id
+    profile {
+        int id pk
         string bio
     }
 ```
 
-#### Relazioni uno a molti
+#### Relazioni uno a molti e molti a uno
+
+Nell'esempio che segue, ogni utente può scrivere molti post, e ogni post è scritto da un solo utente. Dunque la tabella `posts` ha una chiave esterna `author_id` che punta alla tabella `users`.
 
 ```typescript
 @Entity()
@@ -628,6 +644,7 @@ export class Post {
 	content: string;
 
 	@ManyToOne(() => User, (user) => user.posts)
+	@JoinColumn()
 	author: User;
 }
 ```
@@ -635,150 +652,161 @@ export class Post {
 ```mermaid {height=4.5cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 erDiagram
-    User ||--o{ Post : writes
-    User {
-        int id
-        string username
+    user ||--o{ post : writes
+    user {
+        int id pk
+        varchar username
     }
-    Post {
-        int id
-        string content
+    post {
+        int id pk
+		int author_id fk
+        varchar content
     }
-```
-
-#### Relazioni molti a uno
-
-```typescript
-@Entity()
-export class Comment {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  text: string;
-
-  @ManyToOne(() => Post, (post) => post.comments)
-  post: Post;
-}
-
-@Entity()
-export class Post {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  content: string;
-
-  @OneToMany(() => Comment, (comment) => comment.post)
-  comments: Comment[];
-}
-```
-
-```mermaid {height=4.5cm}
-%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
-erDiagram
-    Post ||--o{ Comment : has
-    Post {
-        int id
-        string content
-    }
-    Comment {
-        int id
-        string text
-    }
-
 ```
 
 #### Relazioni molti a molti
 
+Nell'esempio che segue ogni utente può mettere "mi piace" a molti post, e ogni post può ricevere il "mi piace" da molti utenti. Viene generata una tabella di join `user_liked_posts`[^naming-strategy] ha due chiavi esterne, `user_id` e `post_id`, che puntano rispettivamente alle tabelle `users` e `posts`. La coppia di chiavi `user_id` e `post_id` è unica, quindi forma una chiave primaria composta per la tabella `user_liked_posts`.
+
+In più ogni utente può avere molti amici, che sono altri utenti, quindi viene generata una tabella di join `user_friends` con due chiavi esterne, `user1_id` e `user2_id`, che puntano entrambe alla tabella `users`. La coppia di chiavi `user1_id` e `user2_id` è unica, quindi forma una chiave primaria composta per la tabella `user_friends`.
+
+Ogni utente può seguire altri utenti, e può essere seguito da altri utenti. Quindi viene generata la tabella di join, `user_following`, con due chiavi esterne, `follower_id` e `following_id`, che puntano entrambe alla tabella `users`. La coppia di chiavi `follower_id` e `following_id` è unica, quindi forma una chiave primaria composta per la tabella `user_following`. Da questa tabella si può ottenere con efficienza sia l'elenco degli utenti seguiti da un utente, sia l'elenco degli utenti che seguono un utente.
+
+È fatto uso di `@JoinTable()` per specificare il nome della tabella di join e le colonne che la compongono. È passato un oggetto di tipo `JoinTableOptions`, che permette di configurare la tabella di join con:
+
+-   `name: string`: il nome della tabella di join.
+-   `joinColumn: JoinColumnOptions`: le opzioni per la colonna di join.
+-   `inverseJoinColumn: JoinColumnOptions`: le opzioni per la colonna di join inversa, con gli stessi campi di `joinColumn`.
+-   `database: string`: il nome del database in cui creare la tabella di join.
+-   `syncronize: boolean`: se sincronizzare la tabella di join con il database, `true` di default.
 
 ```typescript
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+	@PrimaryGeneratedColumn()
+	id: number;
 
-  @Column()
-  username: string;
+	@Column()
+	username: string;
 
-  @ManyToMany(() => Post, (post) => post.likedBy)
-  likedPosts: Post[];
+	@ManyToMany(() => Post, (post) => post.likedBy)
+	likedPosts: Post[];
 
-  @ManyToMany(() => User)
-  @JoinTable()
-  friends: User[];
+	@ManyToMany(() => User, (user) => user.friends)
+	@JoinTable({
+		name: "user_friends",
+		joinColumn: {
+			name: "user1_id",
+			referencedColumnName: "id",
+		},
+		inverseJoinColumn: {
+			name: "user2_id",
+			referencedColumnName: "id",
+		},
+	})
+	friends: User[];
+
+	@ManyToMany(() => User, (user) => user.followers)
+	@JoinTable({
+		name: "user_following",
+		joinColumn: {
+			name: "follower_id",
+			referencedColumnName: "id",
+		},
+		inverseJoinColumn: {
+			name: "following_id",
+			referencedColumnName: "id",
+		},
+	})
+	following: User[];
+
+	@ManyToMany(() => User, (user) => user.following)
+	followers: User[];
 }
 
 @Entity()
 export class Post {
-  @PrimaryGeneratedColumn()
-  id: number;
+	@PrimaryGeneratedColumn()
+	id: number;
 
-  @Column()
-  content: string;
+	@Column()
+	content: string;
 
-  @ManyToMany(() => User, (user) => user.likedPosts)
-  @JoinTable()
-  likedBy: User[];
+	@ManyToMany(() => User, (user) => user.likedPosts)
+	@JoinTable()
+	likedBy: User[];
 }
 ```
 
-```mermaid {height=4.5cm}
+```mermaid {height=5.5cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 erDiagram
-    User }o--o{ User : friends
-    User }o--o{ Post : likes
-    User {
-        int id
-        string username
+    user {
+      number id PK
+      string username
     }
-    Post {
-        int id
-        string content
+    post {
+      number id PK
+      string content
     }
-```
+    user_liked_posts {
+      number user_id FK
+      number post_id FK
+    }
+    user_friends {
+      number user1_id FK
+      number user2_id FK
+    }
+    user_following {
+      number follower_id FK
+      number following_id FK
+    }
 
-`@JoinTable()` è un decoratore che permette di definire una tabella di join, ed in questo caso crea una tabella `user_liked_posts`^[naming-strategy] con le colonne `user_id` e `post_id`.
+    user ||--o{ user_liked_posts : "likes"
+    post ||--o{ user_liked_posts : "likedBy"
+
+    user ||--o{ user_friends : "friends"
+    user ||--o{ user_friends : "friends"
+
+    user ||--o{ user_following : "following"
+    user ||--o{ user_following : "followers"
+```
 
 #### Eager e lazy loading
 
 Il caricamento delle relazioni può essere configurato come _eager_ o _lazy_.
-
-##### Eager loading
 
 Con un caricamento eager le entità correlate vengono caricate insieme all'entità principale, in un'unica query SQL. Questo può essere utile quando si sa che le entità correlate verranno sempre usate insieme all'entità principale, ma può portare ad inefficienze se le entità correlate sono molte o pesanti.
 
 ```typescript
 @Entity()
 export class User {
-  @ManyToMany(() => Post, (post) => post.likedBy, { eager: true })
-  @JoinTable()
-  likedPosts: Post[];
+	@ManyToMany(() => Post, (post) => post.likedBy, { eager: true })
+	@JoinTable()
+	likedPosts: Post[];
 }
 
 @Entity()
 export class Post {
-  @ManyToMany(() => User, (user) => user.likedPosts, { eager: true })
-  likedBy: User[];
+	@ManyToMany(() => User, (user) => user.likedPosts, { eager: true })
+	likedBy: User[];
 }
 ```
-
-##### Lazy loading
 
 Al contrario, con un caricamento lazy le entità correlate vengono caricate solo quando vengono effettivamente usate. Le entità correlate sono memorizzate come `Promise`, che se risolte restituiscono l'entità correlata. Durante la risoluzione della `Promise` viene eseguita una query SQL per recuperare l'entità correlata.
 
 ```typescript
 @Entity()
 export class User {
-  @ManyToMany(() => Post, (post) => post.likedBy, { lazy: true })
-  @JoinTable()
-  likedPosts: Promise<Post[]>;
+	@ManyToMany(() => Post, (post) => post.likedBy, { lazy: true })
+	@JoinTable()
+	likedPosts: Promise<Post[]>;
 }
 
 @Entity()
 export class Post {
-  @ManyToMany(() => User, (user) => user.likedPosts, { lazy: true })
-  likedBy: Promise<User[]>;
+	@ManyToMany(() => User, (user) => user.likedPosts, { lazy: true })
+	likedBy: Promise<User[]>;
 }
 ```
 
@@ -786,26 +814,94 @@ Internamente TypeORM usa delle `Proxy` Javascript per intercettare gli accessi a
 
 ```typescript
 user.likedPosts = new Proxy(Promise.resolve([]), {
-  get(target, prop) {
-    if (!target.__loaded) {
-      target.__loaded = true;
-      target.__data = databaseQuery("SELECT * FROM post WHERE userId = ?", user.id);
-    }
-    return Reflect.get(target.__data, prop);
-  }
+	get(target, prop) {
+		if (!target.__loaded) {
+			target.__loaded = true;
+			target.__data = databaseQuery(
+				"SELECT * FROM post WHERE userId = ?",
+				user.id
+			);
+		}
+		return Reflect.get(target.__data, prop);
+	},
 });
 ```
 
 ### Strategie di naming automatico {.unnumbered}
 
-ciao
+Per le definizioni sopra riportate, i nomi delle tabelle e delle colonne possono essere inferiti da TypeORM, seguendo delle convenzioni di naming automatico. Queste convenzioni possono essere sovrascritte con delle opzioni specifiche, passate ai decoratori delle entità e delle colonne, ma di default sono:
+
+-   Il nome delle tabella è il nome della classe, in minuscolo e con gli spazi sostituiti da `_`.
+-   Il nome delle colonne è il nome della proprietà, in minuscolo e con gli spazi sostituiti da `_`.
+-   Il nome di tabelle di join è il nome delle entità coinvolte, in ordine `primario_secondario`, in minuscolo e con gli spazi sostituiti da `_`.
+-   Il nome delle chiavi esterne è il nome della tabella di riferimento, in minuscolo e con gli spazi sostituiti da `_`, seguito dal nome del suo campo chiave.
+
+Si può assegnare un'oggetto di classe che implementa `NamingStrategyInterface` al campo `namingStrategy` di `DataSource`, come ad esempio:
+
+```typescript
+import { NamingStrategyInterface, DefaultNamingStrategy } from "typeorm";
+import { snakeCase } from "typeorm/util/StringUtils";
+
+export class CustomNamingStrategy
+	extends DefaultNamingStrategy
+	implements NamingStrategyInterface
+{
+	tableName(
+		targetName: string,
+		userSpecifiedName: string | undefined
+	): string {
+		return userSpecifiedName || snakeCase(targetName);
+	}
+
+	columnName(
+		propertyName: string,
+		customName: string,
+		embeddedPrefixes: string[]
+	): string {
+		return customName || snakeCase(propertyName);
+	}
+}
+```
 
 ### Query
 
-crud acid
+TypeORM fornisce diverse API per eseguire query CRUD , oltre a supportare transazioni ACID. Typescript garantisce la type safety fino a momento di compilazione: è possibile scrivere metodi ed interfacce che usano le classi delle entità per garantire che gli inserimenti da parte dell'utente siano corretti a tempo di esecuzione. TypeORM fornisce un sistema di _sanitization_ dei dati, ma la responsabilità di garantire la correttezza dei dati, quando ad esempio si tratta di validare un indirizzo email, rimane a carico dello sviluppatore.
+
+Sono supportati due pattern principali: Active Record per eseguire query CRUD direttamente sulle entità, e Query Builder per costruire query SQL in modo programmatico. È inoltre disponibile un API per eseguire query SQL direttamente.
 
 #### Active record
 
+Il pattern Active Record, per la prima volta introdotto da Ruby on Rails, permette di eseguire operazioni CRUD in modo coerente al paradigma ad oggetti. In TypeORM ogni classe `Entity` che rappresenta un'entità del database che estende `BaseEntity` ed è associata staticamente ad un oggetto `DataSource`, ha a disposizione i seguenti:
+
+###### Metodi statici:
+
+-   `find(conditions?: FindConditions<Entity>): Promise<Entity[]>`: Trova tutte le entità che soddisfano le condizioni specificate.
+-   `findOne(conditions?: FindConditions<Entity>): Promise<Entity>`: Trova tutte le entità che soddisfano le condizioni specificate.
+-	`getRepository(): Repository<Entity>`: Restituisce il repository dell'entità.
+
+###### Metodi di istanza:
+
+-   `save(): Promise<Entity>`: Salva l'entità nel database. Se l'entità ha un campo `id` già valorizzato, viene eseguito un `UPDATE`, altrimenti viene eseguito un `INSERT`.
+-	`remove(): Promise<Entity>`: Rimuove l'entità dal database.
+-	`reload(): Promise<Entity>`: Ricarica l'entità dal database.
+
+La classe `FindConditions<Entity>` è un oggetto che mappa i nomi delle colonne alle condizioni di ricerca, ed è tipizzato tramite il generic `Entity`: Il compilatore Typescript controlla che le colonne sulle quali si effettua la ricerca siano effettivamente presenti nell'entità. 
+
+```typescript
+```
+
+entity manager
+query builder
+
 #### Query builder
 
+Per efficentare una query complessa, che fa uso di più tabelle, si può usare l'API Query Builder, che fa uso del pattern implementativo _Builder_ per costruire una query SQL vincolandone la grammatica ai metodi disponibili.
+
+transactions
+
 #### Listeners e subscribers
+
+listeners: decoratori su una entity
+
+subscribers: classi che estendono `EventSubscriber`, con metodi `afterLoad(entity: any)`
+si possono definire per entità specifiche usando `typeof` e `instanceof`
