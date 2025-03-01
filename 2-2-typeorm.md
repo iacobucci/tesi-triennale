@@ -572,7 +572,7 @@ Nell'esempio che segue, ogni utente ha un solo profilo, e ogni profilo è associ
 -   `referencedColumnName: string`: il nome della colonna di riferimento.
 -   `foreignKeyConstraintName: string`: il nome del vincolo di chiave esterna.
 
-Questi parametri sono opzionali perchè TypeORM usa delle convenzioni per inferire i nomi delle tabelle e delle colonne^[naming-strategy].
+Questi parametri sono opzionali perchè TypeORM usa delle convenzioni per inferire i nomi delle tabelle e delle colonne[^naming-strategy].
 
 ```typescript
 @Entity()
@@ -875,29 +875,90 @@ Il pattern Active Record, per la prima volta introdotto da Ruby on Rails, permet
 
 ###### Metodi statici:
 
--   `find(conditions?: FindConditions<Entity>): Promise<Entity[]>`: Trova tutte le entità che soddisfano le condizioni specificate.
--   `findOne(conditions?: FindConditions<Entity>): Promise<Entity>`: Trova tutte le entità che soddisfano le condizioni specificate.
--	`getRepository(): Repository<Entity>`: Restituisce il repository dell'entità.
+-   `find(conditions?: FindManyOptions<Entity>): Promise<Entity[]>`: trova tutte le entità che soddisfano le condizioni specificate.
+-   `findOne(conditions?: FindOneOptions<Entity>): Promise<Entity>`: trova tutte le entità che soddisfano le condizioni specificate.
+-   `getRepository(): Repository<Entity>`: restituisce il repository dell'entità.
 
 ###### Metodi di istanza:
 
--   `save(): Promise<Entity>`: Salva l'entità nel database. Se l'entità ha un campo `id` già valorizzato, viene eseguito un `UPDATE`, altrimenti viene eseguito un `INSERT`.
--	`remove(): Promise<Entity>`: Rimuove l'entità dal database.
--	`reload(): Promise<Entity>`: Ricarica l'entità dal database.
+-   `save(): Promise<Entity>`: salva l'entità nel database. Se l'entità ha un campo `id` già valorizzato, viene eseguito un `UPDATE`, altrimenti viene eseguito un `INSERT`.
+-   `remove(): Promise<Entity>`: rimuove l'entità dal database. Viene eseguito un `DELETE`.
+-   `reload(): Promise<Entity>`: ricarica l'entità dal database. Viene eseguito un `SELECT` in base alla primary key dell'entità.
 
-La classe `FindConditions<Entity>` è un oggetto che mappa i nomi delle colonne alle condizioni di ricerca, ed è tipizzato tramite il generic `Entity`: Il compilatore Typescript controlla che le colonne sulle quali si effettua la ricerca siano effettivamente presenti nell'entità. 
+Un `FindOneOptions<Entity>` è un oggetto che mappa i nomi delle colonne alle condizioni di ricerca, ed è tipizzato tramite il generic `Entity`: Il compilatore Typescript controlla che le colonne sulle quali si effettua la ricerca siano effettivamente presenti nell'entità. Le opzioni che rende disponibili sono:
 
-```typescript
+-   `select: FindOptionsSelect<Entity>`: specifica i campi da selezionare. È un oggetto che mappa i campi di un oggetto di tipo `Entity` a `true` o `false`, per selezionare o meno il campo. Se non è specificato, vengono selezionati tutti i campi. Inoltre, non tutti i campi devono essere presenti: `Entity` viene passato attraverso un _partial_ Typescript[^partial-typescript].
+-   `where: FindOptionsWhere<Entity>`: specifica le condizioni di ricerca. È un oggetto che mappa i campi di un oggetto di tipo `Entity` a delle operazioni di ricerca e può anche essere annidato per specificare condizioni complesse, con operatori logici e di confronto. Ogni campo di tipo `T` di `Entity` è essere mappato a un oggetto di tipo `T | FindOperator<T>` che specifica l'operatore di confronto.
+-   `relations: FindOptionsRelations<Entity>`: specifica le relazioni da caricare in j oin insieme all'entità principale. È un oggetto che ha campi parziali di `Entity` che sono stati decorati con `@ManyToOne`, `@OneToOne`, `@OneToMany` o `@ManyToMany`.
+-   `order: FindOptionsOrder<Entity>`: specifica l'ordine con cui le colonne vengono restituite, con degli string literals: `"asc"`, `"desc"`. È analogo a `ORDER BY` in SQL.
+
+[^partial-typescript]: Un oggetto di tipo `Partial<T>` è un oggetto che ha le stesse proprietà di `T`, ma con valori opzionali. Nelle definizioni di TypeORM i campi opzionali sono ottenuti con `[P in keyof Entity]?:`, un _mapped type_ al quale viene applicato l'operatore `?`.
+
+La classe `FindManyOptions<Entity>` estende `FindOneOptions<Entity>` e aggiunge le seguenti opzioni:
+
+-   `take: number`: specifica il numero massimo di entità da restituire. È analogo a `LIMIT` in SQL.
+-   `skip: number`: specifica l'offset delle entità da restituire. È analogo a `OFFSET` in SQL.
+
+Un `FindOperator<T>` è un oggetto che mappa un operatore di confronto a un valore di tipo `T`, e permette di specificare condizioni logiche:
+
+-   `And<T>`: Specifica che tutte le condizioni devono essere soddisfatte.
+-   `Or<T>`: Specifica che almeno una delle condizioni deve essere soddisfatta.
+-   `Not<T>`: Specifica che la condizione deve essere negata.
+
+e di confronto:
+
+-   `Equal<T>`: specifica che il campo deve essere uguale al valore specificato.
+-   `LessThan<T>`: specifica che il campo deve essere minore del valore specificato.
+-   `LessThanOrEqual<T>`: specifica che il campo deve essere minore o uguale al valore specificato.
+-   `MoreThan<T>`: specifica che il campo deve essere maggiore del valore specificato.
+-   `MoreThanOrEqual<T>`: specifica che il campo deve essere maggiore o uguale al valore specificato.
+-   `In<T>`: specifica che il campo deve essere uno dei valori specificati.
+-   `Like<T>`: specifica che una stringa deve corrispondere ad un pattern specificato. Il pattern può contenere i caratteri jolly `%` e `_`.
+
+Il workflow per operazioni CRUD in Active record segue il diagramma:
+
+```mermaid {height=6cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+graph LR;
+	definizione[Definizione di Entità]-->creazione[Creazione di un'oggetto Entity]
+	creazione-->relazioni{Aggiunta di relazioni}
+	relazioni-->salvataggio[Salvataggio]
+	definizione-->find[Find]
+	find-->modifica{Modifica dei campi}
+	modifica-->relazioni
+	modifica-->salvataggio
+	find-->relazioni
+	find-->delete{Delete}
+	find-->consumazione[Consumazione dell'oggetto]
+	delete-->salvataggio
 ```
 
-entity manager
-query builder
+Un esempio sulle entità definite nel paragrafo [Relazioni molti a molti](#relazioni-molti-a-molti), è il seguente:
+
+```typescript
+// Trova tutti gli utenti
+const allUsers = await User.find();
+
+// Trova un utente caricando i suoi amici
+```
 
 #### Query builder
 
-Per efficentare una query complessa, che fa uso di più tabelle, si può usare l'API Query Builder, che fa uso del pattern implementativo _Builder_ per costruire una query SQL vincolandone la grammatica ai metodi disponibili.
+Per efficientare una query complessa, che fa join su più tabelle, si può usare l'API Query Builder, che fa uso del pattern implementativo _Builder_ per costruire una query SQL vincolandone la grammatica ai metodi disponibili.
+
+```typescript
+
+```
 
 transactions
+
+```typescript
+
+```
+
+Il workflow tipico di Active record segue il diagramma:
+
+#### Query Runner
 
 #### Listeners e subscribers
 
