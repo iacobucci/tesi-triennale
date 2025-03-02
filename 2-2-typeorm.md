@@ -76,7 +76,7 @@ Annulla l'ultima migrazione eseguita.
 
 Genera una migration a partire dalle differenze tra le entità e le tabelle del database.
 
-```mermaid {height=6.3cm}
+```mermaid {height=6.7cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 graph LR
 	subgraph Migrations
@@ -666,7 +666,7 @@ erDiagram
 
 #### Relazioni molti a molti
 
-Nell'esempio che segue ogni utente può mettere "mi piace" a molti post, e ogni post può ricevere il "mi piace" da molti utenti. Viene generata una tabella di join `user_liked_posts`[^naming-strategy] ha due chiavi esterne, `user_id` e `post_id`, che puntano rispettivamente alle tabelle `users` e `posts`. La coppia di chiavi `user_id` e `post_id` è unica, quindi forma una chiave primaria composta per la tabella `user_liked_posts`.
+Nell'esempio che segue ogni post è scritto da un utente. Ogni utente può mettere "mi piace" a molti post, e ogni post può ricevere il "mi piace" da molti utenti. Viene generata una tabella di join `user_liked_posts`[^naming-strategy] ha due chiavi esterne, `user_id` e `post_id`, che puntano rispettivamente alle tabelle `users` e `posts`. La coppia di chiavi `user_id` e `post_id` è unica, quindi forma una chiave primaria composta per la tabella `user_liked_posts`.
 
 In più ogni utente può avere molti amici, che sono altri utenti, quindi viene generata una tabella di join `user_friends` con due chiavi esterne, `user1_id` e `user2_id`, che puntano entrambe alla tabella `users`. La coppia di chiavi `user1_id` e `user2_id` è unica, quindi forma una chiave primaria composta per la tabella `user_friends`.
 
@@ -688,6 +688,9 @@ export class User {
 
 	@Column()
 	username: string;
+
+	@OneToMany(() => Post, (post) => post.author)
+	posts: Post[];
 
 	@ManyToMany(() => Post, (post) => post.likedBy)
 	likedPosts: Post[];
@@ -732,38 +735,45 @@ export class Post {
 	@Column()
 	content: string;
 
+	@ManyToOne(() => User, (user) => user.posts)
+	@JoinColumn()
+	author: User;
+
 	@ManyToMany(() => User, (user) => user.likedPosts)
 	@JoinTable()
 	likedBy: User[];
 }
 ```
 
-```mermaid {height=5.5cm}
+```mermaid {height=7cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 erDiagram
     user {
-      number id PK
-      string username
+      int id PK
+      varchar username
     }
     post {
-      number id PK
-      string content
+      int id PK
+	  int author_id FK
+      varchar content
     }
     user_liked_posts {
-      number user_id FK
-      number post_id FK
+      int user_id FK
+      int post_id FK
     }
     user_friends {
-      number user1_id FK
-      number user2_id FK
+      int user1_id FK
+      int user2_id FK
     }
     user_following {
-      number follower_id FK
-      number following_id FK
+      int follower_id FK
+      int following_id FK
     }
 
     user ||--o{ user_liked_posts : "likes"
     post ||--o{ user_liked_posts : "likedBy"
+
+	post ||--o{ user : "writes"
 
     user ||--o{ user_friends : "friends"
     user ||--o{ user_friends : "friends"
@@ -827,7 +837,7 @@ user.likedPosts = new Proxy(Promise.resolve([]), {
 });
 ```
 
-### Strategie di naming automatico {.unnumbered}
+#### Strategie di naming automatico
 
 Per le definizioni sopra riportate, i nomi delle tabelle e delle colonne possono essere inferiti da TypeORM, seguendo delle convenzioni di naming automatico. Queste convenzioni possono essere sovrascritte con delle opzioni specifiche, passate ai decoratori delle entità e delle colonne, ma di default sono:
 
@@ -863,9 +873,51 @@ export class CustomNamingStrategy
 }
 ```
 
+#### Listeners e subscribers
+
+È fornita un'API per definire _listeners_ e _subscribers_ per le entità, che permettono di eseguire del codice in risposta a eventi specifici, come il caricamento di un'entità dal database.
+
+###### Listeners
+
+Si può definire un listener che ascolta un'evento su un'entità specifica, usando i decoratori `@BeforeLoad`, `@AfterLoad`, `@BeforeInsert`, `@AfterInsert`, `@BeforeUpdate`, `@AfterUpdate`, `@BeforeRemove`, `@AfterRemove`. Ad esempio:
+
+```typescript
+@Entity()
+export class Post {
+	@AfterLoad() {
+		console.log("Post con contenuto: ", this.content, " caricato");
+	}
+
+	@Column()
+	content: string;
+}
+```
+
+Tuttavia non si possono eseguire query a database senza garanzia di risoluzione di corse critiche. Per ovviare a questo problema si possono usare i subscribers.
+
+###### Subscribers
+
+Un subscriber ha la stessa funzione di un listener, ma è definito come una classe che implementa l'interfaccia `EntitySubscriberInterface<Entity>`. Si possono definire metodi per gestire gli eventi di un'entità specifica, e si può fare query a database in modo asincrono. Ad esempio:
+
+```typescript
+@EventSubscriber()
+export class PostSubscriber implements EntitySubscriberInterface<Post> {
+	listenTo() {
+		return Post;
+	}
+
+	afterLoad(event: LoadEvent<Post>) {
+		console.log("Post con contenuto: ", event.entity.content, " caricato");
+		// query a database ...
+	}
+}
+```
+
 ### Query
 
 TypeORM fornisce diverse API per eseguire query CRUD , oltre a supportare transazioni ACID. Typescript garantisce la type safety fino a momento di compilazione: è possibile scrivere metodi ed interfacce che usano le classi delle entità per garantire che gli inserimenti da parte dell'utente siano corretti a tempo di esecuzione. TypeORM fornisce un sistema di _sanitization_ dei dati, ma la responsabilità di garantire la correttezza dei dati, quando ad esempio si tratta di validare un indirizzo email, rimane a carico dello sviluppatore.
+
+Ad ogni entità allegata al DataSource è associato un _repository_, che permette di eseguire query. Il risultato di queste è incapsulato in una `Promise`, che può essere risolta con `await` per ottenere il risultato effettivo. Ogni transazione garantisce che tutte le operazioni al suo interno vengano eseguite con successo o nessuna di esse venga applicata, evitando stati inconsistenti del database. L'isolamento da corse di lettura e scrittura è garantito dalle transazioni, anche risolvendo parallelamente le promise con `Promise.all()`.
 
 Sono supportati due pattern principali: Active Record per eseguire query CRUD direttamente sulle entità, e Query Builder per costruire query SQL in modo programmatico. È inoltre disponibile un API per eseguire query SQL direttamente.
 
@@ -875,9 +927,12 @@ Il pattern Active Record, per la prima volta introdotto da Ruby on Rails, permet
 
 ###### Metodi statici:
 
+-   `getRepository(): Repository<Entity>`: restituisce il repository dell'entità.
 -   `find(conditions?: FindManyOptions<Entity>): Promise<Entity[]>`: trova tutte le entità che soddisfano le condizioni specificate.
 -   `findOne(conditions?: FindOneOptions<Entity>): Promise<Entity>`: trova tutte le entità che soddisfano le condizioni specificate.
--   `getRepository(): Repository<Entity>`: restituisce il repository dell'entità.
+-   `count(conditions?: FindOptionsWhere<Entity>): Promise<number>`: conta il numero di entità che soddisfano le condizioni specificate.
+-   `sum(field: string, conditions?: FindOptionsWhere<Entity>): Promise<number>`: calcola la somma dei valori di un campo specificato delle entità che soddisfano le condizioni specificate.
+-   `createQueryBuilder(alias?: string): SelectQueryBuilder<Entity>`: restituisce un `SelectQueryBuilder` per costruire query SQL in modo programmatico.
 
 ###### Metodi di istanza:
 
@@ -936,33 +991,211 @@ graph LR;
 Un esempio sulle entità definite nel paragrafo [Relazioni molti a molti](#relazioni-molti-a-molti), è il seguente:
 
 ```typescript
+// Aggiungi un nuovo utente
+const newUser = new User();
+newUser.username = "bob";
+await newUser.save();
+
 // Trova tutti gli utenti
 const allUsers = await User.find();
 
-// Trova un utente caricando i suoi amici
+// Trova l'utente con username "alice"
+const alice = await User.findOne({ where: { username: "alice" } });
+
+// Trova un post caricando gli utenti a cui piace ed aggiungi Alice
+const postWithLikes = await Post.findOne({
+	where: { id: 1 },
+	relations: { likedBy: true },
+});
+postWithLikes.likedBy.push(alice);
+await postWithLikes.save();
+
+// Carica gli utenti che hanno messo "mi piace" ai post di Alice
+const author = await User.findOne({
+	where: { username: "alice" },
+	relations: { posts: { likedBy: true } },
+});
+
+const usersWhoLikedAlicePosts: User[] = author.posts
+	.map((post) => post.likedBy)
+	.flat();
 ```
 
 #### Query builder
 
 Per efficientare una query complessa, che fa join su più tabelle, si può usare l'API Query Builder, che fa uso del pattern implementativo _Builder_ per costruire una query SQL vincolandone la grammatica ai metodi disponibili.
 
-```typescript
+Si parte dall'oggetto DataSource e si ottiene una repository relativa all'entità, con `getRepository(entity: Entity)`, da questa si accede a `createQueryBuilder(), che restituisce un'istanza di `QueryBuilder<Entity>`, i cui metodi principali sono:
 
+-   `execute(): Promise<any>`: esegue la query e restituisce il risultato.
+-   `select(): SelectQueryBuilder<Entity>`: costruisce una query di selezione.
+-   `insert(): InsertQueryBuilder<Entity>`: costruisce una query di inserimento.
+-   `update(): UpdateQueryBuilder<Entity>`: costruisce una query di aggiornamento.
+-   `delete(): DeletetQueryBuilder<Entity>`: costruisce una query di eliminazione.
+-   `relation(entity: Entity, property: string): RelationQueryBuilder<Entity>`: costruisce una query per manipolare relazioni.
+
+Ognuno di questi builder estende `QueryBuilder<Entity>` ed ha a disposizione dei metodi che ricalcano la sintassi SQL.
+
+```mermaid {height=5.2cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+classDiagram
+    class QueryBuilder~Entity~ {
+        +getSql() string
+        +execute() Promise~any~
+		+select() SelectQueryBuilder~Entity~
+		+insert() InsertQueryBuilder~Entity~
+		+update() UpdateQueryBuilder~Entity~
+		+delete() DeletetQueryBuilder~Entity~
+		+relation(entity: Entity, property: string) RelationQueryBuilder~Entity~
+    }
+
+    class SelectQueryBuilder~Entity~ {
+        +from(entity: Entity, alias: string) this
+        +where(condition: string, parameters?: any) this
+        +andWhere(condition: string, parameters?: any) this
+        +orWhere(condition: string, parameters?: any) this
+        +orderBy(sort: string, order?: "ASC"|"DESC") this
+        +groupBy(group: string) this
+        +having(having: string) this
+        +limit(limit: number) this
+        +offset(offset: number) this
+        +innerJoin(property: string, alias: string) this
+        +leftJoin(property: string, alias: string) this
+        +leftJoinAndSelect(property: string, alias: string) this
+        +getOne() Promise~Entity~
+        +getMany() Promise~Entity[]~
+    }
+
+    class InsertQueryBuilder~Entity~ {
+        +into(entity: Entity) this
+        +values(values: any) this
+        +execute() Promise~InsertResult~
+    }
+
+    class UpdateQueryBuilder~Entity~ {
+        +update(entity: Entity) this
+        +set(values: any) this
+        +where(condition: string, parameters?: any) this
+        +execute() Promise~UpdateResult~
+    }
+
+    class DeleteQueryBuilder~Entity~ {
+        +delete() this
+        +from(entity: Entity) this
+        +where(condition: string, parameters?: any) this
+        +execute() Promise~DeleteResult~
+    }
+
+    class RelationQueryBuilder~Entity~ {
+        +of(entity: Entity) this
+        +add(items: Entity[]) Promise~void~
+        +remove(items: Entity[]) Promise~void~
+    }
+
+    QueryBuilder <|-- SelectQueryBuilder
+    QueryBuilder <|-- InsertQueryBuilder
+    QueryBuilder <|-- UpdateQueryBuilder
+    QueryBuilder <|-- DeleteQueryBuilder
+    QueryBuilder <|-- RelationQueryBuilder
 ```
 
-transactions
+Per query complesse, Query Builder si basa su _alias_ per le tabelle coinvolte, cioè stringhe che identificano le tabelle in modo univoco all'interno della query. Gli alias sono passati come argomento ai metodi di join e di selezione, e vengono usati per specificare le colonne e le condizioni di ricerca. Questo meccanismo permette di costruire query SQL con più livelli di join, ma è prono ad errori di battitura, potenzialmente difficili da individuare durante un debug. L'utilizzo di costanti per gli alias, definite all'inizio del file, può aiutare a ridurre il rischio di errori.
+
+Lo stesso esempio del paragrafo [Active record](#active-record), dove le entità estendono `BaseEntity` per rendere disponibile il metodo `createQueryBuilder()`, può essere riscritto con Query Builder come segue:
 
 ```typescript
+const USER = "user";
+const POST = "post";
+// Aggiungi un nuovo utente
+User.createQueryBuilder()
+	.insert()
+	.into(User)
+	.values({ username: "bob" })
+	.execute();
 
+// Trova tutti gli utenti
+const allUsers = await User.createQueryBuilder().getMany();
+
+// Trova l'utente con username "alice"
+const alice = await User.createQueryBuilder(USER)
+	.select()
+	.where(USER + ".username = :username", { username: "alice" })
+	.getOne();
+
+// Trova un post caricando gli utenti a cui piace ed aggiunge Alice
+const postWithLikes = await Post.createQueryBuilder(POST)
+	.leftJoinAndSelect(POST + ".likedBy", "likedBy")
+	.where(POST + ".id = :id", { id: 1 })
+	.getOne();
+
+await Post.createQueryBuilder()
+	.relation(Post, "likedBy")
+	.of(postWithLikes)
+	.add(alice);
+
+// Carica gli utenti che hanno messo "mi piace" ai post di Alice
+const usersWhoLikedAlicePosts = await User.createQueryBuilder(USER)
+	.innerJoin(USER + ".likedPosts", "likedPost")
+	.innerJoin("likedPost.author", "author")
+	.where("author.username = :username", { username: "alice" })
+	.distinct(true)
+	.getMany();
 ```
 
-Il workflow tipico di Active record segue il diagramma:
+Le differenze principali con Active Record sono:
 
-#### Query Runner
+-   Query Builder è più verboso, ma permette di costruire query complesse in modo più flessibile, che sono più efficienti e vicine al modello relazionale.
+-   L'aggiunta di entità a relazioni molti a molti in Active Record avviene in memoria, e non persiste fino a quando non si chiama `save()` sull'entità principale. Query Builder manipola direttamente la relazione nel database.
+-   In Query Builder si possono applicare metodi di aggregazione, come `distinct()`, invece che scorrere in memoria un array di risultati intermedi, che contiene anche elementi da scartare.
 
-#### Listeners e subscribers
+#### Query SQL
 
-listeners: decoratori su una entity
+Infine TypeORM rende disponibile un'API per eseguire query SQL interpolate direttamente in stringhe con il metodo `query(query: string, parameters?: any[])` di `EntityManager`. L'unica astrazione fornita in questo caso è la sanificazione dei parametri, che previene attacchi di SQL injection. Lo stesso esempio riportato sopra può essere riscritto con query SQL come segue:
 
-subscribers: classi che estendono `EventSubscriber`, con metodi `afterLoad(entity: any)`
-si possono definire per entità specifiche usando `typeof` e `instanceof`
+```typescript
+// Aggiungi un nuovo utente
+await entityManager.query(`
+  INSERT INTO users (username)
+  VALUES ('bob');
+`);
+
+// Trova tutti gli utenti
+const allUsers = await entityManager.query(`
+  SELECT * FROM users;
+`);
+
+// Trova l'utente con username "alice"
+const [alice] = await entityManager.query(`
+  SELECT * FROM users
+  WHERE username = 'alice'
+  LIMIT 1;
+`);
+
+// Trova un post caricando gli utenti a cui piace
+const [postWithLikes] = await entityManager.query(`
+  SELECT p.*, u.*
+  FROM posts p
+  LEFT JOIN post_likes pl ON p.id = pl.post_id
+  LEFT JOIN users u ON pl.user_id = u.id
+  WHERE p.id = 1;
+`);
+
+// Aggiungi Alice ai like del post
+await entityManager.query(
+	`
+  INSERT INTO post_likes (post_id, user_id)
+  VALUES (?, ?);
+`,
+	[postWithLikes.id, alice.id]
+);
+
+// Carica gli utenti che hanno messo "mi piace" ai post di Alice
+const usersWhoLikedAlicePosts = await entityManager.query(`
+  SELECT DISTINCT u.*
+  FROM users u
+  INNER JOIN post_likes pl ON u.id = pl.user_id
+  INNER JOIN posts p ON pl.post_id = p.id
+  INNER JOIN users author ON p.author_id = author.id
+  WHERE author.username = 'alice';
+`);
+```

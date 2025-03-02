@@ -23,7 +23,7 @@ Ho pensato che i test di performance da includere nel capitolo 3 di cui Lei mi p
 
 - Per AWS: Testare la velocità di risposta del server in relazione al numero di richieste HTTP, con uno strumento come "wrk", anche in base alla topologia della rete (Server monolitico con database in locale, Server monolitico con database in cloud, Server distribuito con database in cloud...).
 - Per Nuxt: Testare la velocità di rendering di pagine in funzione di quanti componenti innestati ci sono e della modalità di rendering scelta per nuxt (SSR, SPA,), con gli strumenti sviluppatore di un browser web, come "lighthouse" per Chromium o il profiler di Firefox: vengono forniti degli score di performance, accessibilità, best practices e search engine optimization.
-- Per TypeORM: Testare la velocità delle query (che risultano in numero di righe variabile, con join di grado variabile, effetti cascade), rispetto a delle query SQL dirette.
+- Per TypeORM: Testare la velocità delle query mostrate negli esempi del capitolo 2, tra pattern Active Record, Query Builder e SQL raw, con uno strumento come "pgbench".
 
 Per la continuazione nel capitolo 3 (Soluzioni di design), avevo pensato alle seguenti sezioni:
 - Spiegazione della IaC e CI/CD con AWS e Github Actions, da argomento di tirocinio, applicata al contesto delle tecnologie in esame e con snippet di codice.
