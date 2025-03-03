@@ -54,6 +54,8 @@
 
 1. [AWS Cloudformation Documentation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-guide.html) - la documentazione ufficiale di AWS Cloudformation, completa di riferimenti all'API yaml, usata nella trattazione.
 
+1. [ISO/IEC 22123-2:2023](https://www.iso.org/standard/80351.html) - lo standard internazionale per _Information technology - Cloud computing_.
+
 1. [Fireship](https://www.youtube.com/@Fireship) - il canale YouTube di Jeff Delaney, una risorsa comprensiva delle molte aree dello sviluppo web, sul quale sono pubblicati tutorial, introduzioni a nuove tecnologie e notizie di attualità sul settore informatico.
 
 ## Ringraziamenti {.unnumbered}
@@ -62,10 +64,10 @@ Ringrazio i miei genitori, la mia famiglia ed i miei amici per l'incoraggiamento
 
 ## Strumenti Open source {.unnumbered}
 
-- **Code** - la build open source di Visual Studio Code, utilizzata per la scrittura e la correzione del testo.
-- **Markdown** - il formato di scrittura utilizzato per la stesura del testo.
-- **Latex** - per la formattazione del testo.
-- **Pandoc** - per la conversione dei file Markdown in Latex.
-- **Minted** - per la colorazione della sintassi dei codici sorgente.
-- **Panflute** - per la creazione di filtri personalizzati per Pandoc.
-- **Mermaid** - per la creazione di diagrammi di sequenza e di flusso.
+-   **Code** - la build open source di Visual Studio Code, utilizzata per la scrittura e la correzione del testo.
+-   **Markdown** - il formato di scrittura utilizzato per la stesura del testo.
+-   **Latex** - per la formattazione del testo.
+-   **Pandoc** - per la conversione dei file Markdown in Latex.
+-   **Minted** - per la colorazione della sintassi dei codici sorgente.
+-   **Panflute** - per la creazione di filtri personalizzati per Pandoc.
+-   **Mermaid** - per la creazione di diagrammi di sequenza e di flusso.

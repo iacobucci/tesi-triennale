@@ -94,7 +94,7 @@ $("#update").click(function () {
 });
 ```
 
-> Nel frammento di codice jQuery, è messo in evidenza uno stile _imperativo_ di definizione del comportamento dell'interfaccia, poco manutenibile per applicazioni complesse.
+> Nel frammento di codice jQuery, è messo in evidenza uno stile _imperativo_ di definizione del comportamento dell'interfaccia utente, poco manutenibile per applicazioni complesse.
 
 [^runtime]: Il momento in cui la pagina è resa attiva con Javascript.
 
@@ -154,7 +154,7 @@ Il vantaggio di questo paradigma da parte degli sviluppatori era la possibilità
 
 L'idea centrale delle nuove tendenze _CSR_ era quella di progettare l'interfaccia utente partendo da parti più piccole, chiamate **componenti**, e riutilizzabili all'interno dell'intera applicazione. Lo stile assunto era _dichiarativo_[^dichiarativo]. Ad ogni componente sono associati:
 
-[^dichiarativo]: In questo contesto, uno stile dichiarativo è riferito ad un approccio alla programmazione in cui si descrive cosa il programma deve fare piuttosto che come farlo. Con jQuery si dovevano specificare esplicitamente i passaggi per manipolare il DOM, mentre i componenti permettono di definire il comportamento dell'interfaccia attraverso delle dichiarazioni più astratte e concise.
+[^dichiarativo]: In questo contesto, uno stile dichiarativo è riferito ad un approccio alla programmazione in cui si descrive cosa il programma deve fare piuttosto che come farlo. Con jQuery si dovevano specificare esplicitamente i passaggi per manipolare il DOM, mentre i componenti permettono di definire il comportamento dell'interfaccia utente attraverso delle dichiarazioni più astratte e concise.
 
 -   un template HTML, più piccolo e gestibile rispetto ad una pagina intera.
 -   un foglio CSS, per la stilizzazione.
@@ -228,7 +228,7 @@ L'adozione di Typescript è stata pressoché immediata, per il motivo che la con
 
 ##### TypeORM
 
-Offre un supporto a Typescript nativamente. È illustrata con dettaglio nel [capitolo 2](#typeorm).
+Offre supporto a Typescript nativamente. È illustrata con dettaglio nel [capitolo 2](#typeorm).
 
 L'evoluzione dei sistemi per fare query a basi di dati da Javascript è poi diramata in direzioni diverse, da quelli che usano protocolli applicativi binari (basati ad esempio su gRPC) a quelli che usano linguaggi di query specifici (come GraphQL), ad ORM che introducono nuovi linguaggi di definizione dei modelli (come Prisma).
 
@@ -248,13 +248,13 @@ I siti web che fanno uso di CSR sono più difficilmente indicizzabili dai _crawl
 
 È il tempo che intercorre tra la cattura della risposta HTTP del server e il momento in cui viene visualizzato a schermo dal browser il primo elemento di contenuto significativo per l'utente. Nelle applicazioni CSR questa durata spesso eccede quella massima suggerita da Google[^corewebvitals].
 
-##### Cumulative shift layout
+##### Cumulative layout shift
 
 Per il motivo che gli aggiornamenti dell'interfaccia vengono vengono resi graficamente in maniera sequenziale nel browser, potrebbero esserci dei fastidiosi spostamenti di elementi visivi nell'interfaccia durante la fase di caricamento.
 
 ##### Accessibility
 
-Per gli stessi motivi che portano al cumulative shift layout, ci potrebbero essere degli impedimenti di accessibilità per chi usa metodi di input alternativi o per gli screen-reader che aiutano le persone non vedenti nella fruizione delle pagine web.
+Per gli stessi motivi che portano al cumulative layout shift, ci potrebbero essere degli impedimenti di accessibilità per chi usa metodi di input alternativi o per gli screen-reader che aiutano le persone non vedenti nella fruizione delle pagine web.
 
 ---
 

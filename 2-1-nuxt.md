@@ -57,9 +57,9 @@ La repository di sviluppo di Nuxt è organizzata secondo il modello di _monorepo
 
 Si possono proporre contribuiti su Github e l'iter consigliato varia in base al tipo di modifica:
 
--   Per proporre un **Bugfix** si apre un _issue_[^github-issue] per discutere il problema, e poi si apre una _pull request_ che risolva l'issue.
+-   Per proporre un _Bugfix_ si apre un _issue_[^github-issue] per discutere il problema, e poi si apre una _pull request_ che risolva l'issue.
 
--   Per proporre una **Nuova funzionalità** si apre una _discussion_, e poi di aprire una _pull request_ che implementi la funzionalità.
+-   Per proporre una _Nuova funzionalità_ si apre una _discussion_, e poi di aprire una _pull request_ che implementi la funzionalità.
 
 [^github-issue]: Si tratta di un thread aggiunto alla sezione "Issues", che funziona come un forum specifico per ogni progetto, accessibile a tutti gli utenti registrati di Github.
 
@@ -69,6 +69,8 @@ Al Novembre 2024, sono stati aperti circa 15'000 issues, sono stati avanzati cir
 
 Oltre a modificare la monorepo, gli sviluppatori Open source sono invitati a creare moduli per estendere le Nuxt con funzionalità non essenziali, ma idonee per l'interoperabilità con altri software. Questi moduli possono essere pubblicati su Npm come pacchetti, con `@nuxt/kit` come dipendenza, ed al Dicembre 2024 se ne contano più di 200[^moduli-nuxt].
 
+[^moduli-nuxt]: [Moduli supportati ufficialmente da Nuxt](https://nuxt.com/modules).
+
 La versione vanilla di Nuxt propone un'intelaiatura che include una command line interface con cui si definisce il funzionamento del backend, che determina il modo in cui il frontend verrà mostrato agli utenti. Il frontend, a sua volta, è in comunicazione con il backend per ottenere dati aggiornati.
 
 In questo schema sono mostrate queste parti e le loro interazioni:
@@ -77,7 +79,7 @@ In questo schema sono mostrate queste parti e le loro interazioni:
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 flowchart LR
 
-cli -- Avvia --> server -- Modalità di rendering --> frontend
+cli -- Avvia --> server -- Rendering --> frontend
 frontend -- Fetch dei dati --> server
 
 cli[Command line interface]
@@ -136,7 +138,7 @@ Una volta inizializzato il progetto, questo è il comando per aggiungere funzion
 -   **component**: Un componente Vue, riutilizzabile in tutte le pagine o layout.
 -   **error**: Un componente Vue che sarà mostrato in caso di errore.
 -   **middleware**: Un middleware, cioè una funzione che può essere eseguita prima di caricare una pagina, lato server o lato client.
--   **composable**: Una funzione che può essere usata in uno o più componenti Vue. È un modo per riutilizzare la logica di business in più parti dell'applicazione.
+-   **composable**: Una funzione che può essere usata in uno o più componenti Vue. È un modo per riutilizzare la logica di business _stateful_ in più parti dell'applicazione.
 -   **plugin**: Uno script typescript che viene eseguito prima di inizializzare l'applicazione Vue. Utile per l'inizializzazione di componenti software di terze parti. A differenza dei middleware, i plugin vengono eseguiti solo una volta, all'avvio dell'applicazione.
 -   **api**: Un endpoint API, che sarà accessibile alla rotta `/api/<nome-endpoint>`. Utile per la comunicazione tra frontend e backend.
 -   **server-route**: Un endpoint API, che sarà accessibile alla rotta `/<nome-endpoint>`.
@@ -230,14 +232,21 @@ Nuxt adotta delle convenzioni per il frontend: i file che definiscono le pagine 
 
 #### Pages
 
+Per definire una pagina è sufficiente creare un file Vue nella directory `~/pages`. La relativa pagina sarà accessibile alla rotta secondo le regole di _file system routing_:
+
+-   `index.vue` è la pagina principale, accessibile alla rotta `/`.
+-   Ogni file rappresenta un endpoint di rotta.
+-   Le directory influenzano la rotta della pagina, tranne quelle tra parentesi tonde `()`.
+-   Si possono aggiungere parametri alla rotta con `[nome]` o `[...nome]` per _n_ parametri, e questi sono disponibili come variabili nel componente Vue.
+
 ```bash
 pages/
 	index.vue			# Pagina principale, accessibile alla rotta /
 	about.vue			# Pagina accessibile alla rotta /about
 
-	gruppo-1/			# Gruppo di pagine, influenza la rotta
-		pagina-1.vue	# Pagina accessibile alla rotta /gruppo-1/pagina-1
-		pagina-2.vue	# Pagina accessibile alla rotta /gruppo-1/pagina-2
+	gruppo/				# Gruppo di pagine, influenza la rotta
+		pagina-1.vue	# Pagina accessibile alla rotta /gruppo/pagina-1
+		pagina-2.vue	# Pagina accessibile alla rotta /gruppo/pagina-2
 
 	(gruppo)/			# Gruppo di pagine, non influenza la rotta
 		pagina-1.vue	# Pagina accessibile alla rotta /pagina-1
@@ -248,6 +257,8 @@ pages/
 	gruppo-[nome]/		# Gruppo di pagine con variabile <nome>, influenza la rotta
 		pagina-1.vue	# Pagina accessibile a /gruppo-<nome>/pagina-1
 ```
+
+Il routing
 
 <!-- TODO -->
 
@@ -269,6 +280,8 @@ pages/
 ```
 
 ##### Script
+
+middleware
 
 ##### Template
 
@@ -327,23 +340,26 @@ Componenti _built-in_:
 -   `<NuxtWelcome>`
 -   `<ServerPlaceholder>`
 
+definizione in `~/components`
+auto importazione
+
 Composables:
 
--	useNuxtApp
--	useAppConfig
--	useRuntimeConfig
--	useHead
--	useRoute
--	useRouter
--	useError
--	useState
--	useAsyncData
--	useFetch
--	useLoadingIndicator
--	useRequestHeader
--	useRequestURL
--	useCookie
--	useHydration
+-   useNuxtApp
+-   useAppConfig
+-   useRuntimeConfig
+-   useHead
+-   useRoute
+-   useRouter
+-   useError
+-   useState
+-   useAsyncData
+-   useFetch
+-   useLoadingIndicator
+-   useRequestHeader
+-   useRequestURL
+-   useCookie
+-   useHydration
 
 hooks
 
@@ -373,30 +389,29 @@ https://github.com/nitrojs/nitro/discussions/235
 <!-- https://nuxt.com/docs/guide/concepts/rendering -->
 <!-- TODO https://www.youtube.com/watch?v=b1S5os65Urs -->
 
-Durante la fase di progettazione, diversi tipi di applicazione suggeriscono diverse esigenze, e Nuxt si dimostra versatile a partire dalle modalità di rendering che offre.
+Tipi di applicazione diversi hanno esigenze diverse: Un blog o un sito vetrina potrebbero non richiedere le stesse prestazioni di un'applicazione di e-commerce o di un'applicazione di social networking. Nuxt si adatta a queste esigenze offrendo diverse modalità di rendering, che possono essere scelte per l'intera applicazione o per singole pagine o gruppi di pagine.
 
 In questo contesto, con rendering di una pagina web non si intende il processo di disegno dei pixel sullo schermo, del quale generalmente si occuperà il browser web delegando al sistema operativo la gestione dell'hardware. Qui con rendering si intende il processo di generazione del codice HTML, CSS e Javascript che costituisce la pagina web.
 
-#### Routing unificato
-
 #### Client Side Rendering
+
+Nuxt supporta la stessa modalità di rendering discussa nel [capitolo 1](#vue.js), in cui il codice dell'applicazione Vue viene eseguito interamente sul browser. Dopo una richiesta iniziale, il server invia un DOM minimo ed il bundle javascript al browser web. Ogni richiesta successiva viene gestita dal client, che si occupa di fare le richieste al server API per ottenere i dati e di aggiornare il DOM in base alle risposte.
 
 ```mermaid {height=6cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 sequenceDiagram
-    participant Browser
-    participant Server frontend
-    participant Server backend
-    Browser->>Server frontend: Richiesta pagina
-    Server frontend-->>Browser: Risposta con DOM minimo
-    Server frontend-->>Browser: Risposta con Javascript
-    Browser->>Browser: Esecuzione dell'app Vue
-    Browser->>Server backend: Richiesta assets, talvolta con autenticazione
-    Server backend-->>Browser: Risposta con assets
-    Browser->>Browser: Aggiornamento della pagina
-```
+    participant client as Client
+    participant frontend as CDN
+    participant backend as Server API
 
-Nuxt supporta la stessa modalità di rendering discussa nel [capitolo 1](#vue.js), in cui il codice dell'applicazione Vue viene eseguito interamente sul browser.
+    client->>frontend: Richiesta pagina
+    frontend-->>client: DOM minimo
+    frontend-->>client: Bundle Javascript
+    client->>client: Esecuzione dell'app Vue
+    client->>backend: Richieste dati o assets
+    backend-->>client: Dati JSON o binari
+    client->>client: Aggiornamento della pagina
+```
 
 Si può attivare globalmente nel file `nuxt.config.ts` con:
 
@@ -406,45 +421,134 @@ export default defineNuxtConfig({
 });
 ```
 
-Il beneficio che si ottiene nello sviluppare in maniera CSR con Nuxt è la disponibilità del classico oggetto `window` negli script Vue, oltre ad una riduzione del costo infrastrutturale, perché il server backend non deve eseguire il codice Javascript per generare la pagina: basterà infatti caricare il bundle dell'applicazione frontend generata con `nuxi build` su un server frontend statico [^server-frontend]. Tuttavia rimangono i problemi di performance, di accessibilità e di SEO che sono stati discussi [precedentemente](#ritorno-al-server-side-rendering).
+Il beneficio che si ottiene nello sviluppare in maniera CSR con Nuxt è una riduzione del costo infrastrutturale, perché il server backend non deve eseguire il codice Javascript per generare su richiesta la pagina: basterà infatti caricare il bundle dell'applicazione frontend generata con `nuxi build` su un server frontend statico [^server-frontend] per distribuirla ad un numero indeterminatamente crescente di utenti. Tuttavia rimangono i problemi di performance, di accessibilità e di SEO che sono stati discussi [precedentemente](#ritorno-al-server-side-rendering). Per i servizi API si possono usare _Functions as a Service_[^function-as-a-service].
 
 [^server-frontend]: Si tratta di un servizio di file statici, che può essere implementato anche con una _CDN_ (Content Delivery Network) per distribuire i file in maniera efficiente in tutto il mondo.
+[^function-as-a-service]: Secondo l'ISO/IEC 22123-2, una _function as a service_ è un servizio cloud che esegue una funzione specifica su richiesta, senza la necessità per il programmatore di gestire l'infrastruttura sottostante.
+
+#### Server side rendering
+
+Nuxt supporta anche un modello di rendering lato server, in cui, ad una richiesta iniziale, il codice dell'applicazione Vue viene eseguito per intero su un server frontend per inviare la pagina renderizzata come risposta.
+
+```mermaid {height=6cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+sequenceDiagram
+	participant client as Client
+	participant frontend as Server Frontend
+	participant backend as Server API
+
+	client->>frontend: Richiesta pagina
+    frontend->>backend: Richieste dati
+    backend-->>frontend: Dati JSON
+    frontend->>frontend: Rendering HTML completo
+    frontend-->>client: HTML completo + JS bundle
+    client->>client: Hydration (interattività)
+```
+
+Si può attivare globalmente nel file `nuxt.config.ts` con:
+
+```typescript
+export default defineNuxtConfig({
+	ssr: true,
+});
+```
+
+#### Static site generation
+
+Nuxt supporta la generazione di siti statici, cioè la generazione di pagine HTML in fase di build. Non avviene nessun rendering lato server durante la fase di produzione
+
+```mermaid {height=6cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+sequenceDiagram
+    participant client as Client
+    participant frontend as Server Frontend
+    participant backend as Server API
+
+    Note right of frontend: Fase di build
+    frontend->>backend: Richieste dati
+    backend-->>frontend: Dati JSON
+    frontend->>frontend: Pre-rendering di tutte le pagine
+    Note right of frontend: Deployment
+    client->>frontend: Richiesta pagina
+    frontend-->>client: HTML pre-renderizzato
+    client->>client: Hydration (interattività)
+```
+
+Si può attivare globalmente nel file `nuxt.config.ts` con:
+
+```typescript
+export default defineNuxtConfig({
+	ssr: true,
+	nitro: {
+		preset: "static",
+	},
+});
+```
+
+#### Incremental static regeneration
+
+```mermaid {height=6cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+sequenceDiagram
+    participant client as Client
+    participant frontend as Server Frontend
+    participant backend as API/Database
+	client->>frontend: Richiesta pagina
+    alt Cache valida
+        frontend-->>client: HTML pre-renderizzato dalla cache
+    else Cache scaduta o non esistente
+        frontend->>backend: Richieste dati
+        backend-->>frontend: Dati JSON
+        frontend->>frontend: Rendering HTML
+        frontend->>frontend: Aggiornamento cache
+        frontend-->>client: HTML appena generato
+    end
+    client->>client: Hydration (interattività)
+```
 
 #### Universal rendering
 
 ```mermaid {height=6cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 sequenceDiagram
-    participant Browser
-    participant Server
-    Browser->>Server: Richiesta pagina
-	Server ->>Server: Rendering della pagina
-	Server -->>Browser: Risposta con DOM renderizzato
-	Server -->>Browser: Risposta con assets
-	Browser->>Browser: Idratazione dei componenti Vue
+    participant client as Client
+    participant frontend as Server Frontend
+    participant backend as API/Database
+    client->>frontend: Richiesta pagina
+    alt Pagina pre-renderizzata
+        frontend-->>client: HTML pre-renderizzato
+    else Pagina dinamica
+        frontend->>backend: Richieste dati
+        backend-->>frontend: Dati JSON
+        frontend->>frontend: Rendering HTML completo
+        frontend-->>client: HTML completo + JS bundle
+    end
+    client->>client: Hydration (interattività)
 ```
 
-#### Static Site Generation
+### Backend e API fetching
 
-md -> html
+#### Api
 
-Nel [capitolo 3](#soluzioni-di-design) si illustrerà un modulo che permette di usare Nuxt in combinazione con TypeORM.
-
-[^moduli-nuxt]: [Moduli supportati ufficialmente da Nuxt](https://nuxt.com/modules)
-
-### Server e fetching
-
-#### Middleware
-
-#### Routes tipizzate
+Routes tipizzate
 
 problema del body e dei parametri
 
-#### Middlewares
+#### Middleware
+
+autenticazione
+
+#### Composables di fetching
+
+caching
+deduping
 
 #### Modalità di sviluppo
 
 #### Build per la produzione
 
+code splitting
+
+diverse modalità di rendering
 
 ---

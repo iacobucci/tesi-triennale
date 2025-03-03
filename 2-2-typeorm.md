@@ -1,6 +1,6 @@
 ## TypeORM
 
-TypeORM è un ORM (Object-Relational Mapping) basato su Typescript, che permette di rappresentare le entità e le relazioni di un database relazionale in modo dichiarativo, e di eseguire operazioni _CRUD_ (Create, Read, Update, Delete) su di esse con API type-safe.
+TypeORM è una libreria per ORM (Object-Relational Mapping) basata su Typescript, che permette di rappresentare le entità e le relazioni di un database relazionale in modo dichiarativo, e di eseguire operazioni _CRUD_ (Create, Read, Update, Delete) su di esse con API type-safe.
 
 Il progetto, avviato nel 2016 da Umed Khudoiberdiev, è attualmente mantenuto da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/typeorm/typeorm](github.com/typeorm/typeorm). La versione stabile corrente è la **0.3.20**, rilasciata nel gennaio 2024, ma lo sviluppo di versioni _nightly_ è in corso. Attualmente TypeORM è usato come dipendenza in quasi 400'000 progetti su Github.
 
@@ -943,7 +943,7 @@ Il pattern Active Record, per la prima volta introdotto da Ruby on Rails, permet
 Un `FindOneOptions<Entity>` è un oggetto che mappa i nomi delle colonne alle condizioni di ricerca, ed è tipizzato tramite il generic `Entity`: Il compilatore Typescript controlla che le colonne sulle quali si effettua la ricerca siano effettivamente presenti nell'entità. Le opzioni che rende disponibili sono:
 
 -   `select: FindOptionsSelect<Entity>`: specifica i campi da selezionare. È un oggetto che mappa i campi di un oggetto di tipo `Entity` a `true` o `false`, per selezionare o meno il campo. Se non è specificato, vengono selezionati tutti i campi. Inoltre, non tutti i campi devono essere presenti: `Entity` viene passato attraverso un _partial_ Typescript[^partial-typescript].
--   `where: FindOptionsWhere<Entity>`: specifica le condizioni di ricerca. È un oggetto che mappa i campi di un oggetto di tipo `Entity` a delle operazioni di ricerca e può anche essere annidato per specificare condizioni complesse, con operatori logici e di confronto. Ogni campo di tipo `T` di `Entity` è essere mappato a un oggetto di tipo `T | FindOperator<T>` che specifica l'operatore di confronto.
+-   `where: FindOptionsWhere<Entity>[]`: specifica le condizioni di ricerca. È un oggetto o un array di oggetti che mappano i campi di un oggetto di tipo `Entity` a delle operazioni di ricerca, e possono anche essere annidati per specificare condizioni complesse, con operatori logici e di confronto. Di default le operazioni sono in OR. Ogni campo di tipo `T` di `Entity` è essere mappato a un oggetto di tipo `T | FindOperator<T>` che specifica l'operatore di confronto.
 -   `relations: FindOptionsRelations<Entity>`: specifica le relazioni da caricare in j oin insieme all'entità principale. È un oggetto che ha campi parziali di `Entity` che sono stati decorati con `@ManyToOne`, `@OneToOne`, `@OneToMany` o `@ManyToMany`.
 -   `order: FindOptionsOrder<Entity>`: specifica l'ordine con cui le colonne vengono restituite, con degli string literals: `"asc"`, `"desc"`. È analogo a `ORDER BY` in SQL.
 
@@ -1010,15 +1010,15 @@ const postWithLikes = await Post.findOne({
 postWithLikes.likedBy.push(alice);
 await postWithLikes.save();
 
-// Carica gli utenti che hanno messo "mi piace" ai post di Alice
-const author = await User.findOne({
-	where: { username: "alice" },
+// Carica gli utenti che hanno messo "mi piace" ai post di Alice o di Bob
+const authors = await User.find({
+	where: [{ username: "alice" }, { username: "bob" }],
 	relations: { posts: { likedBy: true } },
 });
 
-const usersWhoLikedAlicePosts: User[] = author.posts
-	.map((post) => post.likedBy)
-	.flat();
+const usersWhoLikedAuthorsPosts: User[] = authors.flatMap((author) =>
+	author.posts.flatMap((post) => post.likedBy)
+);
 ```
 
 #### Query builder
@@ -1133,11 +1133,13 @@ await Post.createQueryBuilder()
 	.of(postWithLikes)
 	.add(alice);
 
-// Carica gli utenti che hanno messo "mi piace" ai post di Alice
-const usersWhoLikedAlicePosts = await User.createQueryBuilder(USER)
-	.innerJoin(USER + ".likedPosts", "likedPost")
+// Carica gli utenti che hanno messo "mi piace" ai post di Alice o di Bob
+const usersWhoLikedAuthorsPosts = await User.createQueryBuilder("user")
+	.innerJoin("user.likedPosts", "likedPost")
 	.innerJoin("likedPost.author", "author")
-	.where("author.username = :username", { username: "alice" })
+	.where("author.username IN (:...usernames)", {
+		usernames: ["alice", "bob"],
+	})
 	.distinct(true)
 	.getMany();
 ```
@@ -1184,18 +1186,17 @@ const [postWithLikes] = await entityManager.query(`
 await entityManager.query(
 	`
   INSERT INTO post_likes (post_id, user_id)
-  VALUES (?, ?);
-`,
+  VALUES (?, ?);`,
 	[postWithLikes.id, alice.id]
 );
 
-// Carica gli utenti che hanno messo "mi piace" ai post di Alice
-const usersWhoLikedAlicePosts = await entityManager.query(`
+// Carica gli utenti che hanno messo "mi piace" ai post di Alice o di Bob
+const usersWhoLikedAuthorsPosts = await entityManager.query(`
   SELECT DISTINCT u.*
   FROM users u
   INNER JOIN post_likes pl ON u.id = pl.user_id
   INNER JOIN posts p ON pl.post_id = p.id
   INNER JOIN users author ON p.author_id = author.id
-  WHERE author.username = 'alice';
+  WHERE author.username IN ('alice', 'bob');
 `);
 ```
