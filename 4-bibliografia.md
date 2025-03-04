@@ -36,6 +36,8 @@
 
 1. [Vue template syntax](https://vuejs.org/guide/template-syntax.html) - la guida ufficiale alla sintassi dei template di Vue.
 
+1. [Mozilla HTTP Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP) - riferimenti sulle specifiche HTTP.
+
 1. [TypeORM official documentation](https://typeorm.io/) - la documentazione ufficiale della libreria TypeORM.
 
 1. [Vite official documentation](https://vitejs.dev/guide) - la documentazione ufficiale del bundler Vite.
@@ -44,7 +46,7 @@
 
 1. [Rollup official documentation](https://configuration-options) - la documentazione ufficiale del bundler Rollup.
 
-1. [Esbuild officila documentation](https://esbuild.github.io/api/) - la documentazione ufficiale del bundler Esbuild.
+1. [Esbuild official documentation](https://esbuild.github.io/api/) - la documentazione ufficiale del bundler Esbuild.
 
 1. [PostgreSQL 17 documentation](https://www.postgresql.org/docs/17/) - la documentazione ufficiale del database PostgreSQL nella versione 17.4.
 

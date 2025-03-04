@@ -2,7 +2,9 @@
 
 ## Architettura del cloud e integrazione continua
 
-### Infrastruttura dei servizi cloud
+AWS scelto per la sua flessibilità e scalabilità, e per continuazione di tirocinio
+
+### Infrastruttura dei servizi cloud AWS
 
 cloudformation
 
@@ -18,6 +20,8 @@ cloudformation
 github actions
 
 > ![Impostazione dei secrets di github](./res/aggiunta-secrets.png){width=70%}
+
+tempi di provisioning
 
 > ![Creazione stack](./res/actions-creazione-stack.png){width=70%}
 
@@ -46,9 +50,13 @@ ZOD e TRPC
 
 ## Analisi di performance e sicurezza
 
-### Deploy su server distribuiti con ECS ed RDS
+### Deploy dell'applicazione SSR su server distribuiti con ECS ed RDS
 
-### Deploy su CDN statica, funzioni Lambda e Aurora
+scala orizzontale, aggiunta di nodi
+
+### Deploy dell'applicazione SSG su CDN statica con funzioni Lambda e Aurora
+
+scala verticale, parallelismo
 
 ### Analisi di performance 
 
@@ -60,7 +68,7 @@ In questo capitolo si illustrano alcune soluzioni di design per la realizzazione
 	import { User } from "~/entities/User";
 
 	definePageMeta({
-		prerender: true,
+		prerender: true, // la pagina è pre-renderizzata nel 
 	});
 
 	// query diretta nel lato ssr

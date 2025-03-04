@@ -15,21 +15,21 @@ Il workflow usa un template di AWS cloudformation autocontenuto nella repository
 
 Per testare il database ho aggiunto un'istanza di RDS, database relazionale ad alta disponibilità, configurato per eseguire PostgreSQL con una quantità di spazio idonea per il free-tier (20GB). Le credenziali di questo sono conservate nei secrets della repository: sono oscurate a tutti i collaboratori di un progetto github, e vengono passate al workflow di CI/CD che le porterà in ambiente AWS ed anche come variabili di ambiente ai container. È in questo modo che i container saranno in collegamento con il database.
 
-In un branch di sviluppo della repository, https://github.com/iacobucci/aws-nuxt-typeorm/tree/dev, Ho aggiunto anche dei componenti per il frontend personalizzati (basati su Shadcn). In più ho integrato un sistema che rende type-safe le richieste GET (nei parametri) e POST (nel body) tra il frontend e il backend, con un sistema di validazione automatica dei dati in ingresso e in uscita, usando Zod (una libreria di validazione a runtime per TypeScript) e tRPC (una libreria per gestire le richieste HTTP in modo type-safe, che si può montare sopra le astrazioni già presenti in nuxt).
+In un branch di sviluppo della repository, https://github.com/iacobucci/aws-nuxt-typeorm/tree/dev, Ho aggiunto anche dei componenti per il frontend personalizzati (basati su Shadcn). In più ho integrato un sistema che rende type-safe le richieste GET (nei parametri) e POST (nel body) tra il frontend e il backend, con un sistema di validazione automatica dei dati in ingresso e in uscita, usando Zod (una libreria di validazione a runtime per TypeScript) e tRPC (una libreria per gestire le richieste HTTP in modo type-safe, che si può montare sopra le astrazioni già presenti in nuxt e che rispetta i diagrammi di sequenza del server backend che ho mostrato nel capitolo 2).
 
 Nella repository ho aggiunto dei test unitari automatizzati che si possono eseguire durante lo sviluppo, sia di feature di Nuxt che di query TypeORM.
 
 Ho pensato che i test di performance da includere nel capitolo 3 di cui Lei mi parlava si potrebbero declinare in un modo simile a questo:
 
 - Per AWS: Testare la velocità di risposta del server in relazione al numero di richieste HTTP, con uno strumento come "wrk", anche in base alla topologia della rete (Server distribuito con database in cloud per un'applicazione SSR, funzioni serverless con database in cloud per un'applicazione SSG).
-- Per Nuxt: Testare la velocità di rendering di pagine in funzione di quanti componenti innestati ci sono e della modalità di rendering scelta per nuxt (CSR, SSR, UR), con gli strumenti sviluppatore di un browser web, come "lighthouse" per Chromium o il profiler di Firefox: vengono forniti degli score di performance, accessibilità, best practices e search engine optimization.
-- Per TypeORM: Testare la velocità delle query mostrate negli esempi del capitolo 2, tra pattern Active Record, Query Builder e SQL raw.
+- Per Nuxt: Testare la velocità di rendering di pagine in funzione di quanti componenti innestati ci sono e della modalità di rendering scelta per nuxt (CSR, SSR, UR), con gli strumenti sviluppatore di un browser web, come "lighthouse" per Chromium o il profiler di Firefox: vengono forniti degli score di performance, accessibilità, best practices e search engine optimization che si possono usare come metrica comparativa.
+- Per TypeORM: Testare la velocità delle query mostrate negli esempi del capitolo 2, tra pattern Active Record, Query Builder e SQL raw (Una volta che la pagina è pronta, la differenza tra 
 
 Per la continuazione nel capitolo 3 (Soluzioni di design), avevo pensato alle seguenti sezioni:
 - Spiegazione della IaC e CI/CD con AWS e Github Actions, da argomento di tirocinio, applicata al contesto delle tecnologie in esame e con snippet di codice, che permettono di ottenere il comportamento descritto sopra.
 - Soluzioni progettuali per l'interoperatività tra le tecnologie scelte.
 	- Realizzazione del plugin Nuxt per il collegamento con TypeORM.
-	- design patterns per la condivisione di classi del domain model tra il frontend ed il backend (le classi relative alle entità TypeORM usate nel backend implementano delle interfacce che anche l'applicazione client usa).
+	- design patterns per la condivisione di strutture dati del domain model tra il frontend ed il backend (le classi relative alle entità TypeORM usate nel backend implementano delle interfacce che anche l'applicazione client usa).
 	- Utilizzo di un sistema di validazione type-safe per parametri GET o body POST con Zod e tRPC, proponendo una soluzione per i problemi evidenziati rispetto all'attuale mancanza di sicurezza di tipo di alcune API che Nuxt fornisce di default (C'è un issue irrisolto su questo argomento, e questa è una delle soluzioni più accreditate).
 - Test di performance dell'applicazione in deploy su AWS.
 
@@ -40,6 +40,7 @@ Non ho ancora raffinato i dati per i test di performance, per i quali pensavo di
 
 Le chiedo se sia opportuno scegliere un tema per l'applicazione del branch di sviluppo che sto allestendo, magari anche in vista della presentazione, che si presti alla trattazione di API complesse con autenticazione e autorizzazione. Negli esempi che sto portando avanti il modello di dominio riguarda utenti, messaggi, post e commenti, quindi il tema per ora è un generico social network, ma potrei adattarlo con prontezza. Inoltre le chiedo se le sezioni del capitolo 3 ed i relativi test di performance siano adeguati.
 
-Sviluppo ed analisi delle prestazioni di applicazioni web basate su Nuxt e TypeORM con servizi cloud AWS
+Considerate le modifiche che Lei mi aveva suggerito durante l'ultima conferenza teams, e 
+Sviluppo ed analisi delle prestazioni di applicazioni web basate su Nuxt e TypeORM su servizi cloud AWS
 
 Grazie per l'attenzione, buona serata!

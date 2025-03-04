@@ -220,7 +220,11 @@ describe("CounterWithComposable Component", () => {
 
 #### `nuxi build`
 
-Compila il codice Typescript e genera i file necessari per la distribuzione dell'applicazione. I file generati sono salvati nella directory `./.output`, e possono essere distribuiti su un server web per la produzione. L'albero delle dipendenze viene ridotto al minimo con una procedura chiamata _tree-shaking_ e le dipendenze necessarie e sufficienti per l'esecuzione dell'applicazione vengono copiate in `./.output/server/node_modules`. L'app può essere avviata con `node ./.output/server/index.mjs`.
+Compila il codice Typescript e genera i file necessari per la distribuzione dell'applicazione. I file generati sono salvati nella directory `./.output`, e possono essere distribuiti su un server Node, Deno o Bun per la produzione. L'albero delle dipendenze viene ridotto al minimo con una procedura chiamata _tree-shaking_ e le dipendenze necessarie e sufficienti per l'esecuzione dell'applicazione vengono copiate in `./.output/server/node_modules`.
+
+#### `nuxi generate`
+
+Fa una build dell'applicazione pre-renderizzando tutte le route raggiungibili, anche quelle forzate dai valori cablati nei componenti Vue: il compilatore percorre non solo le pagine puramente statiche (senza richieste ad api) ma anche quelle che fanno richieste ad API senza dei parametri forniti a tempo di esecuzione dall'utente. Verranno generati dei files HTML statici per ogni rotta di questo tipo, per essere serviti da un server frontend statico, in `~/.output/public`, e di questa directory verrà creato un link simbolico in `~/dist`.
 
 #### `nuxi cleanup`
 
@@ -229,6 +233,18 @@ Rimuove i file temporanei e i file generati durante la build.
 ### Frontend
 
 Nuxt adotta delle convenzioni per il frontend: i file che definiscono le pagine accessibili all'utente sono organizzate in una struttura gerarchica di directory. Ogni pagina può essere inclusa in un layout, che definisce la struttura generale della pagina, e può usare dei middleware, che sono delle funzioni che vengono eseguite prima di caricare la pagina. Ogni componente di cui le pagine sono composte può essere definito in un file separato, per favorire il riutilizzo del codice. Tutti i file Vue che seguono le convenzioni di Nuxt sono importati automaticamente.
+
+Come per un'applicazione Vue tradizionale, è presente un entry point, `app.vue`:
+
+```html
+<template>
+	<NuxtLayout>
+		<NuxtPage />
+	</NuxtLayout>
+</template>
+```
+
+Il template dell'intera app racchiude, tra `NuxtLayout`, il componente `NuxtPage`, che rappresenta la pagina corrente.
 
 #### Pages
 
@@ -258,20 +274,19 @@ pages/
 		pagina-1.vue	# Pagina accessibile a /gruppo-<nome>/pagina-1
 ```
 
-Il routing
-
-<!-- TODO -->
+I file Vue che definiscono le pagine sono composti da tre parti: il template, lo script e lo stile.
 
 ```html
 <script setup lang="ts">
 	definePageMeta({
-		middleware: ["testmiddleware"],
-		layout: "testlayout",
+		middleware: ["auth"],
+		layout: "home",
 	});
 </script>
 
 <template>
-	<!-- Utilizzo di componenti -->
+	<h1>Pagina iniziale</h1>
+	<NuxtLink to="/about">Vai alla pagina about</NuxtLink>
 </template>
 
 <style scoped>
@@ -279,13 +294,39 @@ Il routing
 </style>
 ```
 
-##### Script
-
-middleware
-
 ##### Template
 
+Nel template si definisce la struttura della pagina, con i tag HTML e i componenti Vue. Si possono usare le direttive di Vue per iterare sui dati, condizionare il rendering di elementi, gestire gli eventi e le classi CSS.
+
+Per utilizzare appieno il sistema di routing di Nuxt, è sconsigliato usare i classici anchor tags `<a>` per navigare tra diverse pagine. Questo perché non sempre è necessario fare una nuova richiesta HTTP al server del frontend per richiedere la prossima pagina, che potrebbe essere già presente nella memoria del browser sotto forma di componenti Vue, per una navigazione più veloce.
+
+Si può usare invece il componente `<NuxtLink>`, che accetta l'attributo `to` con il nome della rotta da raggiungere, e che si occuperà di cambiare pagina nella maniera più efficiente:
+
+-   tramite il **router Vue**, modificando l'oggetto `window.location` e aggiornando il DOM rimuovendo i componenti non necessari e aggiungendo quelli nuovi.
+
+-   tramite il **prefetching** delle rotte percorribili dalla pagina corrente, cioè il caricamento in background delle risorse necessarie delle possibili pagine successive, prima che l'utente clicchi sul link.
+
+-   tramite la **client-side navigation**, cioè la navigazione tra le pagine senza fare richieste HTTP al server, ma sfruttando la cache del browser, che mantiene in memoria pagine HTML già pronte per essere visualizzate.
+
+-   oppure tramite la **server-side navigation**, cioè la navigazione tra le pagine con richieste HTTP al server, che risponde con il codice HTML della pagina richiesta.
+
+È una buona pratica quella di guarnire i template delle pages con contenuti html e componenti Vue, delegando a questi la logica di presentazione, nonostante anche nelle pages si possano inserire delle direttive Vue.
+
+##### Script
+
+Nello script si definisce la logica della pagina, come la gestione degli eventi, la comunicazione con il backend, la gestione dello stato dell'applicazione e la definizione dei metadati della pagina. Le pratiche consigliate sono di mantenere lo script il più possibile leggero, delegando la logica di business ai componenti Vue e ai composables. Nell'esempio è inserito uno script con `setup` per abilitare la _composition api_ di Vue e `lang="ts"` per usare Typescript. Inoltre, è fatto uso dell'hook `definePageMeta`, che permette di definire:
+
+-   `name? string`: il nome della pagina, di default generato dalle regole di routing.
+-   `path? string`: si usano espressioni regolari per definire rotte dinamiche.
+-   `props? RouteRecordRaw["props"]`: definisce le proprietà della pagina, che possono essere passate come parametri GET o POST.
+-   `alias? string | string[]`: definisce un alias per la pagina, cioè un altro nome con cui è accessibile.
+-   `layout? LayoutKey`: definisce il layout della pagina, cioè il componente Vue che definisce la struttura della pagina. Il tipo LayoutKey tipizza come string literal i nomi dei layout disponibili.
+-   `middleware? MiddlewareKey | Array<MiddlewareKey>`: definisce i middleware da eseguire prima di caricare la pagina. Il tipo MiddlewareKey tipizza come string literal i nomi dei middleware disponibili.
+-	`pageTransition? boolean | TransitionProps`: definisce se la transizione tra le pagine deve essere animata, secondo proprietà che usano regole CSS.
+
 ##### Style
+
+Si possono aggiungere stili CSS 
 
 setup
 import automatici
@@ -300,31 +341,11 @@ limita l'applicazione delle regole css al solo componente nel quale è definito
 
 rotte
 
-```typescript
-definePageMeta(meta: PageMeta) => void
-
-interface PageMeta {
-  validate?: (route: RouteLocationNormalized) => boolean | Promise<boolean> | Partial<NuxtError> | Promise<Partial<NuxtError>>
-  redirect?: RouteRecordRedirectOption
-  name?: string
-  path?: string
-  props?: RouteRecordRaw['props']
-  alias?: string | string[]
-  pageTransition?: boolean | TransitionProps
-  layoutTransition?: boolean | TransitionProps
-  viewTransition?: boolean | 'always'
-  key?: false | string | ((route: RouteLocationNormalizedLoaded) => string)
-  keepalive?: boolean | KeepAliveProps
-  layout?: false | LayoutKey | Ref<LayoutKey> | ComputedRef<LayoutKey>
-  middleware?: MiddlewareKey | NavigationGuard | Array<MiddlewareKey | NavigationGuard>
-  scrollToTop?: boolean | ((to: RouteLocationNormalizedLoaded, from: RouteLocationNormalizedLoaded) => boolean)
-  [key: string]: unknown
-}
-```
-
 #### Components
 
 <!-- TODO regole di templating di vue -->
+
+I componenti di nuxt seguono la sintassi di Vue
 
 Componenti _built-in_:
 
@@ -343,24 +364,6 @@ Componenti _built-in_:
 definizione in `~/components`
 auto importazione
 
-Composables:
-
--   useNuxtApp
--   useAppConfig
--   useRuntimeConfig
--   useHead
--   useRoute
--   useRouter
--   useError
--   useState
--   useAsyncData
--   useFetch
--   useLoadingIndicator
--   useRequestHeader
--   useRequestURL
--   useCookie
--   useHydration
-
 hooks
 
 setup
@@ -375,7 +378,51 @@ sintassi vue
 <p>{{ message }}</p>
 ```
 
+#### Composables
+
+Un composable Vue è una funzione riutilizzata in più componenti che incapsula della logica _stateful_. Un esempio è il composable `useCounter` che gestisce lo stato di un contatore e le operazioni di incremento e decremento.
+
+```typescript
+export const useCounter = () => {
+	const count = ref(0);
+	const increment = () => {
+		count.value++;
+	};
+	return { count, increment };
+};
+```
+
+Viene fatto uso di `ref` per definire una variabile reattiva, che può essere modificata e che notificherà ai componenti che la usano di aggiornarsi tramite il sistema di reattività di Vue. Il composable ritorna un oggetto con le variabili e le funzioni che devono essere esposte ai componenti che lo usano. Nuxt offre un sistema di importazione automatica dei composables definiti dagli sviluppatori, oltre che di quelli _built-in_:
+
+-   **useNuxtApp**:
+-   **useAppConfig**:
+-   **useRuntimeConfig**:
+-   \*\*useHead
+-   \*\*useRoute
+-   \*\*useRouter
+-   \*\*useError
+-   \*\*useState
+-   \*\*useAsyncData
+-   \*\*useFetch
+-   \*\*useLoadingIndicator
+-   \*\*useRequestHeader
+-   \*\*useRequestURL
+-   \*\*useCookie
+-   \*\*useHydration
+
 #### Layouts
+
+I layout Nuxt sono componenti che definiscono la struttura comune a una o più pagine. La pratica consigliata è infatti quella di non inserire script, ma solo template e stili CSS.
+
+```html
+<template>
+	<div>
+		<AppHeader />
+		<slot />
+		<AppFooter />
+	</div>
+</template>
+```
 
 uso di css custom
 
@@ -383,6 +430,31 @@ https://github.com/nuxt/nuxt/issues/23009#issue-1881478762
 https://github.com/nitrojs/nitro/discussions/235
 
 .nuxt.config.ts
+
+### Backend e API fetching
+
+#### Api
+
+Routes tipizzate
+
+problema del body e dei parametri
+
+#### Middleware
+
+autenticazione
+
+#### Composables di fetching
+
+caching
+deduping
+
+#### Modalità di sviluppo
+
+#### Build per la produzione
+
+code splitting
+
+diverse modalità di rendering
 
 ### Modalità di rendering del frontend
 
@@ -408,6 +480,7 @@ sequenceDiagram
     frontend-->>client: DOM minimo
     frontend-->>client: Bundle Javascript
     client->>client: Esecuzione dell'app Vue
+
     client->>backend: Richieste dati o assets
     backend-->>client: Dati JSON o binari
     client->>client: Aggiornamento della pagina
@@ -428,7 +501,7 @@ Il beneficio che si ottiene nello sviluppare in maniera CSR con Nuxt è una ridu
 
 #### Server side rendering
 
-Nuxt supporta anche un modello di rendering lato server, in cui, ad una richiesta iniziale, il codice dell'applicazione Vue viene eseguito per intero su un server frontend per inviare la pagina renderizzata come risposta.
+Nuxt supporta anche un modello di rendering lato server, in cui, ad una richiesta iniziale, il codice dell'applicazione Vue viene eseguito per intero su un server frontend per inviare la pagina renderizzata come risposta. Il processo di Hydration aggiunge l'interattività dei componenti, che possono essere aggiornati, rimossi o aggiunti dinamicamente, senza dover ricaricare la pagina.
 
 ```mermaid {height=6cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
@@ -443,6 +516,10 @@ sequenceDiagram
     frontend->>frontend: Rendering HTML completo
     frontend-->>client: HTML completo + JS bundle
     client->>client: Hydration (interattività)
+
+    client->>backend: Richieste dati o assets
+    backend-->>client: Dati JSON o binari
+    client->>client: Aggiornamento della pagina
 ```
 
 Si può attivare globalmente nel file `nuxt.config.ts` con:
@@ -453,9 +530,11 @@ export default defineNuxtConfig({
 });
 ```
 
+La SEO è migliorata perché i motori di ricerca possono leggere il codice HTML generato dal server frontend, e non devono aspettare che il codice Javascript venga eseguito sul browser. Le prestazioni di SSG sono le più soddisfacenti per una esperienza utente generale, tuttavia, il costo infrastrutturale è maggiore: il server frontend è sempre sotto elevati carichi di lavoro, e deve essere dimensionato di conseguenza. Le richieste API sono gestite da server backend, che possono essere implementati con _serverless functions_ o con _microservices_.
+
 #### Static site generation
 
-Nuxt supporta la generazione di siti statici, cioè la generazione di pagine HTML in fase di build. Non avviene nessun rendering lato server durante la fase di produzione
+Nuxt supporta la generazione di siti statici, cioè la generazione di pagine HTML in fase di build. Non avviene nessun rendering lato server durante la fase di produzione, ma solo in fase di pubblicazione. Questo modello è adatto per siti web che non richiedono interattività o aggiornamenti frequenti, come blog, documentazioni o siti vetrina.
 
 ```mermaid {height=6cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
@@ -485,7 +564,17 @@ export default defineNuxtConfig({
 });
 ```
 
+Per poi generare il sito statico con:
+
+```bash
+npx nuxi generate
+```
+
+Le prestazioni sono le migliori possibili, perché il server frontend non deve eseguire il codice Javascript per generare la pagina, ma solo inviare il file HTML pre-renderizzato. La SEO è anche nelle condizioni più favorevoli, perché i motori di ricerca leggeranno lo stesso HTMl inviato ai client degli utenti. Tuttavia, l'interattività è limitata in quanto ogni componente Vue che viene reso dinamico dopo l'idratazione soffrirà degli stessi problemi di un'applicazione CSR, in scala ridotta. Per questo motivo si sceglie SSR quando non c'è necessità di gestire richieste API con alcun tipo di server backend.
+
 #### Incremental static regeneration
+
+È diffuso un modello simile al SSG, chiamato _incremental static regeneration_, in cui le pagine statiche vengono rigenerate in base a un intervallo di tempo o a un evento specifico. Questo modello è adatto per siti web che richiedono aggiornamenti periodici, come siti che forniscono un feed di notizie altamente personalizzato o siti di e-commerce che devono fornire prezzi dei prodotti aggiornati al first contentful paint.
 
 ```mermaid {height=6cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
@@ -504,6 +593,26 @@ sequenceDiagram
         frontend-->>client: HTML appena generato
     end
     client->>client: Hydration (interattività)
+
+    client->>backend: Richieste dati o assets
+    backend-->>client: Dati JSON o binari
+    client->>client: Aggiornamento della pagina
+```
+
+Si può scegliere l'intervallo di invalidazione per certe pagine nel file `nuxt.config.ts`. Con swr si indica l'header HTTP _stale-while-revalidate_, cioè il tempo in secondi per cui la cache è considerata valida. Il client quindi è a conoscenza di quando il server frontend genererà una nuova versione della pagina.
+
+```typescript
+export default defineNuxtConfig({
+	ssr: true,
+	routeRules: {
+		"/blog/today/**": {
+			swr: 60,
+		},
+		"/blog/this-year/**": {
+			swr: 3600,
+		},
+	},
+});
 ```
 
 #### Universal rendering
@@ -525,30 +634,5 @@ sequenceDiagram
     end
     client->>client: Hydration (interattività)
 ```
-
-### Backend e API fetching
-
-#### Api
-
-Routes tipizzate
-
-problema del body e dei parametri
-
-#### Middleware
-
-autenticazione
-
-#### Composables di fetching
-
-caching
-deduping
-
-#### Modalità di sviluppo
-
-#### Build per la produzione
-
-code splitting
-
-diverse modalità di rendering
 
 ---

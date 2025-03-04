@@ -28,6 +28,4 @@ def main():
     print(output_text)
 
 if __name__ == '__main__':
-	# for i in emoji:
-	# 	print(i, emoji[i])
 	main()
