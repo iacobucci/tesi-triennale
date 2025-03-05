@@ -12,3 +12,9 @@ Il workflow procede con un checkout della repository in ambiente virtuale fornit
 Il workflow usa un template di AWS cloudformation autocontenuto nella repository, che si può adattare alle esigenze del team di sviluppo, ed ad ogni nuovo push su master aggiorna la cloud con le differenze tra il template e lo stato attuale, riducendo le modifiche dell'aggiornamento a quelle necessarie.
 
 Per testare il database è stata aggiunta un'istanza di RDS, database relazionale ad alta disponibilità, configurato per eseguire PostgreSQL con una quantità di spazio idonea per il free-tier (20GB). Le credenziali di questo sono conservate nei secrets della repository: sono oscurate a tutti i collaboratori di un progetto github, e vengono passate al workflow di CI/CD che le porterà in ambiente AWS ed anche come variabili di ambiente ai container. È in questo modo che i container saranno in collegamento con il database.
+
+scala verticale, parallelismo [^serverless]
+
+[^serverless]: [Serverless architectures](https://martinfowler.com/articles/serverless.html) - Articolo di Mike Roberts sul blog di Martin Fowler.
+
+tempi di provisioning di cloudformation

@@ -2,11 +2,7 @@
 
 ## Architettura del cloud e integrazione continua
 
-AWS scelto per la sua flessibilità e scalabilità, e per continuazione di tirocinio
-
-### Infrastruttura dei servizi cloud AWS
-
-cloudformation
+### Progettazione dell'infrastruttura dei servizi cloud AWS
 
 > ![Setup](./res/aws-1-setup.png){width=90%}
 
@@ -16,11 +12,7 @@ cloudformation
 
 ### Continuous Integration e Continuous Deployment con Github Actions
 
-github actions
-
 > ![Impostazione dei secrets di github](./res/aggiunta-secrets.png){width=70%}
-
-tempi di provisioning
 
 > ![Creazione stack](./res/actions-creazione-stack.png){width=70%}
 
@@ -28,26 +20,67 @@ tempi di provisioning
 
 ## Un'applicazione di esempio con Nuxt e TypeORM
 
-utilizzo di componenti shadcn
-
 ### Implementazione di un plugin Nuxt per TypeORM
 
-scelte di progetto
+```typescript
+import { DataSource } from "typeorm";
+
+import { Message } from "~/entities/Message";
+import { Post } from "~/entities/Post";
+import { User } from "~/entities/User";
+
+// Inserire le classi delle entità qui
+let entities = [User, Message, Post];
+
+const options = {
+	type: "postgres",
+	host: process.env.DB_HOSTNAME,
+	database: process.env.DB_NAME,
+	port: parseInt(process.env.DB_PORT || "5432"),
+	username: process.env.DB_USERNAME,
+	password: process.env.DB_PASSWORD,
+	ssl: { rejectUnauthorized: false },
+	synchronize: true,
+	logging: true,
+	entities,
+	migrations: [],
+	subscribers: [],
+};
+
+export const AppDataSource = new DataSource(options);
+
+export async function initialize() {
+	try {
+		if (!AppDataSource.isInitialized) {
+			await AppDataSource.initialize();
+			console.log("Typeorm inizializzato", {
+				type: AppDataSource.options.type,
+				database: AppDataSource.options.database,
+			});
+		}
+	} catch (error) {
+		console.error("Errore inizializzazione Typeorm", error);
+		throw error;
+	}
+}
+```
+
+```typescript
+import { AppDataSource, initialize } from "~/server/utils/datasource";
+
+export default defineNitroPlugin(async () => {
+	initialize();
+});
+```
 
 ### Design patterns per il riutilizzo del modello dei dati
 
 ## Analisi di performance e sicurezza
 
-### Deploy dell'applicazione SSR su server distribuiti con ECS ed RDS
+### SSR su server distribuiti con ECS ed RDS
 
-scala orizzontale, aggiunta di nodi
+#### Test di carico
 
-### Deploy dell'applicazione SSG su CDN statica con funzioni Lambda e Aurora
+#### Audit di rendimento lato client
 
-scala verticale, parallelismo [^serverless]
-
-[^serverless]: [Serverless architectures](https://martinfowler.com/articles/serverless.html) - Articolo di Mike Roberts sul blog di Martin Fowler che descrive
-
-### Analisi di performance
-
-In questo capitolo si illustrano alcune soluzioni di design per la realizzazione di applicazioni web con Nuxt in combinazione con TypeORM.
+### SSG su CDN statica con funzioni Lambda e Aurora

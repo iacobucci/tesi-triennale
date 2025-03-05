@@ -423,7 +423,7 @@ server/
 
 #### Endpoint API
 
-Per definire il comportamento di un endpoint API, si esporta una funzione `defineEventHandler(async? (event: H3Event) => any)`, che accetta una funzione asincrona di un oggetto `event` e restituisce una risposta. L'oggetto `event` contiene le informazioni della richiesta HTTP, come il metodo, i parametri GET e POST, i cookie, l'indirizzo IP del client, e il corpo della richiesta.
+Per definire il comportamento di un endpoint API, si esporta una funzione `defineEventHandler(async? (event) => any)`, che accetta una funzione asincrona di un oggetto `event` e restituisce una risposta. L'oggetto `event` contiene le informazioni della richiesta HTTP, come il metodo, i parametri GET e POST, i cookie, l'indirizzo IP del client, e il corpo della richiesta.
 
 ```typescript
 interface UsersByLastName {
@@ -526,6 +526,8 @@ Inoltre è da notare che `useFetch` può essere usato con o senza `await`, a sec
 
 Per ottenere dei comportamenti ad hoc per il caricamento di dati nella pagina, si possono combinare le opzioni `immediate`, `server` e `lazy`, come evidenzia il seguente schema^[learn-vue]:
 
+[^learn-vue]: Illustrato anche nel video tutorial di [Matt Maribojoc](https://www.youtube.com/watch?v=b1S5os65Urs).
+
 ```mermaid {height=8cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 flowchart TB
@@ -552,8 +554,6 @@ flowchart TB
 	class immediate,server,lazy code
 
 ```
-
-[^learn-vue]: Illustrato anche nel video tutorial di [Matt Maribojoc](https://www.youtube.com/watch?v=b1S5os65Urs)
 
 #### Build per la produzione
 
@@ -630,7 +630,7 @@ export default defineNuxtConfig({
 });
 ```
 
-La SEO è migliorata perché i motori di ricerca possono leggere il codice HTML generato dal server frontend, e non devono aspettare che il codice Javascript venga eseguito sul browser. Le prestazioni di SSG sono le più soddisfacenti per una esperienza utente generale, tuttavia, il costo infrastrutturale è maggiore: il server frontend è sempre sotto elevati carichi di lavoro, e deve essere dimensionato di conseguenza. Le richieste API sono gestite da server backend, che possono essere implementati con _serverless functions_ o con _microservices_.
+La SEO è migliorata perché i motori di ricerca possono leggere il codice HTML generato dal server frontend, e non devono aspettare che il codice Javascript venga eseguito sul browser. Le prestazioni di SSG sono le più soddisfacenti per una esperienza utente generale, tuttavia, il costo infrastrutturale è maggiore: il server frontend è sempre sotto elevati carichi di lavoro, e deve essere dimensionato di conseguenza.
 
 #### Static site generation
 
@@ -650,7 +650,6 @@ sequenceDiagram
     Note right of frontend: Deployment
     client->>frontend: Richiesta pagina
     frontend-->>client: HTML pre-renderizzato
-    client->>client: Hydration (interattività)
 ```
 
 Si può attivare globalmente nel file `nuxt.config.ts` con:
@@ -674,7 +673,7 @@ Le prestazioni sono le migliori possibili, perché il server frontend non deve e
 
 #### Incremental static regeneration
 
-È diffuso un modello simile al SSG, chiamato _incremental static regeneration_, in cui le pagine statiche vengono rigenerate in base a un intervallo di tempo o a un evento specifico. È quindi necessario un server frontend capace di fare richieste al server backend per potersi aggiornare. Questo modello è adatto per siti web che richiedono aggiornamenti periodici, come siti che forniscono un feed di notizie altamente personalizzato o siti di e-commerce che devono fornire prezzi dei prodotti aggiornati al first contentful paint. Come per la SSG, gli `useFetch` che richiedono dati al caricamento iniziale della pagina vengono eseguiti durante la fase di aggiornamento della cache.
+È diffuso un modello simile al SSG, chiamato _incremental static regeneration_, in cui le pagine statiche vengono rigenerate in base a un intervallo di tempo o a un evento specifico. È quindi necessario un server frontend con capacità di calcolo modeste, in grado di fare periodicamente richieste al server backend per potersi aggiornare. Questo modello è adatto per siti web che richiedono aggiornamenti periodici, come siti che forniscono un feed di notizie altamente personalizzato o siti di e-commerce che devono fornire prezzi dei prodotti aggiornati al first contentful paint. Come per la SSG, gli `useFetch` che richiedono dati al caricamento iniziale della pagina vengono eseguiti durante la fase di aggiornamento della cache.
 
 ```mermaid {height=10cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
