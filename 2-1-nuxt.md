@@ -55,19 +55,7 @@ La repository di sviluppo di Nuxt è organizzata secondo il modello di _monorepo
 -   `packages/webpack` è una fork di Webpack, un'altro bundler per gli script di frontend che si può scegliere in alternativa a Vite.
 -   `docs` è la documentazione ufficiale, scritta sotto forma di sito web statico, usando Nuxt stesso.
 
-Si possono proporre contribuiti su Github e l'iter consigliato varia in base al tipo di modifica:
-
--   Per proporre un _Bugfix_ si apre un _issue_[^github-issue] per discutere il problema, e poi si apre una _pull request_ che risolva l'issue.
-
--   Per proporre una _Nuova funzionalità_ si apre una _discussion_, e poi di aprire una _pull request_ che implementi la funzionalità.
-
-[^github-issue]: Si tratta di un thread aggiunto alla sezione "Issues", che funziona come un forum specifico per ogni progetto, accessibile a tutti gli utenti registrati di Github.
-
-I contributi poi vengono sottoposti a test automatici prima di essere passati ad una revisione da parte del team di sviluppo, in modo da conformare lo stile del codice, della documentazione ed anche del messaggio di commit. Le etichette fornite nelle _PR_ più comunemente sono: `enhancement`, `nice-to-have`, `bug`, `discussion`, `documentation`, `performance` e `refactor`.
-
-Al Novembre 2024, sono stati aperti circa 15'000 issues, sono stati avanzati circa 7'000 commit da più di 700 contributori. I progetti Open source su Github che usano Nuxt sono circa 350'000 e questi numeri sono in costante crescita.
-
-Oltre a modificare la monorepo, gli sviluppatori Open source sono invitati a creare moduli per estendere le Nuxt con funzionalità non essenziali, ma idonee per l'interoperabilità con altri software. Questi moduli possono essere pubblicati su Npm come pacchetti, con `@nuxt/kit` come dipendenza, ed al Dicembre 2024 se ne contano più di 200[^moduli-nuxt].
+Oltre a modificare la monorepo, gli sviluppatori Open source sono invitati a creare moduli per estendere le Nuxt con funzionalità non essenziali, ma idonee per l'interoperabilità con altri software. Questi moduli possono essere pubblicati su Npm come pacchetti, con `@nuxt/kit` come dipendenza, ed al Marzo 2025 se ne contano più di 200[^moduli-nuxt].
 
 [^moduli-nuxt]: [Moduli supportati ufficialmente da Nuxt](https://nuxt.com/modules).
 
@@ -207,12 +195,6 @@ describe("CounterWithComposable Component", () => {
 		await wrapper.find("button:first-of-type").trigger("click");
 		expect(wrapper.text()).toContain("Count: 1");
 	});
-
-	it("decrementa il valore quando il bottone Decrement è premuto", async () => {
-		const wrapper = mount(CounterWithComposable);
-		await wrapper.find("button:last-of-type").trigger("click");
-		expect(wrapper.text()).toContain("Count: -1");
-	});
 });
 ```
 
@@ -322,97 +304,49 @@ Nello script si definisce la logica della pagina, come la gestione degli eventi,
 -   `alias? string | string[]`: definisce un alias per la pagina, cioè un altro nome con cui è accessibile.
 -   `layout? LayoutKey`: definisce il layout della pagina, cioè il componente Vue che definisce la struttura della pagina. Il tipo LayoutKey tipizza come string literal i nomi dei layout disponibili.
 -   `middleware? MiddlewareKey | Array<MiddlewareKey>`: definisce i middleware da eseguire prima di caricare la pagina. Il tipo MiddlewareKey tipizza come string literal i nomi dei middleware disponibili.
--	`pageTransition? boolean | TransitionProps`: definisce se la transizione tra le pagine deve essere animata, secondo proprietà che usano regole CSS.
+-   `pageTransition? boolean | TransitionProps`: definisce se la transizione tra le pagine deve essere animata, secondo proprietà che usano regole CSS.
 
 ##### Style
 
-Si possono aggiungere stili CSS 
+Tra i tag `<style>` si definiscono i fogli di stile della pagina, con regole CSS che saranno applicate ai tag HTML e ai componenti Vue. Si può usare la direttiva `scoped` per limitare l'ambito delle regole CSS al solo componente Vue corrente, in modo da evitare conflitti con altri stili definiti in altri componenti. Inoltre Nuxt supporta i preprocessori CSS come Sass, Less e Stylus, che permettono di scrivere regole CSS più complesse e riutilizzabili.
 
-setup
-import automatici
-
-lang="ts"
-
-definePageMeta
-macro del compilatore
-
-scoped
-limita l'applicazione delle regole css al solo componente nel quale è definito
-
-rotte
+```html
+<style lang="scss">
+	@use "~/assets/scss/main.scss";
+</style>
+```
 
 #### Components
 
-<!-- TODO regole di templating di vue -->
+Nuxt supporta componenti Vue globali, cioè che possono essere usati in più pagine o layout. Sono definiti in file separati, nella directory `~/components`, e sono importati automaticamente nei file Vue che li usano, solamente se sono usati. Seguono le regole di sintassi Vue, di cui si ricordano le direttive:
 
-I componenti di nuxt seguono la sintassi di Vue
+-   `{{ string }}`: la così detta _moustache syntax_, che permette di interpolare il valore di una variabile all'interno di un template.
+-   `v-bind:attribute="value"`: permette di associare un attributo HTML a un valore, in modo che il valore venga interpolato nell'attributo.
+-   `v-if="boolean"`: permette di condizionare il rendering di un elemento in base al valore di una variabile booleana.
+-   `v-for="item in array"`: permette di iterare su un array di elementi e di renderizzare un elemento per ogni elemento dell'array.
+-   `v-on:event="handler"`: permette di associare un evento a un handler, cioè una funzione che verrà eseguita quando l'evento viene emesso. C'è una forma abbreviata per gli eventi più comuni, come `@click`, `@input`, `@submit`, etc...
+-   `v-model="variable"`: permette di creare un _two-way binding_ tra una variabile e un input: un componente padre può passare una variabile a un componente figlio con `<Child v-model="value" />`, e il componente figlio può accedere al valore usando `const value = defineModel()` nello script. Il binding è bidirezionale, quindi se il valore cambia nel componente figlio, allora cambierà anche nel componente padre.
 
-Componenti _built-in_:
+e i metodi di reattività:
 
--   `<ClientOnly>`
--   `<DevOnly>`
--   `<NuxtErrorBoundary>`
--   `<NuxtImg>`
--   `<NuxtLayout>`
--   `<NuxtLink>`
--   `<NuxtLoadingIndicator>`
--   `<NuxtPicture>`
--   `<NuxtRouteAnnouncer>`
--   `<NuxtWelcome>`
--   `<ServerPlaceholder>`
+-   `ref(value)`: definisce una variabile reattiva, che può essere modificata e che notificherà ai componenti che la usano di aggiornarsi tramite il sistema di reattività di Vue. È da preferirsi quando si trattano valori primitivi (come stringhe o numeri), sebbene supporti anche oggetti e array, che osserva con un solo livello di profondità. La variabile reattiva è accessibile tramite la proprietà `.value`.
+-   `reactive(object)`: definisce un oggetto reattivo (ma non un valore primitivo), ma il metodo di accesso è diverso rispetto ad un ref. È da preferirsi quando si intende modificare un oggetto particolarmente complesso, perché è ottimizzato per la modifica di più proprietà contemporaneamente.
+-   `watch(variable, (newValue, oldValue?) => void)`: permette di eseguire una funzione quando una variabile reattiva viene modificata
+-   `computed(() => value)`: permette di definire una variabile calcolata, che viene aggiornata automaticamente quando le variabili reattive di cui dipende vengono modificate. Le variabili reattive non vengono passate come argomenti, ma vengono osservate automaticamente dal sistema di reattività di Vue.
 
-definizione in `~/components`
-auto importazione
+In Nuxt sono disponibili dei componenti _built-in_:
 
-hooks
-
-setup
-abilita la composition api
-
-reattività dei componenti
-
-sintassi vue
-
-```html
-<!-- i "moustache" permettono di interpolare il valore di una variabile -->
-<p>{{ message }}</p>
-```
-
-#### Composables
-
-Un composable Vue è una funzione riutilizzata in più componenti che incapsula della logica _stateful_. Un esempio è il composable `useCounter` che gestisce lo stato di un contatore e le operazioni di incremento e decremento.
-
-```typescript
-export const useCounter = () => {
-	const count = ref(0);
-	const increment = () => {
-		count.value++;
-	};
-	return { count, increment };
-};
-```
-
-Viene fatto uso di `ref` per definire una variabile reattiva, che può essere modificata e che notificherà ai componenti che la usano di aggiornarsi tramite il sistema di reattività di Vue. Il composable ritorna un oggetto con le variabili e le funzioni che devono essere esposte ai componenti che lo usano. Nuxt offre un sistema di importazione automatica dei composables definiti dagli sviluppatori, oltre che di quelli _built-in_:
-
--   **useNuxtApp**:
--   **useAppConfig**:
--   **useRuntimeConfig**:
--   \*\*useHead
--   \*\*useRoute
--   \*\*useRouter
--   \*\*useError
--   \*\*useState
--   \*\*useAsyncData
--   \*\*useFetch
--   \*\*useLoadingIndicator
--   \*\*useRequestHeader
--   \*\*useRequestURL
--   \*\*useCookie
--   \*\*useHydration
+-   `<ClientOnly>`: permette di renderizzare un componente solo lato client, cioè solo quando l'applicazione è eseguita sul browser.
+-   `<DevOnly>`: permette di renderizzare un componente solo in ambiente di sviluppo.
+-   `<NuxtImg>`: renderizza con efficienza immagini con supporto per il lazy loading e per la generazione di immagini responsive.
+-   `<NuxtPicture>`: ha lo stesso funzionamento di `<NuxtImg>`, ma usa il tag `<picture>` per supportare immagini con formati diversi.
+-   `<NuxtLoadingIndicator>`: renderizza un indicatore di caricamento che può essere personalizzato.
 
 #### Layouts
 
-I layout Nuxt sono componenti che definiscono la struttura comune a una o più pagine. La pratica consigliata è infatti quella di non inserire script, ma solo template e stili CSS.
+I layout Nuxt sono componenti che definiscono la struttura comune a una o più pagine. La pratica consigliata è infatti quella di non inserire script, ma solo template e stili CSS: se c'è necessità di condividere logica tra più pagine, è preferibile usare composables o middleware. I layout sono definiti in file separati nella directory `~/layouts`, e sono importati automaticamente nei file Vue che li usano.
+
+Un esempio di layout, dove la pagina è montata in `<slot />`, tra un header e un footer:
 
 ```html
 <template>
@@ -424,50 +358,216 @@ I layout Nuxt sono componenti che definiscono la struttura comune a una o più p
 </template>
 ```
 
-uso di css custom
+#### Composables
 
-https://github.com/nuxt/nuxt/issues/23009#issue-1881478762
-https://github.com/nitrojs/nitro/discussions/235
+Un composable Vue è una funzione riutilizzata in più componenti che incapsula della logica _stateful_. Un esempio è il composable `useCounter` che gestisce lo stato di un contatore e la sua operazione di incremento:
 
-.nuxt.config.ts
+```typescript
+export const useCounter = () => {
+	const count = ref(0);
+	const increment = () => {
+		count.value++;
+	};
+	return { count, increment };
+};
+```
 
-### Backend e API fetching
+Nuxt offre un sistema di importazione automatica dei composables definiti in `~/composables`, oltre che di quelli _built-in_:
 
-#### Api
-
-Routes tipizzate
-
-problema del body e dei parametri
+-   **useRoute**: permette di accedere alla rotta corrente, ai parametri GET e POST, ai parametri dinamici e ai parametri query. Con `useRoute().params.<nome parametro>` si accede ai parametri dinamici delle pagine
+-   **useRouter**: permette di accedere al router Vue, per navigare tra le pagine dell'applicazione. Contiene le informazioni di cronologia del sito e permette di navigare tra le pagine con `useRouter().push(<nome rotta>)`.
+-   **useHead**: permette di modificare i metadati della pagina, come il titolo, la descrizione, le parole chiave, l'immagine di copertina e il tipo di contenuto, per migliorare l'indicizzazione sui motori di ricerca.
+-   **useSeoMeta**: consente di modificare metadati aggiuntivi, come quelli di open graph[^open-graph].
+-   **useError**: questo composable restituisce un errore, se presente, e permette di gestirlo in maniera personalizzata.
+-   **useState**: permette di definire una variabile reattiva condivisa tra server e client: non ci saranno problemi di sincronizzazione o di duplicazione degli eventi al caricamento della pagina nel browser. È da preferirsi all'utilizzo di `ref` o `reactive` quando si tratta di variabili che devono essere condivise tra server e client.
+-   **useAsyncData**: permette di recuperare dati in modo asincrono e reattivo all'interno di un componente o di una pagina. Accetta una funzione che restituisce una Promise e gestisce automaticamente lo stato di caricamento, errore e dati ricevuti. Utile per chiamate API e operazioni asincrone.
+-   **useLoadingIndicator**: fornisce un indicatore di caricamento globale per l'applicazione. Può essere utilizzato per mostrare una barra di progresso o un'animazione durante il caricamento di pagine e dati.
+-   **useCookie**: permette di leggere, scrivere e rimuovere cookie in modo reattivo, sia lato client che lato server. Utile per la gestione dello stato dell'utente, autenticazione e preferenze.
 
 #### Middleware
 
-autenticazione
+I middleware del frontend di Nuxt sono file Typescript che espongono una funzione `defineNuxtRouteMiddleware` che accetta due parametri, `to` e `from`, che rappresentano la rotta corrente e la rotta precedente. Questa funzione può essere usata per eseguire operazioni prima di caricare una pagina, come la verifica dell'autenticazione dell'utente, la gestione degli errori, il prefetching delle risorse o il logging.
 
-#### Composables di fetching
+```typescript
+export default defineNuxtRouteMiddleware((to, from) => {
+	const user = useCookie("user"); // Legge il cookie "user" per verificare l'autenticazione
 
-caching
-deduping
+	if (!user.value) {
+		return navigateTo("/login"); // Se l'utente non è autenticato, reindirizza alla pagina di login
+	}
+});
+```
 
-#### Modalità di sviluppo
+### Backend e API fetching
+
+Nitro è il motore server-side di Nuxt, progettato per essere flessibile, performante ed indipendente dal framework frontend. Il suo progetto github è portato avanti da un team di sviluppatori che si occupano di mantenere il codice e di risolvere i bug all'indirizzo [github.com/nitrojs/nitro](https://github.com/nitrojs/nitro), e la sua versione più recente è la **2.11**.
+
+Nitro è in grado di esporre API RESTful e di gestire richieste HTTP e WebSocket. Può essere eseguito su runtime Node, Bun e Deno e dispone di un motore di rendering Vue integrato, che permette di preparare l'HTML da inviare al client in maniera efficiente.
+
+Come per il file system routing delle pagine, anche il backend di Nuxt segue delle convenzioni per la definizione delle rotte API. I file che definiscono gli endpoint API sono organizzati in una struttura gerarchica di directory, e sono importati automaticamente nei file che li usano. Nella directory `~/server` ogni file in `api/` o in `routes/` rappresenta un endpoint API, sulla quale può essere specificato il metodo HTTP, i parametri GET e POST, e il corpo della risposta.
+
+```bash
+server/
+	api/
+		users.ts					# GET /api/users
+		users/
+			bylastname.post.ts		# POST /api/users/bylastname
+			[id].ts					# GET /api/users/<id>
+		[...].ts					# GET /api/*
+	routes/
+		messages.get.ts				# GET /messages
+		messages.post.ts			# POST /messages
+	middleware/
+		log.ts
+```
+
+#### Endpoint API
+
+Per definire il comportamento di un endpoint API, si esporta una funzione `defineEventHandler(async? (event: H3Event) => any)`, che accetta una funzione asincrona di un oggetto `event` e restituisce una risposta. L'oggetto `event` contiene le informazioni della richiesta HTTP, come il metodo, i parametri GET e POST, i cookie, l'indirizzo IP del client, e il corpo della richiesta.
+
+```typescript
+interface UsersByLastName {
+	lastName: string;
+}
+
+export default defineEventHandler(async event => {
+	const body = await readBody<UsersByLastName>(event);
+	const lastName = body.lastName;
+
+	const users = await // ottenimento di utenti con il cognome specificato dal database.
+
+	return {
+		status: 200,
+		body: { users }
+	}
+})
+```
+
+Per richieste GET si possono ottenere i parametri con `getQuery(event: H3Event)` e per richieste POST si può ottenere il body con `readBody<T>(event: H3Event)`, che restituisce un oggetto di tipo `T` deserializzato dal body della richiesta. Il generic `T` è opzionale, ma è buona pratica specificare il tipo dell'oggetto che ci si aspetta di ricevere, per evitare errori di tipo. Rimane però al programmatore la responsabilità di usare la stessa interfaccia tra frontend e backend.
+
+A partire dagli issue [23009](https://github.com/nuxt/nuxt/issues/23009#issue-1881478762) di Nuxt e alla discussione [235](https://github.com/nitrojs/nitro/discussions/235) di Nitro sono state avanzata delle proposte per rendere completamente type-safe gli scambi di oggetti JSON tra l'app in esecuzione nel browser e il server Nitro. È in corso il lavoro di implementazione del modulo `nuxt-server-fn`[^nuxt-server-fn] che permette di condividere delle funzioni typescript tra client e server. Questo modulo rileva le funzioni esportate nei files Typescript sotto `~/server/functions/`, come: Nel backend
+
+[^nuxt-server-fn]: Disponibile nella apposita [repository github](https://github.com/antfu/nuxt-server-fn).
+
+```typescript
+export async function getUsersByLastName(lastName: string): User[] {
+	const users = await // ottenimento di utenti con il cognome specificato dal database.
+	return users;
+}
+```
+
+per renderle disponibili con l'utilizzo del composable sperimentale `useServerFunctions()` nel frontend:
+
+```html
+<script setup lang="ts">
+	const { getUsersByLastName } = useServerFunctions();
+	const users = reactive<User[]>([]);
+	const lastName = ref("");
+
+	watch(input, async (newValue) => {
+		users.value = await getUsersByLastName(lastName.value);
+	});
+</script>
+```
+
+Questo snippet aggiorna la variabile reattiva `users` al cambiamento di `lastName`, facendo immediatamente una richiesta al server Nitro per ottenere gli utenti con il cognome specificato.
+
+#### Fetching
+
+Per fare richieste HTTP dal frontend di Nuxt si può usare il composable `useFetch`, che permette di fare richieste HTTP in maniera reattiva e di gestire lo stato di caricamento, errore e dati ricevuti. È un wrapper attorno ad `useAsyncData`, ed internamente utilizza `$fetch`, una utility di Nuxt basata su ofetch[^ofetch] che permette di fare richieste HTTP, sia dal client che dal server ed include parser JSON automatico che è in grado di serializzare e de-serializzare oggetti in maniera efficiente.
+
+[^ofetch]: Un progetto portato avanti dalla cooperativa Unjs alla su [github.com/unjs/ofetch](https://github.com/unjs/ofetch).
+
+`useFetch` è un composable asincrono, wrapper attorno a `useAsyncData`, che permette di fare richieste HTTP in maniera reattiva e di gestire lo stato di caricamento, errore e dati ricevuti. Accetta un URL e un oggetto di opzioni, e restituisce un oggetto con le proprietà `data`, `pending` e `error`. Queste proprietà sono reattive, e cambiano automaticamente quando cambia lo stato della richiesta, così è possibile aggiornare l'interfaccia appena i dati sono disponibili.
+
+```html
+<script setup lang="ts">
+	const usersByLastName = reactive<UsersByLastName>({ lastName: "" });
+
+	const { data, pending, error } = await useFetch("/api/users/bylastname", {
+		method: "POST",
+		body: usersByLastName,
+		watch: [usersByLastName],
+		lazy: true,
+	});
+</script>
+
+<template>
+	<input v-model="usersByLastName.lastName" />
+	<div v-if="pending">Caricamento...</div>
+	<div v-if="error">Errore: {{ error }}</div>
+	<div v-if="data">
+		<ul>
+			<li v-for="user in data.users">
+				{{ user.firstName }} {{user.lastName}}
+			</li>
+		</ul>
+	</div>
+</template>
+```
+
+L'esempio sopra mostra una riscrittura della server function `getUsersByLastName` con `useFetch`. Al cambiamento del valore di `usersByLastName.lastName`, `useFetch` fa una richiesta POST all'endpoint `/api/users/bylastname` con il corpo della richiesta `usersByLastName`, e aggiorna le variabili reattive `data`, `pending` e `error` con i dati ricevuti, lo stato di caricamento e gli errori. Il template mostra un messaggio di caricamento se `pending` è `true`, un messaggio di errore se `error` è definito o la lista degli utenti se `data` è definito.
+
+Oltre al primo argomento che è una stringa con la rotta dell'API (ha tipizzazione forte e ammette solo rotte valide), le opzioni di `useFetch` sono:
+
+-   `headers?: Record<string, string>`: permette di inserire header personalizzati nella richiesta.
+-   `timeout?: number`: il tempo massimo di attesa per la risposta, in millisecondi, prima che scada.
+-   `deep?: boolean`: indica se i dati ricevuti saranno reattivi con un livello di profondità maggiore di uno. `true` di default.
+-   `dedupe?: "cancel" | "defer"`: se `"cancel"`, le richieste duplicate vengono cancellate appena una nuova richiesta viene eseguita, se `"defer"` non vengono fatte nuove richieste. `"cancel"` di default.
+-   `pick?: string[]`: seleziona solo le proprietà specificate dell'oggetto ricevuto.
+-   `watch?: Ref[]`: un array di riferimenti reattivi. Al loro cambiamento scatta una nuova richiesta.
+-   `server?: boolean`: se `true`, la richiesta viene fatta lato server, altrimenti lato client. `true` di default.
+-   `lazy?: boolean`: se `true`, il rendering della pagina lato server è bloccante e aspetta che la richiesta sia completata prima di inviare la pagina al client. Se `false`, la richiesta viene fatta lato client, e la pagina viene inviata al client che aspetterà la risposta. `false` di default.
+-   `method?: "POST" | "GET"`: il metodo HTTP della richiesta
+-   `body?: any`: il corpo della richiesta, che può essere un oggetto, un array o una stringa
+-   `immediate: boolean`: se `true`, la richiesta viene fatta immediatamente al caricamento della pagina, altrimenti viene fatta solo quando il valore di `watch` cambia. `true` di default.
+
+Inoltre è da notare che `useFetch` può essere usato con o senza `await`, a seconda se si vuole attendere la risposta della richiesta o meno. Se si usa `await`, il rendering di una pagina lato server aspetterà che la richiesta sia completata prima di inviare la pagina al client, mentre se non si usa `await`, la richiesta potrebbe eseguire in parallelo alla visualizzazione della pagina lato client, che quindi mostrerebbe una pagina incompleta. Per evitare problemi di SEO e LCP, è consigliato usare `await` in ogni caso.
+
+Per ottenere dei comportamenti ad hoc per il caricamento di dati nella pagina, si possono combinare le opzioni `immediate`, `server` e `lazy`, come evidenzia il seguente schema^[learn-vue]:
+
+```mermaid {height=8cm}
+%%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
+flowchart TB
+	dati{Dati pronti nell'HTML iniziale?}
+	fetch{Fetch al caricamento
+	dell'app client?}
+	block{Rendering bloccante
+	al cambiamento della pagina?}
+
+	dati -- No --> fetch
+	dati -- Sì --> block
+
+	immediate[immediate: false]
+	server[server: false]
+	lazy[lazy: true]
+	default[Configurazione di default]
+
+	fetch -- No --> immediate
+	fetch -- Sì --> server
+	block -- No --> lazy
+	block -- Sì --> default
+
+	classDef code font-family: monospace;
+	class immediate,server,lazy code
+
+```
+
+[^learn-vue]: Illustrato anche nel video tutorial di [Matt Maribojoc](https://www.youtube.com/watch?v=b1S5os65Urs)
 
 #### Build per la produzione
 
-code splitting
-
-diverse modalità di rendering
+Come mostrato nel paragrafo [Command line interface](#nuxi-build), Nuxt dispone di un comando di build che permette di compilare il codice Typescript e di generare i file necessari per la distribuzione dell'applicazione. I file da inviare al client sono frammentati per migliorare le prestazioni di caricamento delle pagine, con una procedura chiamata _code splitting_. L'output della build dipende dalla modalità di rendering scelta.
 
 ### Modalità di rendering del frontend
 
-<!-- https://nuxt.com/docs/guide/concepts/rendering -->
-<!-- TODO https://www.youtube.com/watch?v=b1S5os65Urs -->
-
 Tipi di applicazione diversi hanno esigenze diverse: Un blog o un sito vetrina potrebbero non richiedere le stesse prestazioni di un'applicazione di e-commerce o di un'applicazione di social networking. Nuxt si adatta a queste esigenze offrendo diverse modalità di rendering, che possono essere scelte per l'intera applicazione o per singole pagine o gruppi di pagine.
 
-In questo contesto, con rendering di una pagina web non si intende il processo di disegno dei pixel sullo schermo, del quale generalmente si occuperà il browser web delegando al sistema operativo la gestione dell'hardware. Qui con rendering si intende il processo di generazione del codice HTML, CSS e Javascript che costituisce la pagina web.
+In questo contesto, con rendering di una pagina web non si intende il processo di disegno dei pixel sullo schermo, del quale generalmente si occuperà il browser web delegando al sistema operativo la gestione dell'hardware. Qui con rendering si intende il processo di generazione del codice HTML, CSS e Javascript che costituisce la pagina web, a partire da componenti Vue, dati e template.
 
 #### Client Side Rendering
 
-Nuxt supporta la stessa modalità di rendering discussa nel [capitolo 1](#vue.js), in cui il codice dell'applicazione Vue viene eseguito interamente sul browser. Dopo una richiesta iniziale, il server invia un DOM minimo ed il bundle javascript al browser web. Ogni richiesta successiva viene gestita dal client, che si occupa di fare le richieste al server API per ottenere i dati e di aggiornare il DOM in base alle risposte.
+Nuxt supporta la stessa modalità di rendering discussa nel [capitolo 1](#vue.js), in cui il codice dell'applicazione Vue viene eseguito interamente sul browser. Dopo una richiesta iniziale, il server invia un DOM minimo ed il bundle javascript al browser web. Ogni richiesta successiva viene gestita dal client, che si occupa di fare le richieste al server API per ottenere i dati e di aggiornare il DOM in base alle risposte. Gli `useFetch` che richiedono dati al caricamento iniziale della pagina vengono eseguiti sempre sul client.
 
 ```mermaid {height=6cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
@@ -501,9 +601,9 @@ Il beneficio che si ottiene nello sviluppare in maniera CSR con Nuxt è una ridu
 
 #### Server side rendering
 
-Nuxt supporta anche un modello di rendering lato server, in cui, ad una richiesta iniziale, il codice dell'applicazione Vue viene eseguito per intero su un server frontend per inviare la pagina renderizzata come risposta. Il processo di Hydration aggiunge l'interattività dei componenti, che possono essere aggiornati, rimossi o aggiunti dinamicamente, senza dover ricaricare la pagina.
+Nuxt supporta anche un modello di rendering lato server, in cui, ad una richiesta iniziale, il codice dell'applicazione Vue viene eseguito per intero su un server frontend per inviare la pagina renderizzata come risposta. Il processo di Hydration aggiunge l'interattività dei componenti, che possono essere aggiornati, rimossi o aggiunti dinamicamente, senza dover ricaricare la pagina. Gli `useFetch` che richiedono dati al caricamento iniziale della pagina vengono eseguiti sul server. Poi quando il client riceve la pagina, può fare richieste API per ottenere dati aggiornati.
 
-```mermaid {height=6cm}
+```mermaid {height=8cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 sequenceDiagram
 	participant client as Client
@@ -534,9 +634,9 @@ La SEO è migliorata perché i motori di ricerca possono leggere il codice HTML 
 
 #### Static site generation
 
-Nuxt supporta la generazione di siti statici, cioè la generazione di pagine HTML in fase di build. Non avviene nessun rendering lato server durante la fase di produzione, ma solo in fase di pubblicazione. Questo modello è adatto per siti web che non richiedono interattività o aggiornamenti frequenti, come blog, documentazioni o siti vetrina.
+Nuxt supporta la generazione di siti statici, cioè la generazione di pagine HTML in fase di build. Non avviene nessun rendering lato server durante la fase di produzione, ma solo in fase di pubblicazione. Questo modello è adatto per siti web che non richiedono interattività o aggiornamenti frequenti, come blog, documentazioni o siti vetrina. Gli `useFetch` che richiedono dati al caricamento iniziale della pagina vengono eseguiti durante la fase di build.
 
-```mermaid {height=6cm}
+```mermaid {height=8cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 sequenceDiagram
     participant client as Client
@@ -574,9 +674,9 @@ Le prestazioni sono le migliori possibili, perché il server frontend non deve e
 
 #### Incremental static regeneration
 
-È diffuso un modello simile al SSG, chiamato _incremental static regeneration_, in cui le pagine statiche vengono rigenerate in base a un intervallo di tempo o a un evento specifico. Questo modello è adatto per siti web che richiedono aggiornamenti periodici, come siti che forniscono un feed di notizie altamente personalizzato o siti di e-commerce che devono fornire prezzi dei prodotti aggiornati al first contentful paint.
+È diffuso un modello simile al SSG, chiamato _incremental static regeneration_, in cui le pagine statiche vengono rigenerate in base a un intervallo di tempo o a un evento specifico. È quindi necessario un server frontend capace di fare richieste al server backend per potersi aggiornare. Questo modello è adatto per siti web che richiedono aggiornamenti periodici, come siti che forniscono un feed di notizie altamente personalizzato o siti di e-commerce che devono fornire prezzi dei prodotti aggiornati al first contentful paint. Come per la SSG, gli `useFetch` che richiedono dati al caricamento iniziale della pagina vengono eseguiti durante la fase di aggiornamento della cache.
 
-```mermaid {height=6cm}
+```mermaid {height=10cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 sequenceDiagram
     participant client as Client
@@ -617,22 +717,47 @@ export default defineNuxtConfig({
 
 #### Universal rendering
 
-```mermaid {height=6cm}
+Infine Nuxt supporta un modello di rendering ibrido tra static site generation e server side rendering.
+
+```mermaid {height=12cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 sequenceDiagram
     participant client as Client
     participant frontend as Server Frontend
     participant backend as API/Database
-    client->>frontend: Richiesta pagina
     alt Pagina pre-renderizzata
+    Note right of frontend: Fase di build
+		frontend->>backend: Richieste dati
+		backend-->>frontend: Dati JSON
+		frontend->>frontend: Pre-rendering di tutte le pagine
+		client->>frontend: Richiesta pagina
         frontend-->>client: HTML pre-renderizzato
     else Pagina dinamica
+		client->>frontend: Richiesta pagina
         frontend->>backend: Richieste dati
         backend-->>frontend: Dati JSON
         frontend->>frontend: Rendering HTML completo
         frontend-->>client: HTML completo + JS bundle
     end
     client->>client: Hydration (interattività)
+
+    client->>backend: Richieste dati o assets
+    backend-->>client: Dati JSON o binari
+    client->>client: Aggiornamento della pagina
 ```
+
+Si può attivare per insiemi di rotte nel file `nuxt.config.ts` con:
+
+```typescript
+export default defineNuxtConfig({
+	routeRules: {
+		"/about": { prerender: true },
+		"/blog/**": { prerender: true },
+		"/dashboard": { ssr: true },
+	},
+});
+```
+
+In questo esempio le pagine `about` e tutte le pagine di `blog/` vengono pre-renderizzate, cioè generate in fase di build, mentre la pagina `dashboard` viene renderizzata lato server, cioè generata al momento della richiesta, in modo da combinare il vantaggio della SEO e delle prestazioni della SSG con l'interattività e la personalizzazione della SSR. Per rilasciare un'applicazione di questo tipo è necessario un server frontend statico insieme ad un server backend per le richieste API, e Nitro è in grado di gestire entrambi i ruoli.
 
 ---

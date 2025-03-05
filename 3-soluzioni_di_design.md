@@ -8,7 +8,6 @@ AWS scelto per la sua flessibilità e scalabilità, e per continuazione di tiroc
 
 cloudformation
 
-
 > ![Setup](./res/aws-1-setup.png){width=90%}
 
 > ![Infrastructure](./res/aws-2-infrastructure.png){width=90%}
@@ -31,22 +30,11 @@ tempi di provisioning
 
 utilizzo di componenti shadcn
 
-### Implementazione di un plugin per TypeORM
+### Implementazione di un plugin Nuxt per TypeORM
 
 scelte di progetto
 
 ### Design patterns per il riutilizzo del modello dei dati
-
-### Sviluppo in type-safety
-
-LSP
-
--   typescript
--   vue-language server
-
-ZOD e TRPC
-
-[^serverless]: [Serverless architectures](https://martinfowler.com/articles/serverless.html) - Articolo di Mike Roberts sul blog di Martin Fowler che descrive
 
 ## Analisi di performance e sicurezza
 
@@ -56,46 +44,10 @@ scala orizzontale, aggiunta di nodi
 
 ### Deploy dell'applicazione SSG su CDN statica con funzioni Lambda e Aurora
 
-scala verticale, parallelismo
+scala verticale, parallelismo [^serverless]
 
-### Analisi di performance 
+[^serverless]: [Serverless architectures](https://martinfowler.com/articles/serverless.html) - Articolo di Mike Roberts sul blog di Martin Fowler che descrive
 
+### Analisi di performance
 
 In questo capitolo si illustrano alcune soluzioni di design per la realizzazione di applicazioni web con Nuxt in combinazione con TypeORM.
-
-```html
-<script setup lang="ts">
-	import { User } from "~/entities/User";
-
-	definePageMeta({
-		prerender: true, // la pagina è pre-renderizzata nel 
-	});
-
-	// query diretta nel lato ssr
-	const { data: users } = await useAsyncData(
-		"users",
-		async () => {
-			// questa chiamata a useAsyncData non è risolvibile a build time
-			console.log("Server side only");
-			try {
-				let users = await User.find(); // undefined
-				// le funzioni di active record per typeorm sono tree-shaked e non vengono incluse nel bundle
-				return users;
-			} catch (error) {
-				console.error(error);
-			}
-			return [];
-		},
-		{
-			// Impedisce la ri-esecuzione lato client
-			server: true,
-		}
-	);
-</script>
-
-<template>
-	<div>
-		<li v-for="user in users">{{ user.fullName() }}</li>
-	</div>
-</template>
-```

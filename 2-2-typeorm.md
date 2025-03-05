@@ -157,7 +157,7 @@ let options: DataSourceOptions = {
 const AppDataSource = new DataSource(options);
 ```
 
-Le opzioni di connessione sono specifiche per ogni adattatore, ma quelle comuni sono:
+Le opzioni di connessione[^data-source-options] sono specifiche per ogni adattatore, ma quelle comuni sono:
 
 -   `type: string`: il tipo di database, tra quelli supportati da TypeORM. In base a questo campo il compilatore Typescript inferirà il tipo specifico delle opzioni.
 -   `entities: EntitySchema[]`: un array di classi che rappresentano le migrazioni del database
@@ -678,7 +678,7 @@ Ogni utente può seguire altri utenti, e può essere seguito da altri utenti. Qu
 -   `joinColumn: JoinColumnOptions`: le opzioni per la colonna di join.
 -   `inverseJoinColumn: JoinColumnOptions`: le opzioni per la colonna di join inversa, con gli stessi campi di `joinColumn`.
 -   `database: string`: il nome del database in cui creare la tabella di join.
--   `syncronize: boolean`: se sincronizzare la tabella di join con il database, `true` di default.
+-   `synchronize: boolean`: se sincronizzare la tabella di join con il database, `true` di default.
 
 ```typescript
 @Entity()
@@ -1025,7 +1025,7 @@ const usersWhoLikedAuthorsPosts: User[] = authors.flatMap((author) =>
 
 Per efficientare una query complessa, che fa join su più tabelle, si può usare l'API Query Builder, che fa uso del pattern implementativo _Builder_ per costruire una query SQL vincolandone la grammatica ai metodi disponibili.
 
-Si parte dall'oggetto DataSource e si ottiene una repository relativa all'entità, con `getRepository(entity: Entity)`, da questa si accede a `createQueryBuilder(), che restituisce un'istanza di `QueryBuilder<Entity>`, i cui metodi principali sono:
+Si parte dall'oggetto DataSource e si ottiene una repository relativa all'entità, con `getRepository(Entity)`, da questa si accede a `createQueryBuilder(), che restituisce un'istanza di `QueryBuilder<Entity>`, i cui metodi principali sono:
 
 -   `execute(): Promise<any>`: esegue la query e restituisce il risultato.
 -   `select(): SelectQueryBuilder<Entity>`: costruisce una query di selezione.
@@ -1200,3 +1200,5 @@ const usersWhoLikedAuthorsPosts = await entityManager.query(`
   WHERE author.username IN ('alice', 'bob');
 `);
 ```
+
+Query come queste massimizzano le prestazioni che si possono ottenere con un database relazionale, al costo di una maggiore probabilità di errori di battitura. L'utilizzo di costanti per le tabelle e le colonne, definite all'inizio del file, può aiutare a ridurre questo rischio.

@@ -31,7 +31,7 @@ def intercept_codeblock(elem, doc):
 
 			if elem.attributes.get("height") is not None:
 				return pf.RawBlock("\\begin{center}\\includegraphics[height="+ elem.attributes.get("height") +",keepaspectratio]{ " + pdf + "}\\end{center}", format="latex")
-			return pf.RawBlock("\\begin{center}\\includegraphics[wdith=\linewidth,keepaspectratio]{ " + pdf + "}\\end{center}", format="latex")
+			return pf.RawBlock("\\begin{center}\\includegraphics[width=\linewidth,keepaspectratio]{ " + pdf + "}\\end{center}", format="latex")
 
 
 		except subprocess.CalledProcessError as e:
