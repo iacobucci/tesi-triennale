@@ -669,7 +669,7 @@ Per poi generare il sito statico con:
 npx nuxi generate
 ```
 
-Le prestazioni sono le migliori possibili, perché il server frontend non deve eseguire il codice Javascript per generare la pagina, ma solo inviare il file HTML pre-renderizzato. La SEO è anche nelle condizioni più favorevoli, perché i motori di ricerca leggeranno lo stesso HTMl inviato ai client degli utenti. Tuttavia, l'interattività è limitata in quanto ogni componente Vue che viene reso dinamico dopo l'idratazione soffrirà degli stessi problemi di un'applicazione CSR, in scala ridotta. Per questo motivo si sceglie SSR quando non c'è necessità di gestire richieste API con alcun tipo di server backend.
+Le prestazioni sono le migliori possibili, perché il server frontend non deve eseguire il codice Javascript per generare la pagina, ma solo inviare il file HTML pre-renderizzato. La SEO è anche nelle condizioni più favorevoli, perché i motori di ricerca leggeranno lo stesso HTMl inviato ai client degli utenti. Tuttavia, l'interattività è limitata in quanto ogni componente Vue che viene reso dinamico dopo l'idratazione soffrirà degli stessi problemi di un'applicazione CSR, in scala ridotta. Per questo motivo si sceglie SSG quando non c'è necessità di gestire richieste API con alcun tipo di server backend.
 
 #### Incremental static regeneration
 

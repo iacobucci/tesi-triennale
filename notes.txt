@@ -1,7 +1,14 @@
+portare app di test su lambda
+	collegare database aurora
+
 screenshot lighthouse
 	attributo lang
 		usehead({htmlArgs: {lang: 'it'} })
 		accessibility 100%
+
+diagramma waterfall di firefox
+	rendering ssr
+	rendering ssg + hydration
 
 portare app su cloudfront + lambda
 		
