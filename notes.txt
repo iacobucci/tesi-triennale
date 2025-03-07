@@ -22,6 +22,5 @@ Per testare il database è stata aggiunta un'istanza di RDS, database relazional
 
 scala verticale, parallelismo [^serverless]
 
-[^serverless]: [Serverless architectures](https://martinfowler.com/articles/serverless.html) - Articolo di Mike Roberts sul blog di Martin Fowler.
 
 tempi di provisioning di cloudformation

@@ -24,8 +24,6 @@
 
 1. [Web browser engineering](https://browser.engineering/onepage.html) - un libro online di Pavel Panchekha e Chris Harrelson che spiega come funzionano i browser web e mostra un'implementazione Python di un browser completo.
 
----
-
 **Capitolo 2**
 
 1. [Introduction to Node.js](https://nodejs.org/en/learn/getting-started/introduction-to-nodejs) - una guida introduttiva a Node.js.
@@ -44,13 +42,7 @@
 
 1. [Vitest official documentation](https://vitest.dev/guide) - la documentazione ufficiale del test runner Vitest.
 
-1. [Rollup official documentation](https://configuration-options) - la documentazione ufficiale del bundler Rollup.
-
-1. [Esbuild official documentation](https://esbuild.github.io/api/) - la documentazione ufficiale del bundler Esbuild.
-
 1. [PostgreSQL 17 documentation](https://www.postgresql.org/docs/17/) - la documentazione ufficiale del database PostgreSQL nella versione 17.4.
-
----
 
 **Capitolo 3**
 
@@ -59,6 +51,20 @@
 1. [ISO/IEC 22123-2:2023](https://www.iso.org/standard/80351.html) - lo standard internazionale per _Information technology - Cloud computing_.
 
 1. [Fireship](https://www.youtube.com/@Fireship) - il canale YouTube di Jeff Delaney, una risorsa comprensiva delle molte aree dello sviluppo web, sul quale sono pubblicati tutorial, introduzioni a nuove tecnologie e notizie di attualità sul settore informatico.
+
+1. [AWS IAM Documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html) -  La documentazione ufficiale di AWS Identity and Access Management.
+
+1. [AWS ECS Documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html) - La documentazione ufficiale di AWS Elastic Container Service.
+
+1. [AWS ECR Documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html) - La documentazione ufficiale di AWS Elastic Container Registry.
+
+1. [AWS Elastic load balancing Documentation](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/what-is-load-balancing.html) - La documentazione ufficiale di AWS Elastic Load Balancing.
+
+1. [AWS RDS Documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html) - La documentazione ufficiale di AWS Relational Database Service.
+
+1. [AWS Lambda Documentation](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) - La documentazione ufficiale di AWS Lambda.
+
+1. [AWS RDS Proxy](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html) - La documentazione ufficiale per le proxy su AWS RDS.
 
 ## Ringraziamenti {.unnumbered}
 

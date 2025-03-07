@@ -127,12 +127,12 @@ Una volta inizializzato il progetto, questo è il comando per aggiungere funzion
 -   **error**: Un componente Vue che sarà mostrato in caso di errore.
 -   **middleware**: Un middleware, cioè una funzione che può essere eseguita prima di caricare una pagina, lato server o lato client.
 -   **composable**: Una funzione che può essere usata in uno o più componenti Vue. È un modo per riutilizzare la logica di business _stateful_ in più parti dell'applicazione.
--   **plugin**: Uno script typescript che viene eseguito prima di inizializzare l'applicazione Vue. Utile per l'inizializzazione di componenti software di terze parti. A differenza dei middleware, i plugin vengono eseguiti solo una volta, all'avvio dell'applicazione.
+-   **plugin**: Uno script Typescript che viene eseguito prima di inizializzare l'applicazione Vue. Utile per l'inizializzazione di componenti software di terze parti. A differenza dei middleware, i plugin vengono eseguiti solo una volta, all'avvio dell'applicazione.
 -   **api**: Un endpoint API, che sarà accessibile alla rotta `/api/<nome-endpoint>`. Utile per la comunicazione tra frontend e backend.
 -   **server-route**: Un endpoint API, che sarà accessibile alla rotta `/<nome-endpoint>`.
 -   **server-middleware**: Un middleware, simile a quelli di Express, che si interpone tra
--   **server-plugin**: Uno script typescript che viene eseguito prima di inizializzare il server Nitro. Utile per l'inizializzazione di componenti software di terze parti.
--   **server-util**: Un modulo typescript importato automaticamente in ogni file di tipo server.
+-   **server-plugin**: Uno script Typescript che viene eseguito prima di inizializzare il server Nitro. Utile per l'inizializzazione di componenti software di terze parti.
+-   **server-util**: Un modulo Typescript importato automaticamente in ogni file di tipo server.
 -   **module**: Con questa opzione si crea un modulo Nuxt per sperimentarlo, e che potrà essere utilizzato anche in altri progetti.
 
 Ogni aggiunta corrisponde ad un nuovo file che verrà creato nella directory corrispondente, provvisto di un _boilerplate_[^boilerplate], che sarà possibile modificare per adattarlo alle proprie esigenze.
@@ -159,7 +159,7 @@ Viene aggiunto un elemento html alla pagina, nel quale sono presenti diverse sez
 -   **Timeline**: Un grafico che mostra il tempo di rendering delle pagine, dei componenti e dei moduli.
 -   **Hooks**: Lista dei hooks, cioè delle funzioni che vengono eseguite in determinati momenti del ciclo di vita dell'applicazione e dei singoli componenti.
 -   **Server routes**: Un modo per visualizzare le rotte del server Nitro e fare delle richieste di test, con possibilità di aggiungere parametri GET, body POST, header, cookies e di simulare la provenienza della richiesta dall'app.
--   **Inspect**: In questa sezione il codice dei file vue e typescript per il frontend viene riportato con tutti gli stage di compilazione, fino al codice Javascript finale eseguito dal browser.
+-   **Inspect**: In questa sezione il codice dei file vue e Typescript per il frontend viene riportato con tutti gli stage di compilazione, fino al codice Javascript finale eseguito dal browser.
 
 > ![Devtools di Nuxt. In questa sezione è mostrato la lista delle pagine agganciate al Vue-router, i middleware e i layout per ogni pagina. È presente inoltre un indicatore che mostra come il rendering della pagina `testpage` ha impiegato 10ms.](./res/nuxt-devtools.png){width=70%}
 
@@ -445,7 +445,7 @@ export default defineEventHandler(async event => {
 
 Per richieste GET si possono ottenere i parametri con `getQuery(event: H3Event)` e per richieste POST si può ottenere il body con `readBody<T>(event: H3Event)`, che restituisce un oggetto di tipo `T` deserializzato dal body della richiesta. Il generic `T` è opzionale, ma è buona pratica specificare il tipo dell'oggetto che ci si aspetta di ricevere, per evitare errori di tipo. Rimane però al programmatore la responsabilità di usare la stessa interfaccia tra frontend e backend.
 
-A partire dagli issue [23009](https://github.com/nuxt/nuxt/issues/23009#issue-1881478762) di Nuxt e alla discussione [235](https://github.com/nitrojs/nitro/discussions/235) di Nitro sono state avanzata delle proposte per rendere completamente type-safe gli scambi di oggetti JSON tra l'app in esecuzione nel browser e il server Nitro. È in corso il lavoro di implementazione del modulo `nuxt-server-fn`[^nuxt-server-fn] che permette di condividere delle funzioni typescript tra client e server. Questo modulo rileva le funzioni esportate nei files Typescript sotto `~/server/functions/`, come: Nel backend
+A partire dagli issue [23009](https://github.com/nuxt/nuxt/issues/23009#issue-1881478762) di Nuxt e alla discussione [235](https://github.com/nitrojs/nitro/discussions/235) di Nitro sono state avanzata delle proposte per rendere completamente type-safe gli scambi di oggetti JSON tra l'app in esecuzione nel browser e il server Nitro. È in corso il lavoro di implementazione del modulo `nuxt-server-fn`[^nuxt-server-fn] che permette di condividere delle funzioni Typescript tra client e server. Questo modulo rileva le funzioni esportate nei files Typescript sotto `~/server/functions/`, come: Nel backend
 
 [^nuxt-server-fn]: Disponibile nella apposita [repository github](https://github.com/antfu/nuxt-server-fn).
 
