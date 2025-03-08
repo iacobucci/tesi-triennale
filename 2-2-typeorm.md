@@ -786,7 +786,7 @@ erDiagram
 
 Il caricamento delle relazioni può essere configurato come _eager_ o _lazy_.
 
-Con un caricamento eager le entità correlate vengono caricate insieme all'entità principale, in un'unica query SQL. Questo può essere utile quando si sa che le entità correlate verranno sempre usate insieme all'entità principale, ma può portare ad inefficienze se le entità correlate sono molte o pesanti.
+Con un caricamento eager le entità correlate vengono caricate insieme all'entità principale, in un'unica query SQL. Questo può essere utile quando si prevede che le entità correlate verranno sempre usate insieme all'entità principale, ma può portare ad inefficienze se queste sono molte o pesanti.
 
 ```typescript
 @Entity()

@@ -1,18 +1,55 @@
 # Soluzioni di design
 
-Vengono esposte delle soluzioni progettuali ed implementative per la realizzazione di un'applicazione web con le tecnologie dettagliate nel capitolo precedente, Nuxt e TypeORM, in combinazione con i servizi cloud AWS, sui quali ho lavorato durante il tirocinio curriculare presso l'azienda Soluzioni Futura s.r.l., ora Polarity s.r.l.
+Vengono esposte delle soluzioni progettuali ed implementative per la realizzazione di un'applicazione web con le tecnologie dettagliate nel capitolo precedente, Nuxt e TypeORM, in combinazione con i servizi cloud AWS, che ho approfondito durante il tirocinio curriculare presso l'azienda Soluzioni Futura s.r.l., ora Polarity s.r.l.
+
+Il progetto realizzato per questo lavoro di tesi include:
+
+-   Progettazione delle infrastrutture cloud mediante codice _Cloudformation_, secondo il modello a container e serverless.
+-   Progettazione, per entrambe le infrastrutture, di script di integrazione continua con _Github Actions_.
+-   Progettazione, per entrambe le infrastrutture, di sistemi di integrazione di TypeORM con Nuxt.
+-   Deploy e test di performance di applicazioni di esempio con Nuxt e TypeORM, su entrambe le infrastrutture.
 
 ## Architettura del cloud e integrazione continua
 
 Amazon web services è una piattaforma che offre una _PaaS_, platform as a service, dove sono messi a disposizione servizi di calcolo, di storage e di database; ma anche una _IaaS_, infrastructure as a service, che permette di configurare reti di calcolatori virtuali accessibili via internet.
 
-Per utilizzare AWS è necessario registrarsi (come root user dell'account) accedendo alla dashboard online ([https://aws.amazon.com/it/console/](https://aws.amazon.com/it/console/)).
+Per iniziare ad utilizzare AWS è necessario registrarsi (come root user dell'account) accedendo alla dashboard online ([https://aws.amazon.com/it/console/](https://aws.amazon.com/it/console/)).
 
 ### Progettazione dell'infrastruttura dei servizi cloud AWS
 
-cloud che offre una vasta gamma di servizi, tra cui servizi di calcolo, storage, database, machine learning, sicurezza e molti altri. Per la realizzazione di un'applicazione web, si possono utilizzare i servizi di calcolo, storage e database per creare un'infrastruttura scalabile e resiliente.
+Parte del progetto è stata l'avviamento dell'infrastruttura AWS per mezzo di codice di marcatura `yaml` con Cloudformation, un servizio che permette di gestire risorse in AWS in modo dichiarativo. Cloudformation permette di creare stack di risorse con files di template che definiscono le risorse 
 
-Le architetture esposte di seguito possono essere personalizzate per soddisfare le esigenze di un'applicazione e del suo team di sviluppo modificando i template Cloudformation forniti nelle directory `cloudformation/` dei progetti di esempio.
+```yaml
+Description: "Deploy a database with provided username and password"
+Parameters:
+    DBUsername:
+        Type: String
+        Description: Database master username
+    DBPassword:
+        Type: String
+        Description: Database master password
+        NoEcho: true
+
+Resources:
+  RDSInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      MasterUsername: !Ref "DBUsername"
+      MasterUserPassword: !Ref "DBPassword"
+
+Outputs: 
+  RDSAddress:
+    Description: "Address of the RDS instance"
+    Value: !GetAtt RDSInstance.Endpoint.Address
+```
+
+-
+-
+-
+
+Di seguito sono esposte due architetture con risorse essenziali, e che potranno essere personalizzate per soddisfare le esigenze di una qualsiasi applicazione e del suo team di sviluppo modificando i template Cloudformation forniti nelle directory `cloudformation/` delle repositories.
+
+Le due architetture sono ospitate dalla Vpc di default di AWS, che dispone di tre subnet pubbliche collegate ad un Internet Gateway. Questo permette di accedere ai servizi HTTP esposti dagli stack Cloudformation da internet.
 
 Entrambe le architetture espongono servizi HTTP, ma non forniscono un DNS personalizzato. Per aggiungere un DNS personalizzato, è possibile utilizzare il servizio Route 53 di AWS.
 
@@ -70,14 +107,14 @@ Nel caso dell'architettura serverless, il workflow di Github Actions si occuper�
 1. Deploy dello stack Cloudformation
 1. Stampa dell'url del servizio e del database
 
-Una prima metrica di performance della soluzione software è il tempo di completamento del workflow di Github Actions, che può essere monitorato nella dashboard "Actions" della repository.
+Una prima metrica di performance delle soluzioni architetturali è il tempo di completamento del workflow che le implementa. Questo può essere monitorato nella dashboard "Actions" della repository.
 
-I dati che ho rilevato sono
+I dati che ho rilevato, per il progetto di esempio completo e funzionante di Nuxt e TypeORM, sono i seguenti:
 
 | Architettura | Tempo di creazione | Tempo di aggiornamento |
 | :----------: | :----------------: | :--------------------: |
-|  Container   |      14m 58s       | 5m 30s                 |
-|  Serverless  |       6m 30s       | 1m                     |
+|  Container   |      14m 58s       |         5m 30s         |
+|  Serverless  |       6m 30s       |           1m           |
 
 ## Un'applicazione di esempio con Nuxt e TypeORM
 
