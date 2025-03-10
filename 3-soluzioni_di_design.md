@@ -211,7 +211,7 @@ Ad un push su `master` inizierà il workflow di Github Actions, che si occuperà
 
 1.  Checkout del codice sorgente.
 1.  Login ad AWS.
-1.  Creazione, se non esiste, di un Bucket S3 con versionamento per il salvataggio del codice della Lambda. Saranno disponibili anche qui le varie versioni di produzione dell'applicazione.
+1.  Creazione, se non esiste, di un *bucket* S3 con versionamento per il salvataggio del codice della Lambda. Saranno disponibili anche qui le varie versioni di produzione dell'applicazione.
 1.  Installazione delle dipendenze.
 1.  Build del progetto.
 1.  Creazione di un file zip con il `.output` della build.
@@ -383,10 +383,12 @@ Il risultato, nel caso di ECS, è stato:
 
 E nel caso di Lambda:
 
-> ![](./res/lighthouse-lambda.png){width=60%}
+> ![](./res/lighthouse-lambda.png){width=80%}
 > Performance del SSR per l'architettura Lambda. A sinistra in caso di _cold start_, a destra in caso di _heated start_.
 
-L'architettura ECS ha prestazioni migliori in termini di tempo, complice. Con questo test si è anche mostrato come il first contentful paint e il largest contentful paint coincidano, indicando che la pagina è pronta per l'utente senza bisogno di ulteriori caricamenti. Assieme all'ottimizzazione della SEO, il problema principale del [capitolo 1](#ritorno-al-server-side-rendering) è stato risolto.
+L'architettura ECS ha, in media, prestazioni migliori in termini di tempo, complice il fatto che c'è un numero minimo di task che rimangono sempre attive ed in ascolto di richieste.
+
+Con questo test si è anche mostrato come il first contentful paint e il largest contentful paint coincidano, indicando che la pagina è pronta per l'utente senza bisogno di ulteriori caricamenti. Assieme all'ottimizzazione della SEO, il problema principale del [capitolo 1](#ritorno-al-server-side-rendering) è stato risolto.
 
 ### Test di stress per Active record e Query Builder
 
@@ -524,10 +526,10 @@ Per quello che riguarda TypeORM, Active Record si è dimostrato un pattern valid
 -   Uso limitato e possibilmente parallelo di `await` per evitare di bloccare il server.
 -   Caricamento di entità correlate solo quando necessario, per evitare di sovraccaricare la memoria.
 
-AWS Lambda è il servizio di esecuzione di codice in cloud che crea il compromesso più competitivo in termini di costo e performance. Per risolvere il loro problema del cold start si possono impostare delle funzioni come sempre attive, ma bisogna considerare che questo comporta un costo fisso.
+AWS Lambda è il servizio di esecuzione di codice in cloud che crea il compromesso più competitivo in termini di costo e performance. Per risolvere il loro problema del cold start si possono impostare funzioni in un certo numero come sempre attive, ma bisogna considerare che questo comporta un costo fisso.
 
 Possibili estensioni di questo lavoro vanno in direzioni di:
 
 -   Ampliamento dell'infrastruttura cloud per includere altri servizi AWS, come S3 per il salvataggio e reperimento di file statici, o Cognito per l'autenticazione degli utenti.
--   Applicazione mirata di strategie di rendering diverse in Nuxt, anche resa possibile da S3 per il servizio di pagine pre-renderizzate.
+-   Applicazione mirata di strategie di rendering diverse in Nuxt, anche resa possibile da un bucket S3 che farebbe da server di files statici, in questo caso pagine pre-renderizzate.
 -   Implementazione di un sistema di cache in memory per le query TypeORM più frequenti, come Redis.
