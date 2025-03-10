@@ -1,0 +1,67 @@
+http://iacobu-publi-0jdai9cq4e6h-802951250.eu-central-1.elb.amazonaws.com/users/whoLikedPostsByAuthorsQueryBuilder?authors=user-1,user-2,user-3,user-4,user-5,user-6,user-7,user-8,user-9,user-10
+
+Latency distribution:
+  10% in 0.4077 secs
+  25% in 0.5894 secs
+  50% in 0.8818 secs
+  75% in 1.0827 secs
+  90% in 3.4303 secs
+  95% in 4.0899 secs
+  99% in 4.7217 secs
+
+http://iacobu-publi-0jdai9cq4e6h-802951250.eu-central-1.elb.amazonaws.com/users/whoLikedPostsByAuthorsActiveRecord?authors=user-1,user-2,user-3,user-4,user-5,user-6,user-7,user-8,user-9,user-10
+
+
+Latency distribution:
+  10% in 0.2957 secs
+  25% in 0.5003 secs
+  50% in 0.5999 secs
+  75% in 0.9172 secs
+  90% in 3.0635 secs
+  95% in 3.6743 secs
+  99% in 4.9621 secs
+
+vale@msi:~% hey "https://s2myg4pgdsxgj4wbjggdp7l2fy0kssda.lambda-url.eu-central-1.on.aws/users/whoLikedPostsByAuthorsQueryBuilder?authors=user-1,user-2,user-3,user-4,user-5,user-6,user-7,user-8,user-9,user-10"
+
+Latency distribution:
+  10% in 0.0666 secs
+  25% in 0.0809 secs
+  50% in 0.1082 secs
+  75% in 0.3190 secs
+  90% in 0.9079 secs
+  95% in 0.9902 secs
+  99% in 1.4813 secs
+
+https://s2myg4pgdsxgj4wbjggdp7l2fy0kssda.lambda-url.eu-central-1.on.aws/users/whoLikedPostsByAuthorsActiveRecord?authors=user-1,user-2,user-3,user-4,user-5,user-6,user-7,user-8,user-9,user-10
+
+Latency distribution:
+  10% in 0.0664 secs
+  25% in 0.0832 secs
+  50% in 0.1021 secs
+  75% in 2.6071 secs
+  90% in 2.8822 secs
+  95% in 3.0141 secs
+  99% in 3.0733 secs
+
+https://s2myg4pgdsxgj4wbjggdp7l2fy0kssda.lambda-url.eu-central-1.on.aws/users/whoLikedPostsByAuthorsQueryBuilder?authors=user-1,user-2,user-3,user-4,user-5,user-6,user-7,user-8,user-9,user-10
+
+Latency distribution:
+  10% in 0.0722 secs
+  25% in 0.0884 secs
+  50% in 0.1039 secs
+  75% in 0.4749 secs
+  90% in 0.9092 secs
+  95% in 0.9740 secs
+  99% in 1.1116 secs
+
+
+https://s2myg4pgdsxgj4wbjggdp7l2fy0kssda.lambda-url.eu-central-1.on.aws/users/whoLikedPostsByAuthorsActiveRecord?authors=user-1,user-2,user-3,user-4,user-5,user-6,user-7,user-8,user-9,user-10
+
+Latency distribution:
+  10% in 0.0711 secs
+  25% in 0.0817 secs
+  50% in 0.1003 secs
+  75% in 0.3184 secs
+  90% in 0.5505 secs
+  95% in 0.8094 secs
+  99% in 0.8767 secs

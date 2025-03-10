@@ -49,44 +49,44 @@ Status code distribution:
 https://s2myg4pgdsxgj4wbjggdp7l2fy0kssda.lambda-url.eu-central-1.on.aws/users/whoLikedPostsByAuthorsActiveRecord?authors=user-1,user-2,user-3,user-4,user-5,user-6,user-7,user-8,user-9,user-10
 
 Summary:
-Total: 1.5587 secs
-Slowest: 0.9379 secs
-Fastest: 0.0389 secs
-Average: 0.2419 secs
-Requests/sec: 128.3148
+Total: 3.3638 secs
+Slowest: 3.0928 secs
+Fastest: 0.0427 secs
+Average: 0.7816 secs
+Requests/sec: 59.4571
 
 Total data: 737400 bytes
 Size/request: 3687 bytes
 
 Response time histogram:
-0.039 [1] |
-0.129 [137] |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-0.219 [10] |■■■
-0.309 [4] |■
-0.398 [11] |■■■
-0.488 [1] |
-0.578 [1] |
-0.668 [1] |
-0.758 [2] |■
-0.848 [15] |■■■■
-0.938 [17] |■■■■■
+0.043 [1] |
+0.348 [149] |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+0.653 [0] |
+0.958 [0] |
+1.263 [0] |
+1.568 [0] |
+1.873 [0] |
+2.178 [0] |
+2.483 [0] |
+2.788 [18] |■■■■■
+3.093 [32] |■■■■■■■■■
 
 
 Latency distribution:
-10% in 0.0643 secs
-25% in 0.0793 secs
-50% in 0.0985 secs
-75% in 0.2920 secs
-90% in 0.8196 secs
-95% in 0.8802 secs
-99% in 0.9260 secs
+10% in 0.0664 secs
+25% in 0.0832 secs
+50% in 0.1021 secs
+75% in 2.6071 secs
+90% in 2.8822 secs
+95% in 3.0141 secs
+99% in 3.0733 secs
 
 Details (average, fastest, slowest):
-DNS+dialup: 0.0292 secs, 0.0389 secs, 0.9379 secs
-DNS-lookup: 0.0158 secs, 0.0000 secs, 0.0637 secs
-req write: 0.0000 secs, 0.0000 secs, 0.0007 secs
-resp wait: 0.2125 secs, 0.0389 secs, 0.8274 secs
-resp read: 0.0001 secs, 0.0000 secs, 0.0025 secs
+DNS+dialup: 0.0279 secs, 0.0427 secs, 3.0928 secs
+DNS-lookup: 0.0154 secs, 0.0000 secs, 0.0617 secs
+req write: 0.0000 secs, 0.0000 secs, 0.0003 secs
+resp wait: 0.7536 secs, 0.0427 secs, 2.9795 secs
+resp read: 0.0001 secs, 0.0000 secs, 0.0016 secs
 
 Status code distribution:
 [200] 200 responses

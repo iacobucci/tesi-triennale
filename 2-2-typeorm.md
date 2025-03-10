@@ -1019,10 +1019,6 @@ const authors = await User.find({
 const usersWhoLikedAuthorsPosts: User[] = authors.flatMap((author) =>
 	author.posts.flatMap((post) => post.likedBy)
 );
-
-const uniqueUsers = Array.from(
-	new Set(usersWhoLikedAuthorsPosts.map((u) => u.id))
-).map((id) => usersWhoLikedAuthorsPosts.find((u) => u.id === id));
 ```
 
 #### Query builder
