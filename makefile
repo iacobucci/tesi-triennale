@@ -1,5 +1,5 @@
-# NAME = tesi-iacobucci_valerio-0000976541
-NAME = tesi
+NAME = tesi-iacobucci_valerio-0000976541
+# NAME = tesi
 
 PANDOC = pandoc \
 		--from markdown \

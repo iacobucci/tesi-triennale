@@ -211,7 +211,7 @@ Ad un push su `master` inizierà il workflow di Github Actions, che si occuperà
 
 1.  Checkout del codice sorgente.
 1.  Login ad AWS.
-1.  Creazione, se non esiste, di un *bucket* S3 con versionamento per il salvataggio del codice della Lambda. Saranno disponibili anche qui le varie versioni di produzione dell'applicazione.
+1.  Creazione, se non esiste, di un _bucket_ S3 con versionamento per il salvataggio del codice della Lambda. Saranno disponibili anche qui le varie versioni di produzione dell'applicazione.
 1.  Installazione delle dipendenze.
 1.  Build del progetto.
 1.  Creazione di un file zip con il `.output` della build.
@@ -219,7 +219,7 @@ Ad un push su `master` inizierà il workflow di Github Actions, che si occuperà
 1.  Deploy dello stack Cloudformation.
 1.  Stampa dell'url del servizio e del database.
 
-In questo modo il team di sviluppo potrà concentrarsi sullo sviluppo del codice, mentre l'integrazione continua si occuperà di fare deploy dell'applicazione in produzione.
+In questo modo il team di sviluppo potrà concentrarsi sullo sviluppo del codice, mentre l'integrazione continua si occuperà di fare deploy dell'applicazione in produzione. Sarà leggibile anche dalla repository se il deploy è andato a buon fine, e in caso contrario sarà possibile vedere i log dell'errore.
 
 Una prima metrica di performance di queste soluzioni architetturali è il tempo di completamento del workflow che le implementa. Questo può essere monitorato nella dashboard "Actions" della repository.
 
