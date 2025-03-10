@@ -48,29 +48,31 @@
 
 1. [AWS Cloudformation Documentation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-guide.html) - la documentazione ufficiale di AWS Cloudformation, completa di riferimenti all'API yaml, usata nella trattazione.
 
+1. [AWS CloudFormation Starter Workflow for GitHub Actions](https://github.com/aws-samples/aws-cloudformation-starter-workflow-for-github-actions) - un repository GitHub che contiene uno scheletro per realizzare workflow di GitHub Actions che avviano deploy di stack Cloudformation.
+
 1. [ISO/IEC 22123-2:2023](https://www.iso.org/standard/80351.html) - lo standard internazionale per _Information technology - Cloud computing_.
 
+1. [AWS IAM Documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html) - la documentazione ufficiale di AWS Identity and Access Management.
+
+1. [AWS ECS Documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html) - la documentazione ufficiale di AWS Elastic Container Service.
+
+1. [AWS ECR Documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html) - la documentazione ufficiale di AWS Elastic Container Registry.
+
+1. [AWS Elastic load balancing Documentation](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/what-is-load-balancing.html) - la documentazione ufficiale di AWS Elastic Load Balancing.
+
+1. [AWS RDS Documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html) - la documentazione ufficiale di AWS Relational Database Service.
+
+1. [AWS Lambda Documentation](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) - la documentazione ufficiale di AWS Lambda.
+
+1. [AWS RDS Proxy](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html) - la documentazione ufficiale per le proxy su AWS RDS.
+
 1. [Fireship](https://www.youtube.com/@Fireship) - il canale YouTube di Jeff Delaney, una risorsa comprensiva delle molte aree dello sviluppo web, sul quale sono pubblicati tutorial, introduzioni a nuove tecnologie e notizie di attualità sul settore informatico.
-
-1. [AWS IAM Documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html) -  La documentazione ufficiale di AWS Identity and Access Management.
-
-1. [AWS ECS Documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html) - La documentazione ufficiale di AWS Elastic Container Service.
-
-1. [AWS ECR Documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html) - La documentazione ufficiale di AWS Elastic Container Registry.
-
-1. [AWS Elastic load balancing Documentation](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/what-is-load-balancing.html) - La documentazione ufficiale di AWS Elastic Load Balancing.
-
-1. [AWS RDS Documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html) - La documentazione ufficiale di AWS Relational Database Service.
-
-1. [AWS Lambda Documentation](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) - La documentazione ufficiale di AWS Lambda.
-
-1. [AWS RDS Proxy](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html) - La documentazione ufficiale per le proxy su AWS RDS.
 
 ## Ringraziamenti {.unnumbered}
 
 Ringrazio i miei genitori, la mia famiglia ed i miei amici per l'incoraggiamento e il supporto che mi hanno dato durante la stesura di questo lavoro.
 
-## Strumenti Open source {.unnumbered}
+<!-- ## Strumenti Open source {.unnumbered}
 
 -   **Code** - la build open source di Visual Studio Code, utilizzata per la scrittura e la correzione del testo.
 -   **Markdown** - il formato di scrittura utilizzato per la stesura del testo.
@@ -78,4 +80,4 @@ Ringrazio i miei genitori, la mia famiglia ed i miei amici per l'incoraggiamento
 -   **Pandoc** - per la conversione dei file Markdown in Latex.
 -   **Minted** - per la colorazione della sintassi dei codici sorgente.
 -   **Panflute** - per la creazione di filtri personalizzati per Pandoc.
--   **Mermaid** - per la creazione di diagrammi di sequenza e di flusso.
+-   **Mermaid** - per la creazione di diagrammi di sequenza e di flusso. -->

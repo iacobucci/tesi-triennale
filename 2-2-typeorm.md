@@ -244,7 +244,7 @@ import "reflect-metadata";
 
 Si potrà quindi definire la tabella `user`[^naming-strategy] con la classe `User`:
 
-[^naming-strategy]: A riguardo, il praragrafo [Strategie di naming automatico](#strategie-di-naming-automatico).
+[^naming-strategy]: A riguardo, il paragrafo [Strategie di naming automatico](#strategie-di-naming-automatico).
 
 ```typescript
 export class User {
@@ -572,7 +572,7 @@ Nell'esempio che segue, ogni utente ha un solo profilo, e ogni profilo è associ
 -   `referencedColumnName: string`: il nome della colonna di riferimento.
 -   `foreignKeyConstraintName: string`: il nome del vincolo di chiave esterna.
 
-Questi parametri sono opzionali perchè TypeORM usa delle convenzioni per inferire i nomi delle tabelle e delle colonne[^naming-strategy].
+Questi parametri sono opzionali perché TypeORM usa delle convenzioni per inferire i nomi delle tabelle e delle colonne[^naming-strategy].
 
 ```typescript
 @Entity()
@@ -952,7 +952,7 @@ Un `FindOneOptions<Entity>` è un oggetto che mappa i nomi delle colonne alle co
 La classe `FindManyOptions<Entity>` estende `FindOneOptions<Entity>` e aggiunge le seguenti opzioni:
 
 -   `take: number`: specifica il numero massimo di entità da restituire. È analogo a `LIMIT` in SQL.
--   `skip: number`: specifica l'offset delle entità da restituire. È analogo a `OFFSET` in SQL.
+-   `skip: number`: specifica l'offset delle entità da restituire. È analogo a `OFFSET` in SQL. In combinazione con `take` permette di paginare i risultati.
 
 Un `FindOperator<T>` è un oggetto che mappa un operatore di confronto a un valore di tipo `T`, e permette di specificare condizioni logiche:
 
@@ -1012,13 +1012,17 @@ await postWithLikes.save();
 
 // Carica gli utenti che hanno messo "mi piace" ai post di Alice o di Bob
 const authors = await User.find({
-	where: [{ username: "alice" }, { username: "bob" }],
+	where: [{ username: In("alice", "bob") }],
 	relations: { posts: { likedBy: true } },
 });
 
 const usersWhoLikedAuthorsPosts: User[] = authors.flatMap((author) =>
 	author.posts.flatMap((post) => post.likedBy)
 );
+
+const uniqueUsers = Array.from(
+	new Set(usersWhoLikedAuthorsPosts.map((u) => u.id))
+).map((id) => usersWhoLikedAuthorsPosts.find((u) => u.id === id));
 ```
 
 #### Query builder
@@ -1031,7 +1035,7 @@ Si parte dall'oggetto DataSource e si ottiene una repository relativa all'entit�
 -   `select(): SelectQueryBuilder<Entity>`: costruisce una query di selezione.
 -   `insert(): InsertQueryBuilder<Entity>`: costruisce una query di inserimento.
 -   `update(): UpdateQueryBuilder<Entity>`: costruisce una query di aggiornamento.
--   `delete(): DeletetQueryBuilder<Entity>`: costruisce una query di eliminazione.
+-   `delete(): DeleteQueryBuilder<Entity>`: costruisce una query di eliminazione.
 -   `relation(entity: Entity, property: string): RelationQueryBuilder<Entity>`: costruisce una query per manipolare relazioni.
 
 Ognuno di questi builder estende `QueryBuilder<Entity>` ed ha a disposizione dei metodi che ricalcano la sintassi SQL.
@@ -1045,7 +1049,7 @@ classDiagram
 		+select() SelectQueryBuilder~Entity~
 		+insert() InsertQueryBuilder~Entity~
 		+update() UpdateQueryBuilder~Entity~
-		+delete() DeletetQueryBuilder~Entity~
+		+delete() DeleteQueryBuilder~Entity~
 		+relation(entity: Entity, property: string) RelationQueryBuilder~Entity~
     }
 
@@ -1150,53 +1154,53 @@ Le differenze principali con Active Record sono:
 -   L'aggiunta di entità a relazioni molti a molti in Active Record avviene in memoria, e non persiste fino a quando non si chiama `save()` sull'entità principale. Query Builder manipola direttamente la relazione nel database.
 -   In Query Builder si possono applicare metodi di aggregazione, come `distinct()`, invece che scorrere in memoria un array di risultati intermedi, che contiene anche elementi da scartare.
 
-#### Query SQL
+#### Query SQL raw
 
 Infine TypeORM rende disponibile un'API per eseguire query SQL interpolate direttamente in stringhe con il metodo `query(query: string, parameters?: any[])` di `EntityManager`. L'unica astrazione fornita in questo caso è la sanificazione dei parametri, che previene attacchi di SQL injection. Lo stesso esempio riportato sopra può essere riscritto con query SQL come segue:
 
 ```typescript
 // Aggiungi un nuovo utente
-await entityManager.query(`
-  INSERT INTO users (username)
+await dataSource.query(`
+  INSERT INTO "user" ("username")
   VALUES ('bob');
 `);
 
 // Trova tutti gli utenti
-const allUsers = await entityManager.query(`
-  SELECT * FROM users;
+const allUsers = await dataSource.query(`
+  SELECT * FROM "user";
 `);
 
 // Trova l'utente con username "alice"
-const [alice] = await entityManager.query(`
-  SELECT * FROM users
-  WHERE username = 'alice'
+const [alice] = await dataSource.query(`
+  SELECT * FROM "user"
+  WHERE "username" = 'alice'
   LIMIT 1;
 `);
 
 // Trova un post caricando gli utenti a cui piace
-const [postWithLikes] = await entityManager.query(`
+const [postWithLikes] = await dataSource.query(`
   SELECT p.*, u.*
-  FROM posts p
-  LEFT JOIN post_likes pl ON p.id = pl.post_id
-  LEFT JOIN users u ON pl.user_id = u.id
+  FROM "post" p
+  LEFT JOIN "post_likes" pl ON p.id = pl.post_id
+  LEFT JOIN "user" u ON pl.user_id = u.id
   WHERE p.id = 1;
 `);
 
 // Aggiungi Alice ai like del post
-await entityManager.query(
+await dataSource.query(
 	`
-  INSERT INTO post_likes (post_id, user_id)
+  INSERT INTO "post_likes" ("post_id", "user_id")
   VALUES (?, ?);`,
 	[postWithLikes.id, alice.id]
 );
 
 // Carica gli utenti che hanno messo "mi piace" ai post di Alice o di Bob
-const usersWhoLikedAuthorsPosts = await entityManager.query(`
+const usersWhoLikedAuthorsPosts = await dataSource.query(`
   SELECT DISTINCT u.*
-  FROM users u
-  INNER JOIN post_likes pl ON u.id = pl.user_id
-  INNER JOIN posts p ON pl.post_id = p.id
-  INNER JOIN users author ON p.author_id = author.id
+  FROM "user" u
+  INNER JOIN "post_likes" pl ON u.id = pl.user_id
+  INNER JOIN "post" p ON pl.post_id = p.id
+  INNER JOIN "user" author ON p.author_id = author.id
   WHERE author.username IN ('alice', 'bob');
 `);
 ```

@@ -426,7 +426,7 @@ server/
 Per definire il comportamento di un endpoint API, si esporta una funzione `defineEventHandler(async? (event) => any)`, che accetta una funzione asincrona di un oggetto `event` e restituisce una risposta. L'oggetto `event` contiene le informazioni della richiesta HTTP, come il metodo, i parametri GET e POST, i cookie, l'indirizzo IP del client, e il corpo della richiesta.
 
 ```typescript
-interface UsersByLastName {
+export interface UsersByLastName {
 	lastName: string;
 }
 

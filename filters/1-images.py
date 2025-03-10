@@ -20,7 +20,24 @@ def adjust_image(elem, doc):
 			i = get_image_size(elem.url)
 
 			w = i[0] * h / i[1]
-			attributes['width'] = str(w) + "cm"
+
+			attributes['width'] = f"{w}cm"
+
+		if doc.format == 'latex':
+			# Crea una copia dell'elemento immagine con gli attributi aggiornati
+			# Poiché non possiamo modificare direttamente l'elemento originale
+			new_img = pf.Image(
+				url=elem.url,
+				title=elem.title,
+				attributes=attributes
+			)
+			
+			# Crea elementi RawInline per il centering
+			begin_center = pf.RawInline('\\begin{center}', format='latex')
+			end_center = pf.RawInline('\\end{center}', format='latex')
+			
+			# Restituisci una sequenza di Inline elements
+			return [begin_center, new_img, end_center]
 
 def main(doc=None):
 	return pf.run_filter(adjust_image, doc=doc)

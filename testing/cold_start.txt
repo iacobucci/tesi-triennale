@@ -1,0 +1,92 @@
+vale@msi:~% hey "https://s2myg4pgdsxgj4wbjggdp7l2fy0kssda.lambda-url.eu-central-1.on.aws/users/whoLikedPostsByAuthorsQueryBuilder?authors=user-1,user-2,user-3,user-4,user-5,user-6,user-7,user-8,user-9,user-10"
+
+Summary:
+Total: 2.2606 secs
+Slowest: 1.4852 secs
+Fastest: 0.0404 secs
+Average: 0.2937 secs
+Requests/sec: 88.4718
+
+Total data: 737200 bytes
+Size/request: 3686 bytes
+
+Response time histogram:
+0.040 [1] |
+0.185 [142] |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+0.329 [8] |■■
+0.474 [2] |■
+0.618 [3] |■
+0.763 [7] |■■
+0.907 [17] |■■■■■
+1.052 [14] |■■■■
+1.196 [3] |■
+1.341 [1] |
+1.485 [2] |■
+
+
+Latency distribution:
+10% in 0.0666 secs
+25% in 0.0809 secs
+50% in 0.1082 secs
+75% in 0.3190 secs
+90% in 0.9079 secs
+95% in 0.9902 secs
+99% in 1.4813 secs
+
+Details (average, fastest, slowest):
+DNS+dialup: 0.0222 secs, 0.0404 secs, 1.4852 secs
+DNS-lookup: 0.0090 secs, 0.0000 secs, 0.0363 secs
+req write: 0.0000 secs, 0.0000 secs, 0.0004 secs
+resp wait: 0.2713 secs, 0.0403 secs, 1.3984 secs
+resp read: 0.0001 secs, 0.0000 secs, 0.0030 secs
+
+Status code distribution:
+[200] 200 responses
+
+
+
+
+https://s2myg4pgdsxgj4wbjggdp7l2fy0kssda.lambda-url.eu-central-1.on.aws/users/whoLikedPostsByAuthorsActiveRecord?authors=user-1,user-2,user-3,user-4,user-5,user-6,user-7,user-8,user-9,user-10
+
+Summary:
+Total: 1.5587 secs
+Slowest: 0.9379 secs
+Fastest: 0.0389 secs
+Average: 0.2419 secs
+Requests/sec: 128.3148
+
+Total data: 737400 bytes
+Size/request: 3687 bytes
+
+Response time histogram:
+0.039 [1] |
+0.129 [137] |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+0.219 [10] |■■■
+0.309 [4] |■
+0.398 [11] |■■■
+0.488 [1] |
+0.578 [1] |
+0.668 [1] |
+0.758 [2] |■
+0.848 [15] |■■■■
+0.938 [17] |■■■■■
+
+
+Latency distribution:
+10% in 0.0643 secs
+25% in 0.0793 secs
+50% in 0.0985 secs
+75% in 0.2920 secs
+90% in 0.8196 secs
+95% in 0.8802 secs
+99% in 0.9260 secs
+
+Details (average, fastest, slowest):
+DNS+dialup: 0.0292 secs, 0.0389 secs, 0.9379 secs
+DNS-lookup: 0.0158 secs, 0.0000 secs, 0.0637 secs
+req write: 0.0000 secs, 0.0000 secs, 0.0007 secs
+resp wait: 0.2125 secs, 0.0389 secs, 0.8274 secs
+resp read: 0.0001 secs, 0.0000 secs, 0.0025 secs
+
+Status code distribution:
+[200] 200 responses
