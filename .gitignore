@@ -7,3 +7,4 @@ example
 *.pdf
 node_modules
 draft
+debug

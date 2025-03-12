@@ -1,22 +1,22 @@
 # Linee evolutive
 
-Il Web è la piattaforma software più estesa al mondo e la sua evoluzione è stata guidata da una serie di innovazioni tecnologiche che hanno permesso di realizzare applicazioni sempre più complesse e performanti. Questo capitolo ripercorre brevemente le linee evolutive del web, partendo dalle pagine statiche fino ad arrivare alle applicazioni web moderne.
+Il Web è la piattaforma software più estesa al mondo e la sua evoluzione è stata guidata da una serie di innovazioni tecnologiche che hanno permesso di realizzare applicazioni sempre più complesse e performanti. Questo capitolo ripercorre brevemente le linee evolutive del Web, partendo dalle pagine statiche fino ad arrivare alle Applicazioni Web moderne.
 
 ## Pagine statiche
 
 Il primo modello del World Wide Web era orientato a facilitare la condivisione di documenti, permettendo ai lettori di esplorarli attraverso collegamenti tra le pagine. Il WWW consisteva in una combinazione di applicazioni, di protocolli e di linguaggi di marcatura progettati e rilasciati presso il CERN, principalmente ad opera di Tim Berners Lee e Robert Calliau, a ridosso degli anni '90:
 
-**Browser e Server:** Con un browser web installato nel proprio sistema informatico, un utente può visualizzare pagine web e scegliere di seguire i collegamenti ipertestuali per accedere ad altre pagine. Il server web è responsabile di fornire le pagine web richieste dai client, come i browser.
+**Browser e Server:** Con un browser Web installato nel proprio sistema informatico, un utente può visualizzare pagine Web e scegliere di seguire i collegamenti ipertestuali per accedere ad altre pagine. Il server Web è responsabile di fornire le pagine Web richieste dai client, come i browser.
 
-**Protocollo HTTP:** È il protocollo di comunicazione di livello applicativo (OSI 7) che permette la trasmissione di informazioni tra client e server web. Un browser contatta un server web inviando una richiesta HTTP ad un determinato URL e il server risponde con una risposta HTTP contenente i dati richiesti. HTTP è un protocollo stateless, non mantiene informazioni sullo stato della comunicazione, quindi sta all'applicazione gestire eventuali sessioni o autenticazioni.
+**Protocollo HTTP:** È il protocollo di comunicazione di livello applicativo (OSI 7) che permette la trasmissione di informazioni tra client e server Web. Un browser contatta un server Web inviando una richiesta HTTP ad un determinato URL e il server risponde con una risposta HTTP contenente i dati richiesti. HTTP è un protocollo stateless, non mantiene informazioni sullo stato della comunicazione, quindi sta all'applicazione gestire eventuali sessioni o autenticazioni.
 
-**Linguaggio HTML:** (HyperText Markup Language) è un linguaggio di marcatura utilizzato per la realizzazione di pagine web. HTML definisce la struttura e il contenuto di una pagina web attraverso l'uso di tag e attributi e consente di incorporare elementi multimediali. Il browser web interpreta il codice HTML e mostra la pagina web all'utente.
+**Linguaggio HTML:** (HyperText Markup Language) è un linguaggio di marcatura utilizzato per la realizzazione di pagine Web. HTML definisce la struttura e il contenuto di una pagina Web attraverso l'uso di tag e attributi e consente di incorporare elementi multimediali. Il browser Web interpreta il codice HTML e mostra la pagina Web all'utente.
 
-Nel 1993, il primo browser web grafico, Mosaic, introdusse il supporto per le immagini, per i form (dei moduli compilabili dall'utente con opzioni) e per i collegamenti ipertestuali, e successivamente Netscape Navigator 1.0 introdusse il supporto per CSS, il linguaggio che permise da subito agli sviluppatori di personalizzare la resa grafica della loro pagina. Queste innovazioni contribuirono a rendere il web più accessibile e visivamente attraente per un pubblico maggiore.
+Nel 1993, il primo browser Web grafico, Mosaic, introdusse il supporto per le immagini, per i form (dei moduli compilabili dall'utente con opzioni) e per i collegamenti ipertestuali, e successivamente Netscape Navigator 1.0 introdusse il supporto per CSS, il linguaggio che permise da subito agli sviluppatori di personalizzare la resa grafica della loro pagina. Queste innovazioni contribuirono a rendere il Web più accessibile e visivamente attraente per un pubblico maggiore.
 
 ## Pagine dinamiche
 
-I primi browser web erano in grado di visualizzare solo pagine statiche, il che significa che il contenuto di una determinata pagina non cambiava in base all'interazione dell'utente[^css].
+I primi browser Web erano in grado di visualizzare solo pagine statiche, il che significa che il contenuto di una determinata pagina non cambiava in base all'interazione dell'utente[^css].
 
 [^css]: Gli unici effetti che si potevano apprezzare immediatamente dopo un'interazione dell'utente erano quelli di CSS, ad esempio il cambio di colore di un link al passaggio del mouse.
 
@@ -68,9 +68,9 @@ if (mysql_num_rows($result) > 0){
 
 ## Pagine attive con Javascript
 
-Il dinamismo delle pagine web supportato da server CGI e linguaggi di scripting era comunque limitato per via del caricamento di nuove pagine ad ogni richiesta. Non era possibile aggiornare parzialmente la pagina, ma solo scaricarne una nuova. Nel 1995 il Netscape Navigator 2.0 introdusse il supporto ad un nuovo linguaggio di scripting, che successivamente venne chiamato Javascript, realizzato da Brendan Eich, per ovviare a questo problema.
+Il dinamismo delle pagine Web supportato da server CGI e linguaggi di scripting era comunque limitato per via del caricamento di nuove pagine ad ogni richiesta. Non era possibile aggiornare parzialmente la pagina, ma solo scaricarne una nuova. Nel 1995 il Netscape Navigator 2.0 introdusse il supporto ad un nuovo linguaggio di scripting, che successivamente venne chiamato Javascript, realizzato da Brendan Eich, per ovviare a questo problema.
 
-**Gestione di eventi e manipolazione del DOM:** Uno script Javascript, distribuito all'interno di una pagina HTML, può essere eseguito dal browser web in risposta a determinati eventi dell'utente. Inizialmente il motore di esecuzione era sincrono, cioè bloccava l'esecuzione del codice fino al completamento dell'operazione, e le possibilità di Javascript si limitavano alla manipolazione a _runtime_[^runtime] del DOM (Document Object Model), quindi ad aggiungere, rimuovere o modificare elementi HTML.
+**Gestione di eventi e manipolazione del DOM:** Uno script Javascript, distribuito all'interno di una pagina HTML, può essere eseguito dal browser Web in risposta a determinati eventi dell'utente. Inizialmente il motore di esecuzione era sincrono, cioè bloccava l'esecuzione del codice fino al completamento dell'operazione, e le possibilità di Javascript si limitavano alla manipolazione a _runtime_[^runtime] del DOM (Document Object Model), quindi ad aggiungere, rimuovere o modificare elementi HTML.
 
 **Richieste HTTP asincrone:** Le pagine web, erano diventate _attive_, ma tutte le risorse da fornire agli utenti dovevano essere inserite nella pagina inviata come prima risposta HTTP. Nel 1999 però, il browser Internet Explorer 5 introdusse un'estensione del linguaggio Javascript, che disponeva di un oggetto chiamato _XMLHttpRequest_, in grado effettuare richieste HTTP asincrone al server e dunque ricevere risposte senza dover ricaricare l'intera pagina. Così si gettavano le basi per la realizzazione di _Single Page Applications_.
 
@@ -100,11 +100,11 @@ $("#update").click(function () {
 
 ## Node.js e Javascript lato server
 
-La standardizzazione di Javascript procedette attraverso le varie versioni di ECMAScript che definivano le nuove funzionalità del linguaggio e, di conseguenza, dei browser web. Nel 2008 fu rilasciata la prima versione di Google Chrome, un browser che, oltre ad includere caratteristiche appetibili per gli utenti finali, disponeva del motore di esecuzione Javascript V8. Questo _engine_ apportò dei sostanziali miglioramenti di prestazioni[^prestazioniv8] rispetto alla competizione e venne rilasciato come _Open source software_.
+La standardizzazione di Javascript procedette attraverso le varie versioni di ECMAScript che definivano le nuove funzionalità del linguaggio e, di conseguenza, dei browser Web. Nel 2008 fu rilasciata la prima versione di Google Chrome, un browser che, oltre ad includere caratteristiche appetibili per gli utenti finali, disponeva del motore di esecuzione Javascript V8. Questo _engine_ apportò dei sostanziali miglioramenti di prestazioni[^prestazioniv8] rispetto alla competizione e venne rilasciato come _Open source software_.
 
 Nel 2009, Ryan Dahl iniziò a lavorare, basandosi sul codice di V8, a Node.js, un interprete di Javascript in modalità headless[^headless], al quale aggiunse la capacità di accedere al filesystem, di esporre servizi HTTP e di accettare connessioni in maniera _non bloccante_.
 
-In questo modo si poterono realizzare non solo applicazioni **frontend** ma anche **backend** con Javascript, abilitando sempre più novizi alla creazione di siti web completi. Attorno a Node crebbe una comunità di sviluppatori che contribuirono, secondo i principi dell'Open source, alla creazione di un ecosistema di librerie, che potevano essere installate tramite il gestore di pacchetti NPM.
+In questo modo si poterono realizzare non solo applicazioni **frontend** ma anche **backend** con Javascript, abilitando sempre più novizi alla creazione di siti Web completi. Attorno a Node crebbe una comunità di sviluppatori che contribuirono, secondo i principi dell'Open source, alla creazione di un ecosistema di librerie, che potevano essere installate tramite il gestore di pacchetti NPM.
 
 ```javascript
 const http = require("http");
@@ -142,11 +142,11 @@ server.listen(80, () => {
 [^prestazioniv8]: [Google Chrome announcement:](https://youtu.be/LRmrMiOWdfc?si=gaHRFdA8QcYZ0NYq&t=2676) in questo video si può vedere come l'esecuzione di Javascript su Chrome sia di circa 60 volte più veloce che su Internet Explorer 8.
 [^headless]: Cioè senza interfaccia grafica.
 
-## Applicazioni web orientate a componenti
+## Applicazioni Web orientate a componenti
 
-Anche con Node fu possibile realizzare applicazioni web _monolitiche_, parimenti al templating PHP, usando librerie come EJS di TJ Holowaychuk.
+Anche con Node fu possibile realizzare applicazioni Web _monolitiche_, parimenti al templating PHP, usando librerie come EJS di TJ Holowaychuk.
 
-Tuttavia le tendenze di quel periodo (circa 2010) si discostarono dal modo tradizionale di scrivere applicazioni web, basate su pagine generate lato server, per passare a un modello di **client-side rendering**. Secondo questo modello il server invia al browser una pagina HTML con un DOM minimo, corredato di script JS che si occupano di popolare a runtime il DOM con contenuti e di gestire le logiche di presentazione.
+Tuttavia le tendenze di quel periodo (circa 2010) si discostarono dal modo tradizionale di scrivere applicazioni Web, basate su pagine generate lato server, per passare a un modello di **client-side rendering**. Secondo questo modello il server invia al browser una pagina HTML con un DOM minimo, corredato di script JS che si occupano di popolare a runtime il DOM con contenuti e di gestire le logiche di presentazione.
 
 Le applicazioni renderizzate lato cliente potevano beneficiare di una maggiore _reattività_ e di una migliore esperienza utente, essendo basate su una pagina unica che veniva aggiornata in maniera incrementale, aggirando i caricamenti di nuove pagine da richiedere al server. Le richieste al server, essendo asincrone, potevano essere gestite in modo meno invasivo rispetto a prima: mentre la comunicazione avveniva in background, l'utente poteva continuare ad interagire con l'applicazione.
 
@@ -168,7 +168,7 @@ Uno dei primi framework a proporre un modello di componenti, sviluppato in Googl
 
 ##### React.js
 
-La libreria di componenti sviluppata da un team interno di Facebook e rilasciata nel 2013. React introduceva il concetto di _Virtual DOM_, una rappresentazione in memoria del DOM reale, che permetteva di calcolare in maniera efficiente le differenze tra due stati del DOM e di applicare solo le modifiche necessarie. Per questi miglioramenti nella performace venne adottato moltissimo[^react]. Da React in poi, lo sviluppo di pagine web ha riguardato un livello più astratto rispetto all'esecuzione del classico codice Javascript che manipola direttamente il DOM. Inteso così, il browser diventa l'interprete di un codice intermedio sul quale gli sviluppatori non mettono mano direttamente.
+La libreria di componenti sviluppata da un team interno di Facebook e rilasciata nel 2013. React introduceva il concetto di _Virtual DOM_, una rappresentazione in memoria del DOM reale, che permetteva di calcolare in maniera efficiente le differenze tra due stati del DOM e di applicare solo le modifiche necessarie. Per questi miglioramenti nella performance venne adottato moltissimo[^react]. Da React in poi, lo sviluppo di pagine Web ha riguardato un livello più astratto rispetto all'esecuzione del classico codice Javascript che manipola direttamente il DOM. Inteso così, il browser diventa l'interprete di un codice intermedio sul quale gli sviluppatori non mettono mano direttamente.
 
 [^react]: [Github - React](https://github.com/facebook/react) - la più popolare in base numero di stelle su Github.
 
@@ -210,7 +210,7 @@ Partito come progetto personale di Evan You e rilasciato nel 2014, Vue si propon
 
 ## Typescript e ORM
 
-Le basi di codice Javascript iniziarono a diventare sempre più complesse quando anche i team di sviluppatori di grandi compagnie iniziarono ad adottare i framework a componenti. A partire dal 2014 anche applicazioni web come Instagram, Netflix e Airbnb incorporarono React nei loro stack tecnologici per realizzare interamente l'interfaccia utente.
+Le basi di codice Javascript iniziarono a diventare sempre più complesse quando anche i team di sviluppatori di grandi compagnie iniziarono ad adottare i framework a componenti. A partire dal 2014 anche applicazioni Web come Instagram, Netflix e Airbnb incorporarono React nei loro stack tecnologici per realizzare interamente l'interfaccia utente.
 
 Javascript, essendo un linguaggio interpretato e debolmente tipizzato, non era in grado di garantire la correttezza del codice e i test di unità erano fatti in modo _behavior driven_, cioè basati sul comportamento dell'applicazione e non sulla tipizzazione dei dati. Questo spesse volte portava ad errori, difficili da individuare e correggere, soprattutto in applicazioni di grandi dimensioni.
 
@@ -234,7 +234,7 @@ L'evoluzione dei sistemi per fare query a basi di dati da Javascript è poi dira
 
 ## Ritorno al server-side rendering
 
-Dal lancio di React sempre più applicazioni web hanno fatto uso della tecnica CSR per via della migliorata esperienza utente e di sviluppo. Questo approccio ha portato però una serie di nuovi problemi e limitazioni legate al meccanismo di rendering.
+Dal lancio di React sempre più applicazioni Web hanno fatto uso della tecnica CSR per via della migliorata esperienza utente e di sviluppo. Questo approccio ha portato però una serie di nuovi problemi e limitazioni legate al meccanismo di rendering.
 
 ##### Performance su dispositivi lenti
 
@@ -242,7 +242,7 @@ I _bundle_ Javascript che vengono generati per le applicazioni CSR sono spesso o
 
 ##### Search engine optimization
 
-I siti web che fanno uso di CSR sono più difficilmente indicizzabili dai _crawler_ dei motori di ricerca, questo può portare a problemi di esposizione e di traffico ridotti.
+I siti Web che fanno uso di CSR sono più difficilmente indicizzabili dai _crawler_ dei motori di ricerca, questo può portare a problemi di esposizione e di traffico ridotti.
 
 ##### First contentful paint
 
@@ -254,26 +254,26 @@ Per il motivo che gli aggiornamenti dell'interfaccia vengono vengono resi grafic
 
 ##### Accessibility
 
-Per gli stessi motivi che portano al cumulative layout shift, ci potrebbero essere degli impedimenti di accessibilità per chi usa metodi di input alternativi o per gli screen-reader che aiutano le persone non vedenti nella fruizione delle pagine web.
+Per gli stessi motivi che portano al cumulative layout shift, ci potrebbero essere degli impedimenti di accessibilità per chi usa metodi di input alternativi o per gli screen-reader che aiutano le persone non vedenti nella fruizione delle pagine Web.
 
 Per questi motivi, a partire dal 2016, sono emerse delle nuove tendenze che hanno portato ad un ritorno al server-side rendering, in combinazione con i sistemi basati su componenti, per unire i vantaggi di entrambi i modelli.
 Esempi di framework che supportano il SSR sono: Angular Universal, Next.js per React e Nuxt per Vue, che verrà illustrato nel [capitolo 2](#nuxt).
 
-[^corewebvitals]: [Google developers - Core web vitals](https://developers.google.com/search/docs/appearance/core-web-vitals?hl=it) - Al 10 maggio 2023, la durata massima ammissibile per il FCP è di 2.5s.
+[^corewebvitals]: [Google developers - Core Web vitals](https://developers.google.com/search/docs/appearance/core-web-vitals?hl=it) - Al 10 maggio 2023, la durata massima ammissibile per il FCP è di 2.5s.
 
 ## Servizi cloud e containerizzazione
 
-Le tecniche di rilascio di applicazioni web si sono evolute di pari passo alle tecnologie di sviluppo.
+Le tecniche di rilascio di applicazioni Web si sono evolute di pari passo alle tecnologie di sviluppo.
 
-Il primo modello era quello _monolitico_, in cui l'applicazione web viene distribuita su un server fisico, con un indirizzo IP statico, e che necessita di configurazioni manuali.
+Il primo modello era quello _monolitico_, in cui l'applicazione Web viene distribuita su un server fisico, con un indirizzo IP statico, e che necessita di configurazioni manuali.
 
-Poi, attorno all'inizio degli anni 2000, sono emersi i primi **provider di cloud**, come Amazon Web Services, Google Cloud Platform, Microsoft Azure e IBM Cloud, che non solo offrivano servizi di hosting di _virtual private server_, traducendo quindi il paradigma monolitico su macchine virtuali, ma anche servizi di _infrastrucure as a service_, permettendo ai progettisti di app web di modificare le risorse di calcolo e di archiviazione secondo necessità e di automatizzare il processo di rilascio.
+Poi, attorno all'inizio degli anni 2000, sono emersi i primi **provider di cloud**, come Amazon Web Services, Google Cloud Platform, Microsoft Azure e IBM Cloud, che non solo offrivano servizi di hosting di _virtual private server_, traducendo quindi il paradigma monolitico su macchine virtuali, ma anche servizi di _infrastrucure as a service_, permettendo ai progettisti di app Web di modificare le risorse di calcolo e di archiviazione secondo necessità e di automatizzare il processo di rilascio.
 
-Una tecnologia in particolare si è affermata come standard per la distribuzione di applicazioni web attraverso l'infrastruttura cloud, il **container**, e la sua implementazione più popolare, Docker.
+Una tecnologia in particolare si è affermata come standard per la distribuzione di applicazioni Web attraverso l'infrastruttura cloud, il **container**, e la sua implementazione più popolare, Docker.
 
 Docker è un sistema di virtualizzazione di risorse a livello di sistema operativo, che permette di isolare i processi di un'applicazione in un ambiente chiuso che condivide il kernel del sistema operativo host.
 Questa tecnica è diversa da quelle di virtualizzazione classiche, che mirano ad emulare un intero sistema operativo, come fa ad esempio KVM, o un intero sistema hardware, come fa QEMU. Docker è più leggero e più veloce, e permette di avere un ambiente di esecuzione riproducibile e portabile, che può essere distribuito su qualsiasi macchina che abbia Docker installato. [^docker]
 
 [^docker]: [Docker - What is a container?](https://www.docker.com/resources/what-container) In questo articolo vengono comparate le tecnologie di virtualizzazione tradizionali con Docker.
 
-Il ruolo degli informatici coinvolti nello sviluppo di applicazioni web si è quindi differenziato tra gli _architetti di cloud_ e gli _ingegneri di sviluppo_. Tuttavia, una volta che l'infrastruttura è pronta, il processo di rilascio di un'aggiornamento dell'applicazione si semplifica notevolmente, grazie ai metodi di di **continuous integration** come Travis CI, Circle CI e Github Actions, che permettono di automatizzare il processo di build e di test, e di rilasciare su cloud con la stessa facilità con cui si fa un commit sul repository di codice.
+Il ruolo degli informatici coinvolti nello sviluppo di applicazioni Web si è quindi differenziato tra gli _architetti di cloud_ e gli _ingegneri di sviluppo_. Tuttavia, una volta che l'infrastruttura è pronta, il processo di rilascio di un'aggiornamento dell'applicazione si semplifica notevolmente, grazie ai metodi di di **continuous integration** come Travis CI, Circle CI e Github Actions, che permettono di automatizzare il processo di build e di test, e di rilasciare su cloud con la stessa facilità con cui si fa un commit sul repository di codice.

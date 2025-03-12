@@ -22,5 +22,9 @@ Per testare il database è stata aggiunta un'istanza di RDS, database relazional
 
 scala verticale, parallelismo [^serverless]
 
-
 tempi di provisioning di cloudformation
+
+domande
+	abstract
+	keywords
+		aws, cloudformation, github actions, ecs, rds, aurora, vpc, subnet, gateway, nas, load balancer, oidc, sso, docker, registry, workflow, ci/cd, pipeline, serverless, lambda, s3, cloudfront, lighthouse, waterfall

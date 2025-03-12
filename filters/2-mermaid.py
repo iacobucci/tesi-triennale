@@ -27,11 +27,11 @@ def intercept_codeblock(elem, doc):
 
 
 			if elem.attributes.get("align") is not None:
-				return pf.RawBlock("\\begin{wrapfigure}{" + elem.attributes.get("align") + "}{"+ elem.attributes.get("width") +"}\\includegraphics[width=\linewidth]{ " + pdf + "}\\end{wrapfigure}\n\n~\n", format="latex")
+				return pf.RawBlock("\\begin{wrapfigure}{" + elem.attributes.get("align") + "}{"+ elem.attributes.get("width") +"}\\includegraphics[width=\\linewidth]{ " + pdf + "}\\end{wrapfigure}\n\n~\n", format="latex")
 
 			if elem.attributes.get("height") is not None:
 				return pf.RawBlock("\\begin{center}\\includegraphics[height="+ elem.attributes.get("height") +",keepaspectratio]{ " + pdf + "}\\end{center}", format="latex")
-			return pf.RawBlock("\\begin{center}\\includegraphics[width=\linewidth,keepaspectratio]{ " + pdf + "}\\end{center}", format="latex")
+			return pf.RawBlock("\\begin{center}\\includegraphics[width=\\linewidth,keepaspectratio]{ " + pdf + "}\\end{center}", format="latex")
 
 
 		except subprocess.CalledProcessError as e:

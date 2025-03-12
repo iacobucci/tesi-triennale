@@ -1,8 +1,11 @@
 {
 	"triggerTaskOnSave.tasks": {
 		"make": [
-			"*.md",
-			// "*.tex"
+			"!pres/slides/*.md",
+			"*.md"
+		],
+		"pres": [
+			"pres/slides/*.md"
 		]
 	},
 	"files.exclude": {
@@ -32,6 +35,7 @@
 		"Deno",
 		"deployato",
 		"deserializzato",
+		"deserializzazione",
 		"efficientare",
 		"Eich",
 		"embeddeds",
@@ -51,14 +55,20 @@
 		"keepalive",
 		"keyof",
 		"Khudoiberdiev",
+		"Kolny",
 		"l'interoperatività",
 		"lastname",
 		"linkati",
 		"manutenibile",
+		"Marcin",
+		"Maribojoc",
+		"microservizi",
+		"Millis",
 		"MVVM",
 		"mydb",
 		"mysqlphp",
 		"nitrojs",
+		"nosql",
 		"nuxi",
 		"Nuxt",
 		"ofetch",
@@ -68,6 +78,7 @@
 		"Panchekha",
 		"Pandoc",
 		"Panflute",
+		"partizionabilità",
 		"Pavel",
 		"performanti",
 		"Pooya",
@@ -76,7 +87,9 @@
 		"prerender",
 		"prestazioniv",
 		"profilazione",
+		"rakyll",
 		"retrocompatibile",
+		"riconnessione",
 		"Sebastien",
 		"Shadcn",
 		"sottocomandi",
@@ -100,7 +113,10 @@
 		"vuemodel",
 		"vueview",
 		"vueviewmodel",
-		"Widenius"
+		"Widenius",
+		"xychart"
 	],
 	"markdown-preview-enhanced.previewTheme": "github-light.css",
+	"markdown.marp.enableHtml": true,
+	"markdown.preview.scrollEditorWithPreview": false
 }

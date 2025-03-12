@@ -126,9 +126,11 @@ TypeORM consente di lavorare con diversi DBMS (Database Management Systems), tra
 |        Sql.js        |       ✅        |  in memoria   |  `sql.js`   |
 | Microsoft SQL Server |       ✅        |      ✅       |   `mssql`   |
 |       OracleDB       |       ✅        |      ✅       | `oracledb`  |
-|       MongoDB        | ❌, a documenti |      ✅       |  `mongodb`  |
+|   MongoDB[^mongo]    | ❌, a documenti |      ✅       |  `mongodb`  |
 |       SAP Hana       |       ✅        |  in memoria   | `hdb-pool`  |
 | Google Cloud Spanner |       ✅        |      ✅       |  `spanner`  |
+
+[^mongo]: MongoDB è un database NoSQL, ma TypeORM supporta la connessione ad esso ed un'API simile a quella dei database relazionali.
 
 Per effettuare la connessione con il database occorre installare l'adattatore mediante npm, e configurare un istanza di `DataSource` con le opzioni di accesso al database.
 
@@ -145,7 +147,7 @@ let options: DataSourceOptions = {
 	database: "dev",
 	username: "dev",
 	password: "dev",
-	ssl: true,
+	ssl: false,
 	connectTimeoutMS: 10000,
 	synchronize: true,
 	logging: true,
@@ -501,7 +503,7 @@ Alcune delle opzioni più comuni per PostgreSQL sono:
     -   `"boolean"`: Un valore booleano.
     -   `"date"`: Una data senza orario, in TypeScript un oggetto `Date`.
     -   `"timestamp"`: Una data e un orario, in TypeScript un oggetto `Date`.
-    -   `"json"`: Un oggetto JSON. Con questo tipo si possono memorizzare oggetti complessi, come array e oggetti annidati, ma per le operazioni di ricerca e ordinamento. È preferibile usare un tipo di dato nativo del database.
+    -   `"json"`: Un oggetto JSON. Con questo tipo si possono memorizzare oggetti complessi, come array e oggetti annidati. L'utilizzo di dati non strutturati come JSON può estendere le capacità di database relazionali che li supportano ed avvicinarli a NoSQL[^nosql], ma può rendere più complesse le query e meno efficienti le operazioni di ricerca e ordinamento. Al momento di scrittura, TypeORM non offre supporto per l'API `find` (vedi in seguito) per le sotto-strutture di una colonna JSON[^issue-json].
     -   `"jsonb"`: Un oggetto JSON binario.
     -   `"enum"`: Un insieme di valori possibili. Si definisce con un array di stringhe, che viene tipizzato come uno _string literal type_, o anche con un enum Typescript. In entrambi i casi la tipizzazione è garantita.
 -   `length: number`: La lunghezza massima della colonna, per i tipi `varchar` e `text`.
@@ -511,6 +513,9 @@ Alcune delle opzioni più comuni per PostgreSQL sono:
 -   `primary: boolean`: Se la colonna è parte della chiave primaria.
 -   `generated: boolean`: Se il valore della colonna è generato automaticamente.
 -   `comment: string`: Un commento sulla colonna.
+
+[^nosql]: [Che cos'è NoSQL](https://www.mongodb.com/it-it/resources/basics/databases/nosql-explained) - Articolo sul blog di MongoDB.
+[^issue-json]: Issue [11016](https://github.com/typeorm/typeorm/issues/11016) di TypeORM.
 
 #### Migrations
 
@@ -1016,9 +1021,11 @@ const authors = await User.find({
 	relations: { posts: { likedBy: true } },
 });
 
-const usersWhoLikedAuthorsPosts: User[] = authors.flatMap((author) =>
+const usersWhoLikedAuthorsPostsWithDuplicates: User[] = authors.flatMap((author) =>
 	author.posts.flatMap((post) => post.likedBy)
 );
+
+const usersWhoLikedAuthorsPosts = [...new Set(usersWhoLikedAuthorsPostsWithDuplicates)]
 ```
 
 #### Query builder
@@ -1107,7 +1114,7 @@ Lo stesso esempio del paragrafo [Active record](#active-record), dove le entità
 const USER = "user";
 const POST = "post";
 // Aggiungi un nuovo utente
-User.createQueryBuilder()
+await User.createQueryBuilder()
 	.insert()
 	.into(User)
 	.values({ username: "bob" })

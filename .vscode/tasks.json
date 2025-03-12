@@ -6,12 +6,21 @@
 			"type": "shell",
 			"command": "make",
 			"problemMatcher": [],
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "PATH": "${env:PATH}:/home/valerio/.local/share/pnpm"
-                }
-            },
+		    "options": {
+		        "cwd": "${workspaceFolder}",
+		        "env": {
+		            "PATH": "${env:PATH}:/home/valerio/.local/share/pnpm"
+		        }
+		    },
+		},
+		{
+			"label": "pres",
+			"type": "shell",
+			"command": "npm run build",
+			"problemMatcher": [],
+			"options": {
+				"cwd": "${workspaceFolder}/pres",
+			},
 		}
 	],
 	"presentation": {

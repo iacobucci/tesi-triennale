@@ -1,6 +1,6 @@
-# Soluzioni di design
+# Esempi di Applicazioni Web basate su Nuxt e TypeORM
 
-Vengono esposte delle soluzioni progettuali ed implementative per la realizzazione di un'applicazione web con le tecnologie dettagliate nel capitolo precedente, Nuxt e TypeORM, in combinazione con i servizi cloud AWS, che ho approfondito durante il tirocinio curriculare presso l'azienda Soluzioni Futura s.r.l., ora Polarity s.r.l.
+Vengono esposte delle soluzioni progettuali ed implementative per la realizzazione di un'applicazione Web con le tecnologie dettagliate nel capitolo precedente, Nuxt e TypeORM, in combinazione con i servizi cloud AWS, che ho approfondito durante il tirocinio curriculare presso l'azienda Soluzioni Futura s.r.l., ora Polarity s.r.l.
 
 Il progetto realizzato per questo lavoro di tesi include:
 
@@ -10,7 +10,7 @@ Il progetto realizzato per questo lavoro di tesi include:
 
 ## Architettura del cloud e integrazione continua
 
-Amazon web services è una piattaforma che offre una _PaaS_, platform as a service, dove sono messi a disposizione servizi di calcolo, di storage e di database; ma anche una _IaaS_, infrastructure as a service, che permette di configurare reti di calcolatori virtuali accessibili via internet.
+Amazon Web Services è una piattaforma che offre una _PaaS_, platform as a service, dove sono messi a disposizione servizi di calcolo, di storage e di database; ma anche una _IaaS_, infrastructure as a service, che permette di configurare reti di calcolatori virtuali accessibili via internet.
 
 Per iniziare ad utilizzare AWS è necessario registrarsi (come root user dell'account) accedendo alla dashboard online ([https://aws.amazon.com/it/console/](https://aws.amazon.com/it/console)).
 
@@ -18,7 +18,7 @@ Per iniziare ad utilizzare AWS è necessario registrarsi (come root user dell'ac
 
 Parte del progetto è stata l'avviamento dell'infrastruttura AWS per mezzo di codice di marcatura `yaml` con Cloudformation, un servizio che permette di gestire risorse in AWS in modo dichiarativo. Cloudformation permette di creare interi stack nei quali si possono creare e collegare servizi AWS.
 
-Il seguente è un esempio concettuale di template Cloudformation `yaml`, dove vengono presi in input username e password, poi si avviano due risorse: un server linux virtuale EC2 e un'istanza di database RDS che viene configurata con i parametri in ingresso tramite `!Ref`. L'istanza EC2 verrà creata solo dopo che l'istanza RDS sarà stata avviata, per via della direttiva `!GetAtt "RDSInstance.Endpoint.Address"`, così il suo accesso al database sarà garantito. Infine viene esposto l'indirizzo IP pubblico dell'istanza EC2.
+Il seguente è un esempio concettuale di template Cloudformation `yaml`, dove vengono presi in input username e password, poi si avviano due risorse: un server linux virtuale EC2 e un'istanza di database RDS che viene configurata con i parametri in ingresso tramite `!Ref`. L'istanza EC2 verrà creata solo dopo che l'istanza RDS sarà stata avviata, per via della direttiva `!GetAtt "RDSInstance.Endpoint.Address"`, così il suo accesso al database sarà garantito. Infine viene restituito l'indirizzo IP pubblico dell'istanza EC2.
 
 ```yaml
 Description: "Deploy a database with provided username and password"
@@ -55,7 +55,7 @@ Outputs:
 
 Uno stack Cloudformation si può trovare in vari stati, mostrati nel diagramma:
 
-```mermaid {height=5.5cm}
+```mermaid {height=4.8cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 graph TD;
     B[CREATE_IN_PROGRESS]
@@ -71,12 +71,12 @@ graph TD;
     I -->|Eliminato con successo| J[DELETE_COMPLETE]
     I -->|Errore durante l'eliminazione| K[DELETE_FAILED]
 
-    style C fill:#ADFFAD,stroke:#333,stroke-width:2px;
-    style F fill:#ADFFAD,stroke:#333,stroke-width:2px;
-    style H fill:#ADFFAD,stroke:#333,stroke-width:2px;
-    style J fill:#ADFFAD,stroke:#333,stroke-width:2px;
-    style D fill:#FFA5C5,stroke:#333,stroke-width:2px;
-    style K fill:#FFA5C5,stroke:#333,stroke-width:2px;
+    style C fill:#80CE80,stroke:#333,stroke-width:2px;
+    style F fill:#80CE80,stroke:#333,stroke-width:2px;
+    style H fill:#80CE80,stroke:#333,stroke-width:2px;
+    style J fill:#80CE80,stroke:#333,stroke-width:2px;
+    style D fill:#D493AB,stroke:#333,stroke-width:2px;
+    style K fill:#D493AB,stroke:#333,stroke-width:2px;
 ```
 
 Di seguito sono esposte due architetture diverse ed essenziali, in quanto forniscono una base di partenza funzionante e che può essere personalizzata per soddisfare le esigenze di una qualsiasi applicazione e del suo team di sviluppo modificando i rispettivi template Cloudformation.
@@ -124,7 +124,7 @@ La seconda architettura proposta, basata su funzioni AWS Lambda, è una soluzion
 -   I costi sono basati sul tempo di esecuzione e sulle risorse utilizzate. Se il codice non viene eseguito, non si pagherà nulla.
 -   Il modello di server è di tipo **stateless**, in quanto le funzioni Lambda non mantengono lo stato tra le invocazioni. Questo significa che non si può mantenere una connessione attiva al database.
 -   Il limite di esecuzione di una Lambda è di 15 minuti. Se il codice richiede più tempo, si dovrà spezzare la funzione in più Lambda.
--   Soffrono del problema del _cold start_: la prima invocazione di una funzione Lambda può richiedere più tempo rispetto alle successive, in quanto il provider cloud deve avviare un container di calcolo e caricare il codice della funzione. Le invocazioni successive saranno più veloci, in quanto il container sarà riutilizzato, seppure per breve tempo.
+-   Soffrono del problema del _cold start_: la prima invocazione di una funzione Lambda può richiedere più tempo rispetto alle successive, in quanto il provider cloud deve avviare un container di calcolo e caricare il codice della funzione. Le invocazioni successive saranno più veloci, in quanto il container sarà riutilizzato, seppure per breve tempo. AWS offre un'opzione chiamata Provisioned Concurrency, che tiene istanze della tua Lambda pronte all'uso, mitigando il problema del cold start: con questa opzione si possono mantenere funzioni in un certo numero come sempre attive, ma bisogna considerare che questo comporta un costo fisso.
 
 È stato configurato lo stack `serverless.yml`, che include:
 
@@ -344,7 +344,7 @@ const options =
 				port: parseInt(process.env.DB_PORT || "5432"),
 				username: process.env.DB_USERNAME,
 				password: process.env.DB_PASSWORD,
-				ssl: { rejectUnauthorized: false },
+				ssl: true,
 				synchronize: false,
 				logging: true,
 				entities, // array di classi delle entità da collegare
@@ -360,7 +360,7 @@ Ma per il caso serverless, con utilizzo di pool di connessioni sono state selezi
 		max: 1000,
 		min: 10,
 		connectionTimeoutMillis: 30000,
-		keepAlive: true, // con questo si evita di dover riconnettersi ad ogni richiesta
+		keepAlive: true, // con questo si evita la riconnessione ad ogni richiesta
 		keepAliveInitialDelayMillis: 5000,
 		query_timeout: 10000,
 	},
@@ -384,7 +384,7 @@ Il risultato, nel caso di ECS, è stato:
 E nel caso di Lambda:
 
 > ![](./res/lighthouse-lambda.png){width=80%}
-> Performance del SSR per l'architettura Lambda. A sinistra in caso di _cold start_, a destra in caso di _heated start_.
+> Performance del SSR per l'architettura Lambda. A sinistra in caso di _cold start_, a destra in caso di _warm start_.
 
 L'architettura ECS ha, in media, prestazioni migliori in termini di tempo, complice il fatto che c'è un numero minimo di task che rimangono sempre attive ed in ascolto di richieste.
 
@@ -409,7 +409,7 @@ con parametri: `?authors=user-1,...,user-10`, quindi scegliendo 10 autori di pos
 
 La risposta HTTP ad entrambe le query consiste in una pagina che contiene 927 `RowsUser`, cioè dei componenti Vue che indicano il nome utente e contengono un Nuxt Link a `/user/[username]`
 
-I risultati, in termini di quante risposte sono state ricevute dopo un certo tempo, sono stati raccolti in un grafico a barre con distanze temporali omogenee per ogni test. Le risposte sono state sempre conformi alle attese, e non sono state riscontrate anomalie, riscontrando un 100% di status code "200".
+I risultati, in termini di quante risposte sono state ricevute dopo un certo tempo, sono stati raccolti in grafici a barre con intervalli temporali omogenei per ogni test. Le risposte sono state sempre conformi alle attese, e non sono state riscontrate anomalie, riscontrando un 100% di status code "200".
 
 I risultati, per l'architettura basata su container, sono stati:
 
@@ -435,7 +435,7 @@ Mentre per l'architettura serverless, con funzioni Lambda "a freddo", che quindi
 xychart-beta
     title "Query Builder su Lambda a freddo"
 	x-axis "Secondi" [ 0.040, 0.185, 0.329, 0.474, 0.618, 0.763, 0.907, 1.052, 1.196, 1.341, 1.485 ]
-    y-axis "Risposte" 0 --> 140
+    y-axis "Risposte" 0 --> 150
     bar [ 1, 142, 8, 2, 3, 7, 17, 14, 3, 1, 2 ]
 ```
 
@@ -452,8 +452,8 @@ E per Lambda "a caldo", cioè con funzioni già avviate:
 ```mermaid {height=4cm}
 xychart-beta
     title "Query Builder su Lambda a caldo"
-	x-axis "Secondi"
-    y-axis "Risposte" 0 --> 140
+	x-axis "Secondi" [ 0.048, 0.156, 0.264, 0.372, 0.480, 0.588, 0.697, 0.805, 0.913, 1.021, 1.129 ]
+    y-axis "Risposte" 0 --> 140 
     bar [ 1, 138, 9, 0, 5, 8, 4, 5, 12, 15, 3 ]
 ```
 
@@ -474,10 +474,10 @@ FROM "user" "user"
 INNER JOIN "post_liked_by_user" "likedPost_user" ON "likedPost_user"."userId"="user"."id"
 INNER JOIN "post" "likedPost" ON "likedPost"."id"="likedPost_user"."postId"
 INNER JOIN "user" "author" ON "author"."id"="likedPost"."authorId"
-WHERE "author"."username" IN ($1, $2, $3)
+WHERE "author"."username" IN ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
 ```
 
-e per Acrive Record:
+e per Active Record:
 
 ```SQL
 SELECT "User"."id" AS "User_id",
@@ -492,7 +492,7 @@ LEFT JOIN "post" "User__User_posts" ON "User__User_posts"."authorId"="User"."id"
 LEFT JOIN "post_liked_by_user" "User__User_posts_User__User_posts__User__User_posts_likedBy" ON "User__User_posts_User__User_posts__User__User_posts_likedBy"."postId"="User__User_posts"."id"
 LEFT JOIN "user" "User__User_posts__User__User_posts_likedBy" ON "User__User_posts__User__User_posts_likedBy".
 	"id"="User__User_posts_User__User_posts__User__User_posts_likedBy"."userId"
-WHERE ("User"."username" IN ($1, $2, $3))
+WHERE ("User"."username" IN ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10))
 ```
 
 Si evince che in entrambi i casi le query al database fanno 3 `JOIN`. La versione generata dalla `.find()` fa uso di più _alias_, ma non è necessariamente più lenta ad eseguire sul database.
@@ -507,7 +507,7 @@ I risultati di performance ottenuti si spiegano per via dell'uso efficiente del 
 
 Per gli stessi endpoint testati in termini di performance, sono stati effettuati test con `sqlmap`[^sqlmap], uno strumento di test di sicurezza automatizzati per database SQL. Con i test effettuati, tra cui:
 
--   "AND boolean-based blind - WHERE or HAVING clause", che manipola una condizione booleana in una clausola WHERE o HAVING per inferire informazioni sul database in modo cieco.
+-   "AND boolean-based blind - WHERE or HAVING clause", che manipola una condizione booleana in una clausola `WHERE` o `HAVING` per inferire informazioni sul database in modo cieco.
 -   "UNION SELECT", che tenta di recuperare informazioni da altre tabelle.
 -   "Time-based blind", che tenta di inferire informazioni sul database in base al tempo di risposta.
 -   "Stacked queries", che tenta di eseguire più query in una sola richiesta.
@@ -516,20 +516,3 @@ Per gli stessi endpoint testati in termini di performance, sono stati effettuati
 Per entrambe le API TypeORM, non è stata rilevata alcuna vulnerabilità.
 
 [^sqlmap]: [sqlmap.org](https://sqlmap.org/) - il sito ufficiale di sqlmap.
-
-## Conclusioni e possibili estensioni
-
-Il Nuxt è efficace con il suo server side rendering per ottimi risultati di largest contentful paint ed altre metriche di performance, oltre che per impostare un progetto ben strutturato ed estendibile.
-
-Per quello che riguarda TypeORM, Active Record si è dimostrato un pattern valido, se usato con accortezze che includono:
-
--   Uso limitato e possibilmente parallelo di `await` per evitare di bloccare il server.
--   Caricamento di entità correlate solo quando necessario, per evitare di sovraccaricare la memoria.
-
-AWS Lambda è il servizio di esecuzione di codice in cloud che crea il compromesso più competitivo in termini di costo e performance. Per risolvere il loro problema del cold start si possono impostare funzioni in un certo numero come sempre attive, ma bisogna considerare che questo comporta un costo fisso.
-
-Possibili estensioni di questo lavoro vanno in direzioni di:
-
--   Ampliamento dell'infrastruttura cloud per includere altri servizi AWS, come S3 per il salvataggio e reperimento di file statici, o Cognito per l'autenticazione degli utenti.
--   Applicazione mirata di strategie di rendering diverse in Nuxt, anche resa possibile da un bucket S3 che farebbe da server di files statici, in questo caso pagine pre-renderizzate.
--   Implementazione di un sistema di cache in memory per le query TypeORM più frequenti, come Redis.

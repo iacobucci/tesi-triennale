@@ -1,3 +1,3 @@
 # Descrizione delle tecnologie
 
-In questo capitolo si illustrano due particolari tecnologie per la realizzazione di applicazioni web: Nuxt e TypeORM. Sono state scelte tra le molte alternative disponibili per il loro uso diffuso e consolidato nel settore, e perché esemplificano una naturale continuazione delle linee evolutive descritte nel [capitolo precedente](#linee-evolutive) fornendo una soluzione alle problematiche affrontate, e per altre ragioni che saranno discusse in seguito.
+In questo capitolo si illustrano due particolari tecnologie per la realizzazione di applicazioni Web: Nuxt e TypeORM. Sono state scelte tra le molte alternative disponibili per il loro uso diffuso e consolidato nel settore, e perché esemplificano una naturale continuazione delle linee evolutive descritte nel [capitolo precedente](#linee-evolutive) fornendo una soluzione alle problematiche affrontate, e per altre ragioni che saranno discusse in seguito.

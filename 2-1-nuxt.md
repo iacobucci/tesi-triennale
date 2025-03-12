@@ -1,6 +1,6 @@
 ## Nuxt
 
-Nuxt è un framework per applicazioni web, avviato come progetto Open source da Alexandre e Sebastien Chopin e Pooya Parsa nel 2016, che continua ad essere mantenuto attivamente su Github da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/nuxt/nuxt](https://github.com/nuxt/nuxt).
+Nuxt è un framework per applicazioni Web, avviato come progetto Open source da Alexandre e Sebastien Chopin e Pooya Parsa nel 2016, che continua ad essere mantenuto attivamente su Github da un team di sviluppatori che accettano contributi, all'indirizzo [github.com/nuxt/nuxt](https://github.com/nuxt/nuxt).
 
 Nuxt si propone di risolvere i problemi di performance, di ottimizzazione e di accessibilità delle applicazioni basate su componenti con il suo sistema di frontend, ma anche di fornire un ambiente di sviluppo flessibile, per facilitare la scalabilità e la manutenibilità del codice backend. Si possono infatti realizzare applicazioni **fullstack** secondo il pattern MVC, in cui la view è implementata con Vue ed il controller con _Nitro_, un server http fatto su misura per Nuxt.
 
@@ -40,7 +40,7 @@ controller -.-> vue
 
 > L'architettura generale di una applicazione Nuxt. Si noti che la View adotta a sua volta il pattern _MVVM_ quindi si hanno due modelli dei dati con interfacce potenzialmente distinte. Infatti nel modo tradizionale di usare Vue, backend e frontend potrebbero essere viste come due applicazioni a bassa coesione (basti pensare a come potrebbero essere realizzate in due linguaggi di programmazione differenti) ed alto accoppiamento (nel senso che un cambiamento da un lato potrebbe richiedere un altro cambiamento dall'altro lato del sistema, per mantenere la coerenza). Nuxt si occupa appunto di gestire la **comunicazione tra i due models**: il model dei dati persistenti ed il model dell'applicazione che esegue nel browser, in modo da ottenere _loose coupling_ e _high cohesion_.
 
-Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo obiettivo di semplificare la creazione di applicazioni web fornendo un'infrastruttura preconfigurata e pronta all'uso. In questo modo lo sviluppatore può concentrarsi da subito sulla logica dell'applicazione, piuttosto che sulla configurazione del progetto. È quindi ricalcato il punto di vista di David Heinemeier Hansson su Rails, il framework per applicazioni web per Ruby che ideò nel luglio 2004, per il quale sosteneva il principio "convention over configuration"[^convention-over-configuration].
+Lo slogan di Nuxt è "The Intuitive Vue Framework", che è in accordo con il suo obiettivo di semplificare la creazione di applicazioni Web fornendo un'infrastruttura preconfigurata e pronta all'uso. In questo modo lo sviluppatore può concentrarsi da subito sulla logica dell'applicazione, piuttosto che sulla configurazione del progetto. È quindi ricalcato il punto di vista di David Heinemeier Hansson su Rails, il framework per applicazioni Web per Ruby che ideò nel luglio 2004, per il quale sosteneva il principio "convention over configuration"[^convention-over-configuration].
 
 Nonostante questo, Nuxt utilizza internamente tecnologie raffinate, come Typescript e Vite, che consentono di scrivere codice robusto. Con Nuxt si possono realizzare applicazioni di vario genere, come siti vetrina, blog, documentazioni o wiki, e-commerce, dashboard gestionali, piattaforme di social networking, applicazioni mobile-first, etc...
 
@@ -53,7 +53,7 @@ La repository di sviluppo di Nuxt è organizzata secondo il modello di _monorepo
 -   `packages/test-utils` contiene degli script per il testing di unità.
 -   `packages/vite` è una fork di Vite, un bundler per gli script di frontend, usato di default da Nuxt.
 -   `packages/webpack` è una fork di Webpack, un'altro bundler per gli script di frontend che si può scegliere in alternativa a Vite.
--   `docs` è la documentazione ufficiale, scritta sotto forma di sito web statico, usando Nuxt stesso.
+-   `docs` è la documentazione ufficiale, scritta sotto forma di sito Web statico, usando Nuxt stesso.
 
 Oltre a modificare la monorepo, gli sviluppatori Open source sono invitati a creare moduli per estendere le Nuxt con funzionalità non essenziali, ma idonee per l'interoperabilità con altri software. Questi moduli possono essere pubblicati su Npm come pacchetti, con `@nuxt/kit` come dipendenza, ed al Marzo 2025 se ne contano più di 200[^moduli-nuxt].
 
@@ -121,7 +121,7 @@ tsconfig.json		# Configurazione del compilatore Typescript per il frontend
 Una volta inizializzato il progetto, questo è il comando per aggiungere funzionalità all'app. Prende come terzo argomento il tipo di template da aggiungere, che può essere tra:
 
 -   **app**: Il componente Vue che fa da entry point dell'applicazione. È già presente di default in ogni progetto Nuxt, ma può essere sovrascritto con questo comando.
--   **page**: Una pagina web, che sarà accessibile alla rotta `/<nome-pagina>`.
+-   **page**: Una pagina Web, che sarà accessibile alla rotta `/<nome-pagina>`.
 -   **layout**: Un layout Vue, cioè un componente che definisce la struttura di una o più pagine. È un modo di riutilizzare il codice HTML e CSS in più parti dell'applicazione.
 -   **component**: Un componente Vue, riutilizzabile in tutte le pagine o layout.
 -   **error**: Un componente Vue che sarà mostrato in caso di errore.
@@ -141,7 +141,7 @@ Ogni aggiunta corrisponde ad un nuovo file che verrà creato nella directory cor
 
 #### `nuxi dev`
 
-Una volta aggiunte le prime funzionalità si può lanciare il server di sviluppo, che permette di testare l'applicazione in locale. Di default il server è accessibile alla rotta `http://localhost:3000`, ma si può cambiare la porta con l'opzione `--port <numero-porta>`. Il server di sviluppo è dotato nativamente di _hot reloading_, cioè la capacità di ricaricare automaticamente la pagina web quando si salvano i file del progetto, in modo da velocizzare il feedback del sistema al programmatore.
+Una volta aggiunte le prime funzionalità si può lanciare il server di sviluppo, che permette di testare l'applicazione in locale. Di default il server è accessibile alla rotta `http://localhost:3000`, ma si può cambiare la porta con l'opzione `--port <numero-porta>`. Il server di sviluppo è dotato nativamente di _hot reloading_, cioè la capacità di ricaricare automaticamente la pagina Web quando si salvano i file del progetto, in modo da velocizzare il feedback del sistema al programmatore.
 
 #### `nuxi devtools`
 
@@ -164,7 +164,7 @@ Viene aggiunto un elemento html alla pagina, nel quale sono presenti diverse sez
 > ![Devtools di Nuxt. In questa sezione è mostrato la lista delle pagine agganciate al Vue-router, i middleware e i layout per ogni pagina. È presente inoltre un indicatore che mostra come il rendering della pagina `testpage` ha impiegato 10ms.](./res/nuxt-devtools.png){width=70%}
 
 [^devtools]: Come quelli di [Firefox](https://firefox-source-docs.mozilla.org/devtools-user/), dei derivati di [Chromium](https://developer.chrome.com/docs/devtools?hl=it), di [Safari](https://developer.apple.com/safari/tools/) ed di [Edge](https://learn.microsoft.com/en-us/microsoft-edge/devtools-guide-chromium/overview).
-[^open-graph]: [Open Graph Protocol](https://ogp.me/#metadata) - Protocollo per l'inserimento di metadati nelle pagine web, che saranno mostrati come copertina quando la pagina viene condivisa sui social network.
+[^open-graph]: [Open Graph Protocol](https://ogp.me/#metadata) - Protocollo per l'inserimento di metadati nelle pagine Web, che saranno mostrati come copertina quando la pagina viene condivisa sui social network.
 
 #### `nuxi module`
 
@@ -292,7 +292,7 @@ Si può usare invece il componente `<NuxtLink>`, che accetta l'attributo `to` co
 
 -   oppure tramite la **server-side navigation**, cioè la navigazione tra le pagine con richieste HTTP al server, che risponde con il codice HTML della pagina richiesta.
 
-È una buona pratica quella di guarnire i template delle pages con contenuti html e componenti Vue, delegando a questi la logica di presentazione, nonostante anche nelle pages si possano inserire delle direttive Vue.
+È una buona pratica quella di guarnire i template delle pages con contenuti HTML e componenti Vue, delegando a questi la logica di presentazione, nonostante anche nelle pages si possano inserire delle direttive Vue.
 
 ##### Script
 
@@ -411,7 +411,7 @@ server/
 	api/
 		users.ts					# GET /api/users
 		users/
-			bylastname.post.ts		# POST /api/users/bylastname
+			byLastName.post.ts		# POST /api/users/byLastName
 			[id].ts					# GET /api/users/<id>
 		[...].ts					# GET /api/*
 	routes/
@@ -484,7 +484,7 @@ Per fare richieste HTTP dal frontend di Nuxt si può usare il composable `useFet
 <script setup lang="ts">
 	const usersByLastName = reactive<UsersByLastName>({ lastName: "" });
 
-	const { data, pending, error } = await useFetch("/api/users/bylastname", {
+	const { data, pending, error } = await useFetch("/api/users/byLastName", {
 		method: "POST",
 		body: usersByLastName,
 		watch: [usersByLastName],
@@ -506,7 +506,7 @@ Per fare richieste HTTP dal frontend di Nuxt si può usare il composable `useFet
 </template>
 ```
 
-L'esempio sopra mostra una riscrittura della server function `getUsersByLastName` con `useFetch`. Al cambiamento del valore di `usersByLastName.lastName`, `useFetch` fa una richiesta POST all'endpoint `/api/users/bylastname` con il corpo della richiesta `usersByLastName`, e aggiorna le variabili reattive `data`, `pending` e `error` con i dati ricevuti, lo stato di caricamento e gli errori. Il template mostra un messaggio di caricamento se `pending` è `true`, un messaggio di errore se `error` è definito o la lista degli utenti se `data` è definito.
+L'esempio sopra mostra una riscrittura della server function `getUsersByLastName` con `useFetch`. Al cambiamento del valore di `usersByLastName.lastName`, `useFetch` fa una richiesta POST all'endpoint `/api/users/byLastName` con il corpo della richiesta `usersByLastName`, e aggiorna le variabili reattive `data`, `pending` e `error` con i dati ricevuti, lo stato di caricamento e gli errori. Il template mostra un messaggio di caricamento se `pending` è `true`, un messaggio di errore se `error` è definito o la lista degli utenti se `data` è definito.
 
 Oltre al primo argomento che è una stringa con la rotta dell'API (ha tipizzazione forte e ammette solo rotte valide), le opzioni di `useFetch` sono:
 
@@ -524,7 +524,7 @@ Oltre al primo argomento che è una stringa con la rotta dell'API (ha tipizzazio
 
 Inoltre è da notare che `useFetch` può essere usato con o senza `await`, a seconda se si vuole attendere la risposta della richiesta o meno. Se si usa `await`, il rendering di una pagina lato server aspetterà che la richiesta sia completata prima di inviare la pagina al client, mentre se non si usa `await`, la richiesta potrebbe eseguire in parallelo alla visualizzazione della pagina lato client, che quindi mostrerebbe una pagina incompleta. Per evitare problemi di SEO e LCP, è consigliato usare `await` in ogni caso.
 
-Per ottenere dei comportamenti ad hoc per il caricamento di dati nella pagina, si possono combinare le opzioni `immediate`, `server` e `lazy`, come evidenzia il seguente schema^[learn-vue]:
+Per ottenere dei comportamenti ad hoc per il caricamento di dati nella pagina, si possono combinare le opzioni `immediate`, `server` e `lazy`, come evidenzia il seguente[^learn-vue] schema:
 
 [^learn-vue]: Illustrato anche nel video tutorial di [Matt Maribojoc](https://www.youtube.com/watch?v=b1S5os65Urs).
 
@@ -563,11 +563,11 @@ Come mostrato nel paragrafo [Command line interface](#nuxi-build), Nuxt dispone 
 
 Tipi di applicazione diversi hanno esigenze diverse: Un blog o un sito vetrina potrebbero non richiedere le stesse prestazioni di un'applicazione di e-commerce o di un'applicazione di social networking. Nuxt si adatta a queste esigenze offrendo diverse modalità di rendering, che possono essere scelte per l'intera applicazione o per singole pagine o gruppi di pagine.
 
-In questo contesto, con rendering di una pagina web non si intende il processo di disegno dei pixel sullo schermo, del quale generalmente si occuperà il browser web delegando al sistema operativo la gestione dell'hardware. Qui con rendering si intende il processo di generazione del codice HTML, CSS e Javascript che costituisce la pagina web, a partire da componenti Vue, dati e template.
+In questo contesto, con rendering di una pagina Web non si intende il processo di disegno dei pixel sullo schermo, del quale generalmente si occuperà il browser Web delegando al sistema operativo la gestione dell'hardware. Qui con rendering si intende il processo di generazione del codice HTML, CSS e Javascript che costituisce la pagina Web, a partire da componenti Vue, dati e template.
 
 #### Client Side Rendering
 
-Nuxt supporta la stessa modalità di rendering discussa nel [capitolo 1](#vue.js), in cui il codice dell'applicazione Vue viene eseguito interamente sul browser. Dopo una richiesta iniziale, il server invia un DOM minimo ed il bundle javascript al browser web. Ogni richiesta successiva viene gestita dal client, che si occupa di fare le richieste al server API per ottenere i dati e di aggiornare il DOM in base alle risposte. Gli `useFetch` che richiedono dati al caricamento iniziale della pagina vengono eseguiti sempre sul client.
+Nuxt supporta la stessa modalità di rendering discussa nel [capitolo 1](#vue.js), in cui il codice dell'applicazione Vue viene eseguito interamente sul browser. Dopo una richiesta iniziale, il server invia un DOM minimo ed il bundle javascript al browser Web. Ogni richiesta successiva viene gestita dal client, che si occupa di fare le richieste al server API per ottenere i dati e di aggiornare il DOM in base alle risposte. Gli `useFetch` che richiedono dati al caricamento iniziale della pagina vengono eseguiti sempre sul client.
 
 ```mermaid {height=6cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
@@ -634,7 +634,7 @@ La SEO è migliorata perché i motori di ricerca possono leggere il codice HTML 
 
 #### Static site generation
 
-Nuxt supporta la generazione di siti statici, cioè la generazione di pagine HTML in fase di build. Non avviene nessun rendering lato server durante la fase di produzione, ma solo in fase di pubblicazione. Questo modello è adatto per siti web che non richiedono interattività o aggiornamenti frequenti, come blog, documentazioni o siti vetrina. Gli `useFetch` che richiedono dati al caricamento iniziale della pagina vengono eseguiti durante la fase di build.
+Nuxt supporta la generazione di siti statici, cioè la generazione di pagine HTML in fase di build. Non avviene nessun rendering lato server durante la fase di produzione, ma solo in fase di pubblicazione. Questo modello è adatto per siti Web che non richiedono interattività o aggiornamenti frequenti, come blog, documentazioni o siti vetrina. Gli `useFetch` che richiedono dati al caricamento iniziale della pagina vengono eseguiti durante la fase di build.
 
 ```mermaid {height=8cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
@@ -673,7 +673,7 @@ Le prestazioni sono le migliori possibili, perché il server frontend non deve e
 
 #### Incremental static regeneration
 
-È diffuso un modello simile al SSG, chiamato _incremental static regeneration_, in cui le pagine statiche vengono rigenerate in base a un intervallo di tempo o a un evento specifico. È quindi necessario un server frontend con capacità di calcolo modeste, in grado di fare periodicamente richieste al server backend per potersi aggiornare. Questo modello è adatto per siti web che richiedono aggiornamenti periodici, come siti che forniscono un feed di notizie altamente personalizzato o siti di e-commerce che devono fornire prezzi dei prodotti aggiornati al first contentful paint. Come per la SSG, gli `useFetch` che richiedono dati al caricamento iniziale della pagina vengono eseguiti durante la fase di aggiornamento della cache.
+È diffuso un modello simile al SSG, chiamato _incremental static regeneration_, in cui le pagine statiche vengono rigenerate in base a un intervallo di tempo o a un evento specifico. È quindi necessario un server frontend con capacità di calcolo modeste, in grado di fare periodicamente richieste al server backend per potersi aggiornare. Questo modello è adatto per siti Web che richiedono aggiornamenti periodici, come siti che forniscono un feed di notizie altamente personalizzato o siti di e-commerce che devono fornire prezzi dei prodotti aggiornati al first contentful paint. Come per la SSG, gli `useFetch` che richiedono dati al caricamento iniziale della pagina vengono eseguiti durante la fase di aggiornamento della cache.
 
 ```mermaid {height=10cm}
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
@@ -698,7 +698,7 @@ sequenceDiagram
     client->>client: Aggiornamento della pagina
 ```
 
-Si può scegliere l'intervallo di invalidazione per certe pagine nel file `nuxt.config.ts`. Con swr si indica l'header HTTP _stale-while-revalidate_, cioè il tempo in secondi per cui la cache è considerata valida. Il client quindi è a conoscenza di quando il server frontend genererà una nuova versione della pagina.
+Si può scegliere l'intervallo di invalidazione per certe pagine nel file `nuxt.config.ts`. Con `swr` si configura l'header HTTP _stale-while-revalidate_, indicando il tempo in secondi per cui la cache è considerata valida. Il client quindi è a conoscenza di quando il server frontend genererà una nuova versione della pagina.
 
 ```typescript
 export default defineNuxtConfig({
