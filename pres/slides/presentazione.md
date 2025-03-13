@@ -91,6 +91,36 @@ controller -.-> vue
 
 ---
 
+<!-- prettier-ignore-start -->
+```typescript
+export default defineEventHandler(async event => {
+	const body = await readBody<UsersByLastName>(event);
+	const lastName = body.lastName;
+	const users = await User.find({ where: { lastName } });
+	return { status: 200, body: { users } }
+});
+```
+
+```html
+<script setup lang="ts">
+	const usersByLastName = reactive<UsersByLastName>({ lastName: "" });
+	const { data, pending, error } = await useFetch("/api/users/byLastName", {
+		method: "POST", body: usersByLastName, watch: [usersByLastName], lazy: true,
+	});
+</script>
+<template>
+	<input v-model="usersByLastName.lastName" />
+	<ul>
+		<li v-for="user in data.users">
+			{{ user.firstName }} {{user.lastName}}
+		</li>
+	</ul>
+</template>
+```
+<!-- prettier-ignore-end -->
+
+---
+
 <h2 style="translate: 0px -30px">Modalità di rendering</h2>
 
 <div class="container">
@@ -143,7 +173,7 @@ client->>client: Aggiornamento della pagina
 </div>
 
 <div style="translate: 0px 40px">
-Nuxt supporta anche altre modalità di rendering, come Static Site Generation (SSG), e queste possono essere combinate per ottenere una soluzione ibrida.
+Nuxt supporta anche altre modalità di rendering, come SSG e ISG, e queste possono essere combinate per ottenere una soluzione ibrida.
 </div>
 
 ---
@@ -152,7 +182,7 @@ Nuxt supporta anche altre modalità di rendering, come Static Site Generation (S
 
 -   Dispone di una CLI che supporta migrazioni e generazione di entità.
 -   Supporta diversi adattatori per DBMS.
--   Le entità sono definite tramite classi Typescript, ed i tipi delle colonne sono inferiti dal tipo di variabile.
+-   Le entità sono definite tramite classi Typescript, ed i tipi delle colonne sono inferiti dal tipo di variabile, e si possono dettagliare con decoratori.
 -   Si possono definire relazioni `@ManyToOne`, `@OneToMany`, `@ManyToMany` e `@OneToOne`. A queste si associano delle colonne o tabelle di join con `@JoinTable` e `@JoinColumn`.
 
 <div class="container">
@@ -169,14 +199,44 @@ Nuxt supporta anche altre modalità di rendering, come Static Site Generation (S
 
 ## Active Record e Query Builder
 
-<div class="horizontal">
+Permettono di effettuare query CRUD con transazioni ACID.
 
+<div class="horizontal" style="scale: 1.82; margin:100px">
+
+<!-- prettier-ignore-start -->
 ```typescript
+// CREATE
+const newUser = new User();
+newUser.username = "bob";
+await newUser.save();
 
+// READ
+const authors = await User.find({
+	where: [{ username: In("alice", "bob") }],
+	relations: { posts: { likedBy: true } },
+});
+
+const usersWhoLikedAuthorsPostsWithDuplicates =
+	authors.flatMap((author) =>
+	author.posts.flatMap((post) => post.likedBy)
+);
+
+const usersWhoLikedAuthorsPosts = [
+	...new Set(usersWhoLikedAuthorsPostsWithDuplicates),
+];
 ```
 
 ```typescript
-const usersWhoLikedAuthorsPosts = await User.createQueryBuilder("user")
+// CREATE
+await User.createQueryBuilder()
+	.insert()
+	.into(User)
+	.values({ username: "bob" })
+	.execute();
+
+// READ
+const usersWhoLikedAuthorsPosts = await User
+	.createQueryBuilder("user")
 	.innerJoin("user.likedPosts", "likedPost")
 	.innerJoin("likedPost.author", "author")
 	.where("author.username IN (:...usernames)", {
@@ -185,6 +245,7 @@ const usersWhoLikedAuthorsPosts = await User.createQueryBuilder("user")
 	.distinct(true)
 	.getMany();
 ```
+<!-- prettier-ignore-end -->
 
 </div>
 
@@ -192,20 +253,105 @@ const usersWhoLikedAuthorsPosts = await User.createQueryBuilder("user")
 
 # AWS
 
+Piattaforma cloud che offre servizi di calcolo, storage, database... usata per il deploy di applicazioni di esempio e studiata durante il Tirocinio curriculare.
+
+<div style="max-height: 500px; scale: 0.8; translate: 0 -20px">
+
+```yaml
+Parameters:
+    DBUsername:
+        Type: String
+    DBPassword:
+        Type: String
+        Description: Database master password
+
+Resources:
+    RDSInstance:
+        Type: AWS::RDS::DBInstance
+        Properties:
+            MasterUsername: !Ref "DBUsername"
+            MasterUserPassword: !Ref "DBPassword"
+
+    EC2Instance:
+        Type: AWS::EC2::Instance
+        Properties:
+            Environment:
+                Variables:
+                    DB_HOSTNAME: !GetAtt "RDSInstance.Endpoint.Address"
+                    DB_USERNAME: !Ref "DBUsername"
+                    DB_PASSWORD: !Ref "DBPassword"
+```
+
+</div>
+
 ---
+
+<div class="container">
+
+<div class="content">
 
 ## Architettura basata su container
 
----
+-   **Elastic Container Service** per il deploy di container Docker: sempre attivi, quindi costi fissi, e scalabilità verticale.
+-   Architettura **stateful**.
+-   Database RDS, connessioni persistenti.
+
+</div>
+
+<div class="content">
 
 ## Architettura serverless
+
+-   **Lambda** per l'esecuzione di funzioni serverless: costi "pay-as-you-go" e scalabilità orizzontale, ma soffrono di _cold start_.
+-   Architettura **stateless**.
+-   Database Aurora Serverless con proxy per pool di connessioni.
+
+</div>
+
+</div>
 
 ---
 
 # Integrazione continua
 
+Con **GitHub Actions** è possibile automatizzare il deploy su AWS.
+
+Ad un push su `master` si attiva il workflow di CI/CD.
+
+<div class="container">
+<div class="content">
+<div class="mermaid" style="width: 30%">
+%%{init: {'theme': 'neutral' , 'gitGraph': {'mainBranchName': 'master'} } }%%
+gitGraph
+commit
+branch dev
+checkout dev
+commit
+commit
+checkout master
+merge dev
+commit tag:"Deploy 1.0"
+</div>
+</div>
+</div>
+
 ---
 
 # Test di performance
 
--   ***
+<div class="horizontal">
+<img src="res/100.png" style="padding:10px">
+<img src="res/97.png" style="padding:10px">
+<img src="res/100.png" style="padding:10px">
+</div>
+
+<div class="container">
+
+|       Metrica        |   Server ECS    | Lambda a freddo | Lambda a caldo |
+| :------------------: | :-------------: | :-------------: | :------------: |
+|      FCP / LCP       |      0.4s       |      0.7s       |      0.6s      |
+| Query Builder t/200r |      1.38s      |      0.38s      |     0.34s      |
+| Active Record t/200r |      1.29s      |      1.00s      |     0.25s      |
+|  costo esperimenti   | ($2.17) + $1.47 | ($2.17) + $0.01 |       -        |
+
+</div>
