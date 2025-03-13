@@ -6,7 +6,7 @@ description: Sviluppo ed analisi delle prestazioni di applicazioni web basate su
 
 <!-- _paginate: false -->
 
-<h1>Sviluppo ed analisi delle prestazioni di applicazioni web basate su Nuxt e TypeORM su servizi cloud AWS</h1>
+# Sviluppo e Analisi delle Prestazioni di Applicazioni Web Nuxt-based in Cloud AWS
 
 <script src="../node_modules/mermaid/dist/mermaid.min.js"></script>
 <script>mermaid.initialize({startOnLoad:true, theme:"neutral", mirrorActors:false});</script>
@@ -355,3 +355,11 @@ commit tag:"Deploy 1.0"
 |  costo esperimenti   | ($2.17) + $1.47 | ($2.17) + $0.01 |       -        |
 
 </div>
+
+---
+
+<!-- _backgroundColor: #224466 -->
+<!-- _color: white -->
+<!-- _paginate: false -->
+
+# Grazie per l'attenzione!
