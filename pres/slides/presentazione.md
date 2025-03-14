@@ -4,9 +4,10 @@ paginate: true
 description: Sviluppo ed analisi delle prestazioni di applicazioni web basate su Nuxt e TypeORM su servizi cloud AWS
 ---
 
-<!-- _paginate: false -->
+<!-- _paginate: skip -->
 
-# Sviluppo e Analisi delle Prestazioni di Applicazioni Web Nuxt-based in Cloud AWS
+<h1 style="padding-bottom:0; margin-bottom:0">Sviluppo e Analisi delle Prestazioni</h1>
+<h1 style="padding-top:0; margin-top: 0">di Applicazioni Web Nuxt-based in Cloud AWS</h1>
 
 <script src="../node_modules/mermaid/dist/mermaid.min.js"></script>
 <script>mermaid.initialize({startOnLoad:true, theme:"neutral", mirrorActors:false});</script>
@@ -14,13 +15,9 @@ description: Sviluppo ed analisi delle prestazioni di applicazioni web basate su
 <link rel="stylesheet" href="res/styles.css">
 <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css">
 
-<div class="container">
-<div class="horizontal">
-<img src="res/nuxt.png" alt="Nuxt logo" style="max-width: 240px">
-<img src="res/typeorm.png" alt="TypeORM logo" style="max-width: 240px">
-<img src="res/aws.png" alt="AWS logo" style="max-width: 240px">
-</div>
-</div>
+Tesi di laurea in: Tecnologie Web T
+Relatore: Chiar.mo Prof. Paolo Bellavista
+Candidato: Valerio Iacobucci
 
 ---
 
@@ -28,21 +25,21 @@ description: Sviluppo ed analisi delle prestazioni di applicazioni web basate su
 
 ### Allestimento di un framework di sviluppo mirato a
 
--   Uso dei componenti come unità di codice riutilizzabile.
--   Separazione delle preoccupazioni tra programmazione dell'app e mantenimento dell'infrastruttura.
--   Utilizzo di linguaggi e pattern type-safe.
+-   Uso dei componenti come unità di codice riutilizzabile
+-   Separazione delle preoccupazioni tra programmazione dell'app e mantenimento dell'infrastruttura
+-   Utilizzo di linguaggi e pattern type-safe
 
 ### Ottimizzazione di metriche di rendimento del frontend
 
--   Search Engine Optimization (SEO).
--   First/Largest Contentful Paint ([F/L]CP).
--   Cumulative Layout Shift (CLS).
+-   Search Engine Optimization (SEO)
+-   First/Largest Contentful Paint (FCP/LCP)
+-   Cumulative Layout Shift (CLS)
 
 ---
 
 # Nuxt
 
-Framework per Applicazioni Web full-stack basato su Vue.js e Nitro.
+Framework per Applicazioni Web full-stack basato su Vue.js e Nitro
 
 <div class="container">
 <div class="content">
@@ -110,11 +107,9 @@ export default defineEventHandler(async event => {
 </script>
 <template>
 	<input v-model="usersByLastName.lastName" />
-	<ul>
-		<li v-for="user in data.users">
-			{{ user.firstName }} {{user.lastName}}
-		</li>
-	</ul>
+	<li v-for="user in data.users">
+		<RowsUser :username="user.username" /> <!-- contiene NuxtLink al profilo -->
+	</li>
 </template>
 ```
 <!-- prettier-ignore-end -->
@@ -173,7 +168,7 @@ client->>client: Aggiornamento della pagina
 </div>
 
 <div style="translate: 0px 40px">
-Nuxt supporta anche altre modalità di rendering, come SSG e ISG, e queste possono essere combinate per ottenere una soluzione ibrida.
+Nuxt supporta anche altre modalità di rendering, come SSG e ISG, e queste possono essere combinate per ottenere una soluzione ibrida
 </div>
 
 ---
@@ -181,25 +176,15 @@ Nuxt supporta anche altre modalità di rendering, come SSG e ISG, e queste posso
 # TypeORM
 
 -   Dispone di una CLI che supporta migrazioni e generazione di entità.
--   Supporta diversi adattatori per DBMS.
--   Le entità sono definite tramite classi Typescript, ed i tipi delle colonne sono inferiti dal tipo di variabile, e si possono dettagliare con decoratori.
--   Si possono definire relazioni `@ManyToOne`, `@OneToMany`, `@ManyToMany` e `@OneToOne`. A queste si associano delle colonne o tabelle di join con `@JoinTable` e `@JoinColumn`.
-
-<div class="container">
-<div class="horizontal">
-<img src="res/sqlite.png" alt="Nuxt logo" style="max-width: 240px">
-<img src="res/sqljs.png" alt="Nuxt logo" style="max-width: 240px">
-<img src="res/mysql.png" alt="Nuxt logo" style="max-width: 240px">
-<img src="res/postgresql.png" alt="Nuxt logo" style="max-width: 240px">
-<img src="res/mongodb.png" alt="Nuxt logo" style="max-width: 240px">
-</div>
-</div>
+-   Supporta diversi adattatori per DBMS: SQLite, Sql.js, MySQL, PostgreSQL, MongoDB...
+-   Le entità sono definite tramite classi Typescript. I tipi delle colonne sono inferiti dal tipo di variabile e si possono dettagliare con decoratori
+-   Si possono definire relazioni `@ManyToOne`, `@OneToMany`, `@ManyToMany` e `@OneToOne`. A queste si associano delle colonne o tabelle di join con `@JoinTable` e `@JoinColumn`
 
 ---
 
 ## Active Record e Query Builder
 
-Permettono di effettuare query CRUD con transazioni ACID.
+Permettono di effettuare query CRUD con transazioni ACID
 
 <div class="horizontal" style="scale: 1.82; margin:100px">
 
@@ -225,6 +210,8 @@ const usersWhoLikedAuthorsPosts = [
 	...new Set(usersWhoLikedAuthorsPostsWithDuplicates),
 ];
 ```
+
+<div style="min-width:10px"></div>
 
 ```typescript
 // CREATE
@@ -253,10 +240,11 @@ const usersWhoLikedAuthorsPosts = await User
 
 # AWS
 
-Piattaforma cloud che offre servizi di calcolo, storage, database... usata per il deploy di applicazioni di esempio e studiata durante il Tirocinio curriculare.
+Piattaforma cloud che offre servizi internet (tra cui calcolo, storage, database...) studiata durante il Tirocinio Curriculare ed usata per _Infrastucture as Code_
 
 <div style="max-height: 500px; scale: 0.8; translate: 0 -20px">
 
+<!-- prettier-ignore-start -->
 ```yaml
 Parameters:
     DBUsername:
@@ -281,20 +269,20 @@ Resources:
                     DB_USERNAME: !Ref "DBUsername"
                     DB_PASSWORD: !Ref "DBPassword"
 ```
+<!-- prettier-ignore-end -->
 
 </div>
 
 ---
 
 <div class="container">
-
 <div class="content">
 
-## Architettura basata su container
+## Architettura basata su container orchestrati
 
--   **Elastic Container Service** per il deploy di container Docker: sempre attivi, quindi costi fissi, e scalabilità verticale.
--   Architettura **stateful**.
--   Database RDS, connessioni persistenti.
+-   **Elastic Container Service** deploy di container Docker: sempre attivi, quindi costi fissi, scalabilità verticale
+-   Architettura **stateful**
+-   Database RDS, connessioni persistenti
 
 </div>
 
@@ -302,21 +290,18 @@ Resources:
 
 ## Architettura serverless
 
--   **Lambda** per l'esecuzione di funzioni serverless: costi "pay-as-you-go" e scalabilità orizzontale, ma soffrono di _cold start_.
--   Architettura **stateless**.
--   Database Aurora Serverless con proxy per pool di connessioni.
+-   **Lambda** per l'esecuzione di funzioni serverless: costi "pay-as-you-go" e scalabilità orizzontale, ma soffrono di _cold start_
+-   Architettura **stateless**
+-   Database Aurora con proxy per *pool* di connessioni
 
 </div>
-
 </div>
 
 ---
 
 # Integrazione continua
 
-Con **GitHub Actions** è possibile automatizzare il deploy su AWS.
-
-Ad un push su `master` si attiva il workflow di CI/CD.
+Ospitando la repository su Github, è possibile automatizzare il deploy su AWS con **Actions**: ad un push su `master` si attiva il workflow di CI/CD
 
 <div class="container">
 <div class="content">
@@ -337,24 +322,93 @@ commit tag:"Deploy 1.0"
 
 ---
 
-# Test di performance
+# Applicazioni di esempio
 
-<div class="horizontal">
-<img src="res/100.png" style="padding:10px">
-<img src="res/97.png" style="padding:10px">
-<img src="res/100.png" style="padding:10px">
-</div>
+Realizzate semplici applicazioni che simulano un social network con 10'000 utenti, 100'000 post e 1'000'000 di reazioni.
+
+-   `/users/[page]`: lista di utenti paginata
+-   `/user/username`: profilo utente
+-   `/post/[id]`: post con reazioni
+-   `/users/whoLikedPostsByAuthors?authors=...`: per test di query complesse
 
 <div class="container">
+<div class="content">
 
-|       Metrica        |   Server ECS    | Lambda a freddo | Lambda a caldo |
-| :------------------: | :-------------: | :-------------: | :------------: |
-|      FCP / LCP       |      0.4s       |      0.7s       |      0.6s      |
-| Query Builder t/200r |      1.38s      |      0.38s      |     0.34s      |
-| Active Record t/200r |      1.29s      |      1.00s      |     0.25s      |
-|  costo esperimenti   | ($2.17) + $1.47 | ($2.17) + $0.01 |       -        |
+-   [github.com/iacobucci/cfn-nuxt-typeorm-ecs-rds](https://github.com/iacobucci/cfn-nuxt-typeorm-ecs-rds)
 
 </div>
+
+<div class="content">
+
+-   [github.com/iacobucci/cfn-nuxt-typeorm-lambda-aurora](https://github.com/iacobucci/cfn-nuxt-typeorm-lambda-aurora)
+
+</div>
+</div>
+
+---
+
+## Analisi delle prestazioni
+
+<style>
+  table {
+    margin: auto;
+    text-align: center;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 10px;
+    border: 1px solid black;
+  }
+</style>
+<table>
+  <tr>
+    <th>Metrica</th>
+    <th>ECS</th>
+    <th>Lambda a freddo</th>
+    <th>Lambda a caldo</th>
+  </tr>
+  <tr>
+    <td>Audit Lighthouse</td>
+    <td><img src="res/100.png"></td>
+    <td><img src="res/97.png" style="max-height:160px"></td>
+    <td><img src="res/100.png"></td>
+  </tr>
+  <tr>
+    <td>FCP / LCP</td>
+    <td>0.4s</td>
+    <td>0.7s</td>
+    <td>0.6s</td>
+  </tr>
+  <tr>
+    <td>Query Builder t/200r<span style="color:gray">*</span></td>
+    <td>1.38s</td>
+    <td>0.38s</td>
+    <td>0.34s</td>
+  </tr>
+  <tr>
+    <td>Active Record t/200r<span style="color:gray">*</span></td>
+    <td>1.29s</td>
+    <td>1.00s</td>
+    <td>0.25s</td>
+  </tr>
+  <tr>
+    <td>Costo esperimenti</td>
+    <td>($2.17) + $1.47</td>
+    <td colspan="2">($2.17) + $0.01
+  </tr>
+</table>
+
+---
+
+# Conclusioni
+
+Le tecnologie danno risultati soddisfacenti quando usate in combinazione
+
+-   **Nuxt** è performante e fornisce un ambiente di sviluppo completo
+-   **TypeORM** è valido in termini di performance e garantisce sicurezza di tipo
+-   **AWS Lambda** è una scelta competitiva in termini di costo e performance
+
+Estensioni possibili in direzione di ampliamento dell'infrastruttura cloud per le app d'esempio ed aggiunta di funzionalità alle librerie stesse
 
 ---
 

@@ -15,6 +15,7 @@ all:
 	- make tex
 	- make pdf
 	mv out/texput.pdf $(NAME).pdf
+	exiftool -Title="Sviluppo e Analisi delle Prestazioni di Applicazioni Web Nuxt-based in Cloud AWS" -Author="Valerio Iacobucci" -Subject="Tesi di laurea in Tecnologie Web T" -Keywords="Cloud, Applicazioni Web, ORM, Integrazione continua" $(NAME).pdf
 
 tex:
 	ls | grep ".md$$" | sort --numeric-sort | xargs -I {} sh -c 'cat "{}" && echo -e "\n\n\n"' | sed 's/^---$$/\\newpage/g' | $(PANDOC)

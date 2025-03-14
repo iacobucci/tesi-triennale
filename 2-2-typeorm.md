@@ -130,7 +130,7 @@ TypeORM consente di lavorare con diversi DBMS (Database Management Systems), tra
 |       SAP Hana       |       ✅        |  in memoria   | `hdb-pool`  |
 | Google Cloud Spanner |       ✅        |      ✅       |  `spanner`  |
 
-[^mongo]: MongoDB è un database NoSQL, ma TypeORM supporta la connessione ad esso ed un'API simile a quella dei database relazionali.
+[^mongo]: MongoDB è un database NoSQL, ma TypeORM supporta la connessione ad esso ed un'API simile a quella che include per i database relazionali.
 
 Per effettuare la connessione con il database occorre installare l'adattatore mediante npm, e configurare un istanza di `DataSource` con le opzioni di accesso al database.
 

@@ -36,7 +36,7 @@ Successivamente, dal 1995 in poi, emersero alcuni Linguaggi di templating che co
 
 -   Java Server Pages (JSP) è un'estensione di Java, quindi era possibile usare tutte le librerie di questo linguaggio molto popolare all'epoca.
 
--   PHP è un linguaggio interpretato che ha avuto molto successo per oltre un decennio[^tiobe] grazie alla sua semplicità.
+-   PHP è un linguaggio interpretato che ha avuto molto successo per oltre un decennio[^tiobe] grazie alla sua facilità d'uso.
 
 ```php
 <?php
@@ -70,9 +70,9 @@ if (mysql_num_rows($result) > 0){
 
 Il dinamismo delle pagine Web supportato da server CGI e linguaggi di scripting era comunque limitato per via del caricamento di nuove pagine ad ogni richiesta. Non era possibile aggiornare parzialmente la pagina, ma solo scaricarne una nuova. Nel 1995 il Netscape Navigator 2.0 introdusse il supporto ad un nuovo linguaggio di scripting, che successivamente venne chiamato Javascript, realizzato da Brendan Eich, per ovviare a questo problema.
 
-**Gestione di eventi e manipolazione del DOM:** Uno script Javascript, distribuito all'interno di una pagina HTML, può essere eseguito dal browser Web in risposta a determinati eventi dell'utente. Inizialmente il motore di esecuzione era sincrono, cioè bloccava l'esecuzione del codice fino al completamento dell'operazione, e le possibilità di Javascript si limitavano alla manipolazione a _runtime_[^runtime] del DOM (Document Object Model), quindi ad aggiungere, rimuovere o modificare elementi HTML.
+**Gestione di eventi e manipolazione del DOM:** Uno script Javascript, distribuito all'interno di una pagina HTML, può essere eseguito dal browser Web in risposta a determinati eventi dell'utente. Inizialmente il motore di esecuzione era sincrono, cioè bloccava l'esecuzione del codice fino al completamento dell'operazione e le possibilità di Javascript si limitavano alla manipolazione a _runtime_[^runtime] del DOM (Document Object Model).
 
-**Richieste HTTP asincrone:** Le pagine web, erano diventate _attive_, ma tutte le risorse da fornire agli utenti dovevano essere inserite nella pagina inviata come prima risposta HTTP. Nel 1999 però, il browser Internet Explorer 5 introdusse un'estensione del linguaggio Javascript, che disponeva di un oggetto chiamato _XMLHttpRequest_, in grado effettuare richieste HTTP asincrone al server e dunque ricevere risposte senza dover ricaricare l'intera pagina. Così si gettavano le basi per la realizzazione di _Single Page Applications_.
+**Richieste HTTP asincrone:** Le pagine web, erano diventate _attive_, ma tutte le risorse dovevano essere inserite nella pagina inviata con la prima risposta HTTP. Nel 1999 però, il browser Internet Explorer 5 introdusse un'estensione del linguaggio Javascript, che disponeva di un oggetto chiamato _XMLHttpRequest_, in grado effettuare richieste HTTP asincrone al server e dunque ricevere risposte senza dover ricaricare l'intera pagina. Così si gettavano le basi per la realizzazione di _Single Page Applications_.
 
 La libreria jQuery, rilasciata nel 2006, ha rivestito una particolare importanza perché semplificava la manipolazione del DOM e le richieste HTTP, fornendo un'interfaccia più semplice e omogenea rispetto ai diversi browser, che esponevano API diverse e non ancora standardizzate.
 
@@ -100,9 +100,9 @@ $("#update").click(function () {
 
 ## Node.js e Javascript lato server
 
-La standardizzazione di Javascript procedette attraverso le varie versioni di ECMAScript che definivano le nuove funzionalità del linguaggio e, di conseguenza, dei browser Web. Nel 2008 fu rilasciata la prima versione di Google Chrome, un browser che, oltre ad includere caratteristiche appetibili per gli utenti finali, disponeva del motore di esecuzione Javascript V8. Questo _engine_ apportò dei sostanziali miglioramenti di prestazioni[^prestazioniv8] rispetto alla competizione e venne rilasciato come _Open source software_.
+La standardizzazione di Javascript procedette attraverso le varie versioni di ECMAScript che definivano le nuove funzionalità del linguaggio e, di conseguenza, dei browser Web. Nel 2008 fu rilasciata la prima versione di Google Chrome, un browser che, oltre ad includere caratteristiche appetibili per gli utenti finali, disponeva del motore di esecuzione V8 per Javascript. Questo _engine_ apportò dei sostanziali miglioramenti di prestazioni[^prestazioniv8] rispetto alla competizione e venne rilasciato come _Open source software_.
 
-Nel 2009, Ryan Dahl iniziò a lavorare, basandosi sul codice di V8, a Node.js, un interprete di Javascript in modalità headless[^headless], al quale aggiunse la capacità di accedere al filesystem, di esporre servizi HTTP e di accettare connessioni in maniera _non bloccante_.
+Nel 2009, Ryan Dahl iniziò a lavorare, basandosi sul codice di V8, a Node.js, un interprete di Javascript in modalità headless[^headless], al quale aggiunse la capacità di accedere al filesystem, di esporre servizi HTTP e di accettare connessioni in maniera non bloccante.
 
 In questo modo si poterono realizzare non solo applicazioni **frontend** ma anche **backend** con Javascript, abilitando sempre più novizi alla creazione di siti Web completi. Attorno a Node crebbe una comunità di sviluppatori che contribuirono, secondo i principi dell'Open source, alla creazione di un ecosistema di librerie, che potevano essere installate tramite il gestore di pacchetti NPM.
 
@@ -148,7 +148,7 @@ Anche con Node fu possibile realizzare applicazioni Web _monolitiche_, parimenti
 
 Tuttavia le tendenze di quel periodo (circa 2010) si discostarono dal modo tradizionale di scrivere applicazioni Web, basate su pagine generate lato server, per passare a un modello di **client-side rendering**. Secondo questo modello il server invia al browser una pagina HTML con un DOM minimo, corredato di script JS che si occupano di popolare a runtime il DOM con contenuti e di gestire le logiche di presentazione.
 
-Le applicazioni renderizzate lato cliente potevano beneficiare di una maggiore _reattività_ e di una migliore esperienza utente, essendo basate su una pagina unica che veniva aggiornata in maniera incrementale, aggirando i caricamenti di nuove pagine da richiedere al server. Le richieste al server, essendo asincrone, potevano essere gestite in modo meno invasivo rispetto a prima: mentre la comunicazione avveniva in background, l'utente poteva continuare ad interagire con l'applicazione.
+Le applicazioni renderizzate lato cliente potevano beneficiare di una maggiore _reattività_ e di una migliore esperienza utente, essendo basate su una pagina unica che veniva aggiornata in maniera incrementale, aggirando i caricamenti di intere pagine da richiedere al server. Le richieste al server, essendo asincrone, potevano essere gestite in modo meno invasivo rispetto a prima: mentre la comunicazione avveniva in background, l'utente poteva continuare ad interagire con l'applicazione.
 
 Il vantaggio di questo paradigma da parte degli sviluppatori era la possibilità di scrivere la logica di presentazione interamente in Javascript, sfruttando il sistema di oggetti e la modularità del linguaggio in maniera più espressiva rispetto al templating o all'uso imperativo delle API DOM.
 
@@ -242,7 +242,7 @@ I _bundle_ Javascript che vengono generati per le applicazioni CSR sono spesso o
 
 ##### Search engine optimization
 
-I siti Web che fanno uso di CSR sono più difficilmente indicizzabili dai _crawler_ dei motori di ricerca, questo può portare a problemi di esposizione e di traffico ridotti.
+I siti Web che fanno uso di CSR più difficilmente sono indicizzabili dai _crawler_ dei motori di ricerca, questo può portare a problemi di esposizione ridotta.
 
 ##### First contentful paint
 
@@ -265,15 +265,15 @@ Esempi di framework che supportano il SSR sono: Angular Universal, Next.js per R
 
 Le tecniche di rilascio di applicazioni Web si sono evolute di pari passo alle tecnologie di sviluppo.
 
-Il primo modello era quello _monolitico_, in cui l'applicazione Web viene distribuita su un server fisico, con un indirizzo IP statico, e che necessita di configurazioni manuali.
+Il primo modello era quello _monolitico_, in cui l'applicazione Web viene distribuita su un server fisico che necessita di configurazioni manuali.
 
-Poi, attorno all'inizio degli anni 2000, sono emersi i primi **provider di cloud**, come Amazon Web Services, Google Cloud Platform, Microsoft Azure e IBM Cloud, che non solo offrivano servizi di hosting di _virtual private server_, traducendo quindi il paradigma monolitico su macchine virtuali, ma anche servizi di _infrastrucure as a service_, permettendo ai progettisti di app Web di modificare le risorse di calcolo e di archiviazione secondo necessità e di automatizzare il processo di rilascio.
+Poi, attorno all'inizio degli anni 2000, sono emersi i primi **provider di cloud**, come Amazon Web Services, Google Cloud Platform, Microsoft Azure e IBM Cloud, che non solo offrivano servizi di hosting di _virtual private server_, traducendo quindi il paradigma monolitico su macchine virtuali, ma anche servizi di _infrastrucure as a service_, permettendo ai progettisti di applicazioni Web di modificare le risorse di calcolo e di archiviazione secondo necessità e di automatizzare il processo di rilascio.
 
-Una tecnologia in particolare si è affermata come standard per la distribuzione di applicazioni Web attraverso l'infrastruttura cloud, il **container**, e la sua implementazione più popolare, Docker.
+Una tecnologia in particolare si è affermata come standard per la distribuzione di applicazioni Web attraverso l'infrastruttura cloud, il **container**, con la sua implementazione più popolare, Docker.
 
 Docker è un sistema di virtualizzazione di risorse a livello di sistema operativo, che permette di isolare i processi di un'applicazione in un ambiente chiuso che condivide il kernel del sistema operativo host.
 Questa tecnica è diversa da quelle di virtualizzazione classiche, che mirano ad emulare un intero sistema operativo, come fa ad esempio KVM, o un intero sistema hardware, come fa QEMU. Docker è più leggero e più veloce, e permette di avere un ambiente di esecuzione riproducibile e portabile, che può essere distribuito su qualsiasi macchina che abbia Docker installato. [^docker]
 
 [^docker]: [Docker - What is a container?](https://www.docker.com/resources/what-container) In questo articolo vengono comparate le tecnologie di virtualizzazione tradizionali con Docker.
 
-Il ruolo degli informatici coinvolti nello sviluppo di applicazioni Web si è quindi differenziato tra gli _architetti di cloud_ e gli _ingegneri di sviluppo_. Tuttavia, una volta che l'infrastruttura è pronta, il processo di rilascio di un'aggiornamento dell'applicazione si semplifica notevolmente, grazie ai metodi di di **continuous integration** come Travis CI, Circle CI e Github Actions, che permettono di automatizzare il processo di build e di test, e di rilasciare su cloud con la stessa facilità con cui si fa un commit sul repository di codice.
+Il ruolo degli informatici coinvolti nello sviluppo di applicazioni Web si è quindi differenziato tra gli _architetti di cloud_ e gli _ingegneri di sviluppo_. Tuttavia, una volta che l'infrastruttura è pronta, il processo di rilascio di un'aggiornamento dell'applicazione si semplifica notevolmente grazie ai metodi di **continuous integration** come Travis CI, Circle CI e Github Actions, che permettono di automatizzare il processo di build e di test, e di rilasciare su cloud con la stessa facilità con cui si fa un commit sul repository di codice.

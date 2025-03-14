@@ -50,7 +50,7 @@
 
 1. [AWS CloudFormation Starter Workflow for GitHub Actions](https://github.com/aws-samples/aws-cloudformation-starter-workflow-for-github-actions) - un repository GitHub che contiene uno scheletro per realizzare workflow di GitHub Actions che avviano deploy di stack Cloudformation.
 
-1. [ISO/IEC 22123-2:2023](https://www.iso.org/standard/80351.html) - lo standard internazionale per _Information technology - Cloud computing_.
+1. [ISO/IEC 22123-2:2023](https://www.iso.org/standard/80351.html) - lo standard internazionale per "Information technology - Cloud computing".
 
 1. [AWS IAM Documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html) - la documentazione ufficiale di AWS Identity and Access Management.
 
@@ -70,9 +70,9 @@
 
 ## Ringraziamenti {.unnumbered}
 
-Ringrazio i miei genitori, la mia famiglia ed i miei amici per l'incoraggiamento e il supporto che mi hanno dato durante la stesura di questo lavoro.
+Ringrazio il mio relatore, il Prof. Paolo Bellavista, per la sua professionalità e per le sue preziose lezioni, assieme ai docenti dei corsi di Ingegneria Informatica. Ringrazio i miei genitori, la mia famiglia ed i miei amici per l'incoraggiamento e il supporto che mi hanno dato durante la stesura di questo lavoro. Un ringraziamento speciale va alla mia cara Aurélie. Infine un ringraziamento a tutti i membri della comunità Open Source che condividono le loro esperienze ed il loro lavoro.
 
-<!-- ## Strumenti Open source {.unnumbered}
+## Strumenti Open source utilizzati {.unnumbered}
 
 -   **Code** - la build open source di Visual Studio Code, utilizzata per la scrittura e la correzione del testo.
 -   **Markdown** - il formato di scrittura utilizzato per la stesura del testo.
@@ -80,4 +80,4 @@ Ringrazio i miei genitori, la mia famiglia ed i miei amici per l'incoraggiamento
 -   **Pandoc** - per la conversione dei file Markdown in Latex.
 -   **Minted** - per la colorazione della sintassi dei codici sorgente.
 -   **Panflute** - per la creazione di filtri personalizzati per Pandoc.
--   **Mermaid** - per la creazione di diagrammi di sequenza e di flusso. -->
+-   **Mermaid** - per la creazione di diagrammi UML, ER, di sequenza e di flusso.
