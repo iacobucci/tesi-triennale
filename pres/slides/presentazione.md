@@ -26,8 +26,8 @@ Candidato: Valerio Iacobucci
 ### Allestimento di un framework di sviluppo mirato a
 
 -   Uso dei componenti come unità di codice riutilizzabile
--   Separazione delle preoccupazioni tra programmazione dell'app e mantenimento dell'infrastruttura
 -   Utilizzo di linguaggi e pattern type-safe
+-   Separazione delle preoccupazioni tra programmazione dell'app e mantenimento dell'infrastruttura
 
 ### Ottimizzazione di metriche di rendimento del frontend
 
@@ -108,7 +108,9 @@ export default defineEventHandler(async event => {
 <template>
 	<input v-model="usersByLastName.lastName" />
 	<li v-for="user in data.users">
-		<RowsUser :username="user.username" /> <!-- contiene NuxtLink al profilo -->
+		<NuxtLink to="/user/{{ user.username }}" >
+			<RowsUser :username="user.username" />
+		</NuxtLink>
 	</li>
 </template>
 ```
@@ -147,7 +149,7 @@ client->>client: Aggiornamento della pagina
 Server Side Rendering
 </div>
 
-<div class="mermaid" style="width: 70%; padding-left: 60px">
+<div class="mermaid" style="width: 60%; padding-left: 60px">
 %%{init: {'theme': 'neutral', 'mirrorActors': false} }%%
 sequenceDiagram
 participant client as Client
@@ -160,7 +162,9 @@ frontend->>frontend: Rendering HTML completo
 frontend-->>client: HTML completo + JS bundle
 client->>client: Hydration (interattività)
 client->>backend: Richieste dati o assets
-backend-->>client: Dati JSON o binari
+backend-->>client: Dati JSON, binari
+client->>frontend: Cambiamento della pagina
+frontend-->>client: Chunk di componenti
 client->>client: Aggiornamento della pagina
 </div>
 </div>
@@ -292,7 +296,7 @@ Resources:
 
 -   **Lambda** per l'esecuzione di funzioni serverless: costi "pay-as-you-go" e scalabilità orizzontale, ma soffrono di _cold start_
 -   Architettura **stateless**
--   Database Aurora con proxy per *pool* di connessioni
+-   Database Aurora con proxy per _pool_ di connessioni
 
 </div>
 </div>
