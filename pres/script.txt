@@ -1,8 +1,9 @@
-Buongiorno/Buonasera a tutti sono Valerio Iacobucci
+buongiorno/buonasera a tutti sono valerio iacobucci
 e presento la mia tesi di laurea in tecnologie web con il professor bellavista
 dal titolo sviluppo e analisi delle prestazioni di applicazioni web nuxt-based in cloud aws
 
-gli obiettivi di questa tesi sono stati quelli di allestire un framework di sviluppo di applicazioni web che portasse vantaggi nella resa delle prestazioni e nella qualità, scalabilità e manutenibiltà del codice. 
+gli obiettivi di questa tesi sono stati quelli di fare studi e analisi di prestazioni di applicazioni web che portano vantaggi nella resa delle prestazioni per gli utenti e nella qualità, scalabilità e manutenibiltà del codice. 
+per questo si è cercata una tecnologia
 
 
 nuxt è un framework per applicazioni web full stack basato sulla libreria di progettazione di componenti reattivi vue.js e sul server http nitro
