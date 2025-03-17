@@ -9,7 +9,7 @@ per questo si è cercata una tecnologia
 nuxt è un framework per applicazioni web full stack basato sulla libreria di progettazione di componenti reattivi vue.js e sul server http nitro
 come si può vedere dal suo diagramma architetturale, nuxt segue il pattern mvc, model, view controller, la quale view segue a sua volta il pattern mvvc, model view, view model.
 il compito di nuxt è quello di gestire la comunicazione tra i due models: il modello del database e il modello dei dati nella memoria del browser, quando l'app è in esecuzione
-nuxt permette di fare ciò proponendo delle convenzioni di progettazione e di sviluppo, a partire dal file system routing che permette di creare una struttura di navigazione delle pagine in base alla gerarchia di files e directories, poi alla importazione automatica dei componenti e dei layout, che permette il riutilizzo di codice per la view, e dei composables che permettono di riutilizzare la logica di business dei componenti stessi
-per il lato backend 
+nuxt permette di fare ciò proponendo delle convenzioni di progettazione e di sviluppo, a partire dal file system routing che permette di creare una struttura di navigazione delle pagine in base alla gerarchia di files e directories, poi all'importazione automatica dei componenti e dei layout.
+anche per il lato backend le api sono organizzate in base ad una gerarchia
 
 qui vediamo un'esempio di uso tipico delle api di nuxt

@@ -1,17 +1,3 @@
-portare app di test su lambda
-	collegare database aurora
-
-screenshot lighthouse
-	attributo lang
-		usehead({htmlArgs: {lang: 'it'} })
-		accessibility 100%
-
-diagramma waterfall di firefox
-	rendering ssr
-	rendering ssg + hydration
-
-portare app su cloudfront + lambda
-		
 Questo workflow include la connessione della repository ad un "role" AWS con permessi limitati mediante OIDC (un sistema di chiavi certificate, al contrario del salvataggio nei "secrets" della repository di username e password di AWS), la preparazione della cloud per includere una VPC con subnet, gateway, NAS e load balancer, un registry di immagini docker.
 
 Il workflow procede con un checkout della repository in ambiente virtuale fornito da Github Actions, la sua build, un push dell'immagine risultante nel registry definito precedentemente, e l'aggiornamento dei servizi containerizzati in AWS ECS con la nuova immagine. Le task, cioè i singoli container in esecuzione, possono essere decise in base al numero di richieste e scalare automaticamente, ma per finalità di test sono state limitate a 2.
@@ -20,11 +6,7 @@ Il workflow usa un template di AWS cloudformation autocontenuto nella repository
 
 Per testare il database è stata aggiunta un'istanza di RDS, database relazionale ad alta disponibilità, configurato per eseguire PostgreSQL con una quantità di spazio idonea per il free-tier (20GB). Le credenziali di questo sono conservate nei secrets della repository: sono oscurate a tutti i collaboratori di un progetto github, e vengono passate al workflow di CI/CD che le porterà in ambiente AWS ed anche come variabili di ambiente ai container. È in questo modo che i container saranno in collegamento con il database.
 
-scala verticale, parallelismo [^serverless]
-
-tempi di provisioning di cloudformation
-
-domande
-	abstract
-	keywords
-		aws, cloudformation, github actions, ecs, rds, aurora, vpc, subnet, gateway, nas, load balancer, oidc, sso, docker, registry, workflow, ci/cd, pipeline, serverless, lambda, s3, cloudfront, lighthouse, waterfall
+1 capire cosa mettere
+2 vedere se le cose messe stanno nel tempo e riassumere
+3 leggerlo tantissime volte
+4 ripeterlo a memoria
