@@ -25,15 +25,14 @@ Candidato: Valerio Iacobucci
 
 ### Allestimento di un framework di sviluppo mirato a
 
--   Uso dei componenti come unità di codice riutilizzabile
--   Utilizzo di linguaggi e pattern type-safe
--   Separazione delle preoccupazioni tra programmazione dell'app e mantenimento dell'infrastruttura
+-   Uso dei componenti come unità di codice riutilizzabile con **Nuxt**
+-   Utilizzo di linguaggi e pattern type-safe con **TypeORM**
+-   Separazione delle preoccupazioni tra programmazione dell'app e mantenimento dell'infrastruttura con **AWS**
 
-### Ottimizzazione di metriche di rendimento del frontend
+### Ottimizzazione del rendimento
 
--   Search Engine Optimization (SEO)
--   First/Largest Contentful Paint (FCP/LCP)
--   Cumulative Layout Shift (CLS)
+-   Metriche di frontend: SEO, FCP/LCP, CLS
+-	Velocità nelle query
 
 ---
 
@@ -45,11 +44,11 @@ Framework per Applicazioni Web full-stack basato su Vue.js e Nitro
 <div class="content">
 
 ```txt
+assets/
 components/
 composables/
 layouts/
 pages/
-public/
 
 server/
 	api/
