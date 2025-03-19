@@ -18,11 +18,11 @@ class Time:
 			self.hours += 1
 	def __repr__(self):
 		secs = self.seconds
-		if self.seconds == 0:
-			secs = "00"
+		if self.seconds < 10:
+			secs = "0" + str(self.seconds)
 		mins = self.minutes
-		if self.minutes == 0 and self.hours != 0:
-			mins = "00"
+		if self.minutes < 10 and self.hours != 0:
+			mins = "0" + str(self.minutes)
 		if self.hours == 0:
 			return f"{mins}:{secs}"
 		else:
@@ -34,6 +34,8 @@ class Time:
 def main():
 	# Leggi l'input da stdin
 	text = sys.stdin.read()
+
+	output_lines = []
 
 	total_time = Time()
 	lines = text.split("\n")
@@ -53,9 +55,13 @@ def main():
 			if len(time) == 1:
 				seconds = int(time[0])
 				total_time.add(0,0,seconds)
-			print("## " + str(total_time))
+			output_lines.append("## " + str(total_time))
 		else:
-			print(line)
+			output_lines.append(line)
+
+	# Scrivi l'output su stdout
+	print("# " + str(total_time))
+	print("\n".join(output_lines))
 
 if __name__ == '__main__':
 	main()
