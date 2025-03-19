@@ -25,3 +25,6 @@ pdf:
 
 simple:
 	echo *.md | sort --numeric-sort | xargs cat | sed -s 's/^> !.*//g' | filters/4-1-delete_emojis.py | pandoc --from markdown -o simple.pdf
+
+script:
+	cat pres/script.md | filters/timestamps.py | pandoc --from markdown -o script.pdf

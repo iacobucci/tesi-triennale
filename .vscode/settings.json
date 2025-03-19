@@ -4,6 +4,9 @@
 			"!pres/slides/*.md",
 			"*.md"
 		],
+		"script": [
+			"pres/script.md"
+		],
 		"pres": [
 			"pres/slides/*.md"
 		]

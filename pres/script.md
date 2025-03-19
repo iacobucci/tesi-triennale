@@ -1,17 +1,24 @@
-15
+# 0:00
+
 buongiorno/buonasera a tutti sono valerio iacobucci
 e presento la mia tesi di laurea in tecnologie web con il professor bellavista
 dal titolo sviluppo e analisi delle prestazioni di applicazioni web nuxt-based in cloud aws
 
-gli obiettivi di questa tesi sono stati quello di allestire un ambiente sviluppo per applicazioni web mirato a migliorare la qualità e la scalabilità del codice e le prestazioni.
-sono state scelte le tecnologie nuxt come framework di sviluppo, typeorm come libreria per accesso a database e aws come fornitore di servizi cloud.
+# 0:15
+
+gli obiettivi di questa tesi sono stati quello di allestire un ambiente sviluppo per applicazioni web mirato a migliorare la qualità e la scalabilità del codice con attenzione alle prestazioni.
+<!-- sono state scelte le tecnologie nuxt come framework di sviluppo, typeorm come libreria per accesso a database e aws come fornitore di servizi cloud. -->
 le metriche di interesse sono state quelle di sicurezza ma anche search engine optimization, first e largest contentful paint, cumulative layout shift e prestazioni generali per l'utente finale
+
+# 0:20
 
 nuxt è un framework per applicazioni web full stack basato sulla libreria di progettazione di componenti reattivi vue.js e sul server http nitro
 come si può vedere dal suo diagramma architetturale, nuxt segue il pattern mvc, model, view controller, la quale view segue a sua volta il pattern mvvc, model view, view model.
 il compito di nuxt è quello di gestire la comunicazione tra i due models: il modello del database e il modello dei dati nella memoria del browser, quando l'app è in esecuzione
 nuxt permette di fare ciò proponendo delle convenzioni di progettazione e di sviluppo, a partire dal file system routing che permette di creare una struttura di navigazione delle pagine in base alla gerarchia di files e directories, poi all'importazione automatica dei componenti e dei layout.
 anche per il lato backend le api sono organizzate in base ad una gerarchia
+
+# 1:00
 
 qui vediamo un'esempio di uso delle api di nuxt che tralascia molti dettagli.
 lo snippet sopra è nel file /api/users/byLastName.ts e definisce un endpoint POST che

@@ -14,6 +14,15 @@
 		    },
 		},
 		{
+			"label": "script",
+			"type": "shell",
+			"command": "make script",
+			"problemMatcher": [],
+			"options": {
+				"cwd": "${workspaceFolder}",
+			},
+		},
+		{
 			"label": "pres",
 			"type": "shell",
 			"command": "npm run build",
