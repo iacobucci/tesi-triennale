@@ -6,14 +6,14 @@ description: Sviluppo ed analisi delle prestazioni di applicazioni web basate su
 
 <!-- _paginate: skip -->
 
-<h1 style="padding-bottom:0; margin-bottom:0">Sviluppo e Analisi delle Prestazioni</h1>
-<h1 style="padding-top:0; margin-top: 0">di Applicazioni Web Nuxt-based in Cloud AWS</h1>
-
 <script src="../node_modules/mermaid/dist/mermaid.min.js"></script>
 <script>mermaid.initialize({startOnLoad:true, theme:"neutral", mirrorActors:false});</script>
 
 <link rel="stylesheet" href="res/styles.css">
-<link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css">
+<link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.css">
+
+<h1 style="padding-bottom:0; margin-bottom:0">Sviluppo e Analisi delle Prestazioni</h1>
+<h1 style="padding-top:0; margin-top: 0">di Applicazioni Web Nuxt-based in Cloud AWS</h1>
 
 Tesi di laurea in: Tecnologie Web T
 Relatore: Chiar.mo Prof. Paolo Bellavista
@@ -23,7 +23,7 @@ Candidato: Valerio Iacobucci
 
 ## Obiettivi
 
-### Allestimento di un framework di sviluppo mirato a
+### Allestimento di un ambiente di sviluppo mirato a
 
 -   Uso dei componenti come unità di codice riutilizzabile con **Nuxt**
 -   Utilizzo di linguaggi e pattern type-safe con **TypeORM**
@@ -31,8 +31,9 @@ Candidato: Valerio Iacobucci
 
 ### Ottimizzazione del rendimento
 
--   Metriche di frontend: SEO, FCP/LCP, CLS
--	Velocità nelle query
+-   Sicurezza di tipo e da attacchi informatici
+-   Metriche di SEO, FCP/LCP, CLS
+-   Performance per end-user
 
 ---
 
@@ -178,20 +179,42 @@ Nuxt supporta anche altre modalità di rendering, come SSG e ISG, e queste posso
 
 # TypeORM
 
--   Dispone di una CLI che supporta migrazioni e generazione di entità.
 -   Supporta diversi adattatori per DBMS: SQLite, Sql.js, MySQL, PostgreSQL, MongoDB...
+-   Dispone di una CLI che supporta migrazioni e generazione di entità.
 -   Le entità sono definite tramite classi Typescript. I tipi delle colonne sono inferiti dal tipo di variabile e si possono dettagliare con decoratori
 -   Si possono definire relazioni `@ManyToOne`, `@OneToMany`, `@ManyToMany` e `@OneToOne`. A queste si associano delle colonne o tabelle di join con `@JoinTable` e `@JoinColumn`
 
 ---
 
-## Active Record e Query Builder
+## Query Builder e Active Record
 
 Permettono di effettuare query CRUD con transazioni ACID
 
 <div class="horizontal" style="scale: 1.82; margin:100px">
 
 <!-- prettier-ignore-start -->
+```typescript
+// CREATE
+await User.createQueryBuilder()
+	.insert()
+	.into(User)
+	.values({ username: "bob" })
+	.execute();
+
+// READ
+const usersWhoLikedAuthorsPosts = await User
+	.createQueryBuilder("user")
+	.innerJoin("user.likedPosts", "likedPost")
+	.innerJoin("likedPost.author", "author")
+	.where("author.username IN (:...usernames)", {
+		usernames: ["alice", "bob"],
+	})
+	.distinct(true)
+	.getMany();
+```
+
+<div style="min-width:10px"></div>
+
 ```typescript
 // CREATE
 const newUser = new User();
@@ -212,28 +235,6 @@ const usersWhoLikedAuthorsPostsWithDuplicates =
 const usersWhoLikedAuthorsPosts = [
 	...new Set(usersWhoLikedAuthorsPostsWithDuplicates),
 ];
-```
-
-<div style="min-width:10px"></div>
-
-```typescript
-// CREATE
-await User.createQueryBuilder()
-	.insert()
-	.into(User)
-	.values({ username: "bob" })
-	.execute();
-
-// READ
-const usersWhoLikedAuthorsPosts = await User
-	.createQueryBuilder("user")
-	.innerJoin("user.likedPosts", "likedPost")
-	.innerJoin("likedPost.author", "author")
-	.where("author.username IN (:...usernames)", {
-		usernames: ["alice", "bob"],
-	})
-	.distinct(true)
-	.getMany();
 ```
 <!-- prettier-ignore-end -->
 
@@ -263,8 +264,8 @@ Resources:
             MasterUsername: !Ref "DBUsername"
             MasterUserPassword: !Ref "DBPassword"
 
-    EC2Instance:
-        Type: AWS::EC2::Instance
+    ApplicationInstance:
+        Type: ...
         Properties:
             Environment:
                 Variables:
@@ -284,8 +285,9 @@ Resources:
 ## Architettura basata su container orchestrati
 
 -   **Elastic Container Service** deploy di container Docker: sempre attivi, quindi costi fissi, scalabilità verticale
--   Architettura **stateful**
+-   Servizio **stateful**
 -   Database RDS, connessioni persistenti
+-   0.25vCPU, 512MB RAM, 2 task attive
 
 </div>
 
@@ -294,8 +296,9 @@ Resources:
 ## Architettura serverless
 
 -   **Lambda** per l'esecuzione di funzioni serverless: costi "pay-as-you-go" e scalabilità orizzontale, ma soffrono di _cold start_
--   Architettura **stateless**
+-   Servizio **stateless**
 -   Database Aurora con proxy per _pool_ di connessioni
+-   256MB RAM, 0 Provisioned Concurrency
 
 </div>
 </div>
@@ -330,21 +333,25 @@ commit tag:"Deploy 1.0"
 Realizzate semplici applicazioni che simulano un social network con 10'000 utenti, 100'000 post e 1'000'000 di reazioni.
 
 -   `/users/[page]`: lista di utenti paginata
--   `/user/username`: profilo utente
+-   `/user/[username]`: profilo utente
 -   `/post/[id]`: post con reazioni
--   `/users/whoLikedPostsByAuthors?authors=...`: per test di query complesse
+-   `/users/whoLikedPostsByAuthors?authors=[...]`: per test di query complesse
 
 <div class="container">
-<div class="content">
-
--   [github.com/iacobucci/cfn-nuxt-typeorm-ecs-rds](https://github.com/iacobucci/cfn-nuxt-typeorm-ecs-rds)
-
+<div class="content" style="color:#0969DA">
+<div class="container">
+<i class="fa-solid fa-link" style="padding-right:25px"></i>
+<div>
+github.com/iacobucci/cfn-nuxt-typeorm-ecs-rds
 </div>
-
-<div class="content">
-
--   [github.com/iacobucci/cfn-nuxt-typeorm-lambda-aurora](https://github.com/iacobucci/cfn-nuxt-typeorm-lambda-aurora)
-
+</div>
+</div>
+<div class="content" style="color:#0969DA">
+<div class="container">
+<i class="fa-solid fa-link" style="padding-right:25px"></i>
+<div>
+github.com/iacobucci/cfn-nuxt-typeorm-lambda-aurora
+</div>
 </div>
 </div>
 
@@ -405,13 +412,15 @@ Realizzate semplici applicazioni che simulano un social network con 10'000 utent
 
 # Conclusioni
 
-Le tecnologie danno risultati soddisfacenti quando usate in combinazione
+Le tecnologie scelte danno risultati soddisfacenti quando usate in combinazione
 
 -   **Nuxt** è performante e fornisce un ambiente di sviluppo completo
 -   **TypeORM** è valido in termini di performance e garantisce sicurezza di tipo
--   **AWS Lambda** è una scelta competitiva in termini di costo e performance
+-   **AWS Lambda** è una scelta competitiva in termini di costo e performance per progetti di dimensioni piccole e medie. Su scale molto grandi l'overhead di _cold start_ potrebbe rendere ECS più conveniente<span style="color:gray">\*</span>
 
 Estensioni possibili in direzione di ampliamento dell'infrastruttura cloud per le app d'esempio ed aggiunta di funzionalità alle librerie stesse
+
+<div style="font-size:16pt ; color: gray; text-align:right" href="http://bit.ly/4hMEjhD">*http://bit.ly/4hMEjhD</div>
 
 ---
 
