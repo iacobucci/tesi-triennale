@@ -4,6 +4,9 @@ paginate: true
 description: Sviluppo ed analisi delle prestazioni di applicazioni web basate su Nuxt e TypeORM su servizi cloud AWS
 ---
 
+<!-- _backgroundColor: #224466 -->
+<!-- _color: white -->
+<!-- _paginate: false -->
 <!-- _paginate: skip -->
 
 <script src="../node_modules/mermaid/dist/mermaid.min.js"></script>
@@ -180,7 +183,7 @@ Nuxt supporta anche altre modalità di rendering, come SSG e ISG, e queste posso
 # TypeORM
 
 -   Supporta diversi adattatori per DBMS: SQLite, Sql.js, MySQL, PostgreSQL, MongoDB...
--   Dispone di una CLI che supporta migrazioni e generazione di entità.
+-   Dispone di una CLI che supporta migrazioni e generazione di entità
 -   Le entità sono definite tramite classi Typescript. I tipi delle colonne sono inferiti dal tipo di variabile e si possono dettagliare con decoratori
 -   Si possono definire relazioni `@ManyToOne`, `@OneToMany`, `@ManyToMany` e `@OneToOne`. A queste si associano delle colonne o tabelle di join con `@JoinTable` e `@JoinColumn`
 
@@ -303,6 +306,8 @@ Resources:
 </div>
 </div>
 
+Entrambe in configurazione base
+
 ---
 
 # Integrazione continua
@@ -330,7 +335,7 @@ commit tag:"Deploy 1.0"
 
 # Applicazioni di esempio
 
-Realizzate semplici applicazioni che simulano un social network con 10'000 utenti, 100'000 post e 1'000'000 di reazioni.
+Realizzate semplici applicazioni che simulano un social network con 10'000 utenti, 100'000 post e 1'000'000 di reazioni
 
 -   `/users/[page]`: lista di utenti paginata
 -   `/user/[username]`: profilo utente
